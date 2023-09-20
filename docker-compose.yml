@@ -1,5 +1,17 @@
 version: '3.8'
 services:
+    cache:
+        container_name: shop-cache
+        image: "redis:7.2.1-alpine"
+        restart: always
+        command: redis-server
+        ports:
+            - "6379"
+        environment:
+            - "REDIS_PASSWORD"
+        networks:
+            - shop-api-network
+
     database:
         container_name: shop-main-database
         image: postgres:16.0-alpine
