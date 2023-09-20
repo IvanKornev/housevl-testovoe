@@ -1,9 +1,23 @@
 version: '3.8'
 services:
+    nginx:
+        image: nginx:1.25.2-alpine
+        container_name: shop-http-server
+        restart: unless-stopped
+        ports:
+            - "80"
+        volumes:
+            - ./docker/nginx/default.template:/etc/nginx/templates/default.conf.template
+        depends_on:
+            - cache
+            - database
+        networks:
+            - shop-http-server-network
+
     cache:
         container_name: shop-cache
         image: "redis:7.2.1-alpine"
-        restart: always
+        restart: unless-stopped
         command: redis-server
         ports:
             - "6379"
@@ -15,7 +29,7 @@ services:
     database:
         container_name: shop-main-database
         image: postgres:16.0-alpine
-        restart: always
+        restart: unless-stopped
         environment:
             POSTGRES_PASSWORD: ${DB_PASSWORD}
             POSTGRES_USER: ${DB_USERNAME}
@@ -25,3 +39,4 @@ services:
 
 networks:
     shop-api-network:
+    shop-http-server-network:
