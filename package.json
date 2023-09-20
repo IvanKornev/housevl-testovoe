@@ -6,6 +6,8 @@
         "build": "vite build"
     },
     "devDependencies": {
+        "@commitlint/cli": "^17.7.1",
+        "@commitlint/config-conventional": "^17.7.0",
         "axios": "^1.1.2",
         "branch-name-lint": "^2.1.1",
         "husky": "^8.0.3",
