@@ -1,20 +1,5 @@
 version: '3.8'
 services:
-    nginx:
-        image: nginx:1.25.2-alpine
-        container_name: shop-http-server
-        restart: unless-stopped
-        ports:
-            - "80"
-        volumes:
-            - ./storage/logs/nginx:/var/log/nginx/
-            - ./docker/nginx/default.template:/etc/nginx/templates/default.conf.template
-        depends_on:
-            - cache
-            - database
-        networks:
-            - shop-http-server-network
-
     cache:
         container_name: shop-cache
         image: "redis:7.2.1-alpine"
@@ -37,6 +22,37 @@ services:
             POSTGRES_DB: ${DB_DATABASE}
         networks:
             - shop-api-network
+
+    api:
+        build:
+            context: ./
+            dockerfile: ./docker/php/Dockerfile
+        container_name: shop-api
+        restart: unless-stopped
+        working_dir: /var/www
+        volumes:
+            - ./:/var/www
+        depends_on:
+            - cache
+            - database
+        networks:
+           - shop-http-server-network
+           - shop-api-network
+
+    nginx:
+        image: nginx:1.25.2-alpine
+        container_name: shop-http-server
+        restart: unless-stopped
+        ports:
+            - "80"
+        volumes:
+            - ./:/var/www
+            - ./storage/logs/nginx:/var/log/nginx/
+            - ./docker/nginx/default.template:/etc/nginx/templates/default.conf.template
+        depends_on:
+            - api
+        networks:
+            - shop-http-server-network
 
 networks:
     shop-api-network:
