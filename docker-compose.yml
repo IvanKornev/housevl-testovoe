@@ -6,7 +6,7 @@ services:
         restart: unless-stopped
         command: redis-server
         ports:
-            - "6379"
+            - "6379:6379"
         environment:
             - "REDIS_PASSWORD"
         networks:
@@ -44,7 +44,7 @@ services:
         container_name: shop-http-server
         restart: unless-stopped
         ports:
-            - "80"
+            - "80:80"
         volumes:
             - ./:/var/www
             - ./storage/logs/nginx:/var/log/nginx/
