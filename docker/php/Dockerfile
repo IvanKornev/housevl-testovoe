@@ -13,7 +13,8 @@ RUN apk --no-cache add \
         vim unzip curl oniguruma && \
 	docker-php-ext-install pdo_pgsql pdo mbstring zip exif pcntl opcache && \
     pecl install -o -f redis && \
-    docker-php-ext-enable redis
+    docker-php-ext-enable redis && \
+    rm -rf /var/cache/apk/*
 
 RUN curl -sS https://getcomposer.org/installer | \
     php -- --install-dir=$composer_path --filename=composer
