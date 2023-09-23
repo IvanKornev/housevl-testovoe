@@ -1,4 +1,4 @@
-version: '3.8'
+version: '3.9'
 services:
     cache:
         container_name: shop-cache
@@ -29,6 +29,7 @@ services:
             dockerfile: ./docker/php/Dockerfile
         container_name: shop-api
         restart: unless-stopped
+        user: ${UID}:${GID}
         working_dir: /var/www
         volumes:
             - ./:/var/www
