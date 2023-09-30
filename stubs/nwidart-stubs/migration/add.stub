@@ -7,11 +7,11 @@ use Illuminate\Database\Migrations\Migration;
 return new class extends Migration
 {
     /**
-     * Run the migrations.
+     * Обновляет или создает таблицу $TABLE$ через миграцию
      *
      * @return void
      */
-    public function up()
+    public function up(): void
     {
         Schema::table('$TABLE$', function (Blueprint $table) {
 $FIELDS_UP$
@@ -19,7 +19,7 @@ $FIELDS_UP$
     }
 
     /**
-     * Reverse the migrations.
+     * Откатывает миграцию
      *
      * @return void
      */
