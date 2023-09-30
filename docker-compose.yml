@@ -21,7 +21,10 @@ services:
             POSTGRES_USER: ${DB_USERNAME}
             POSTGRES_DB: ${DB_DATABASE}
         networks:
-            - shop-api-network
+            shop-api-network:
+                aliases:
+                    - main-database-host
+
 
     api:
         build:
