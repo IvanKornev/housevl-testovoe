@@ -1,0 +1,23 @@
+{
+    "name": "IvanKornev/catalog",
+    "description": "",
+    "authors": [
+        {
+            "name": "IvanKornev",
+            "email": "brovkin.komar@yandex.ru"
+        }
+    ],
+    "extra": {
+        "laravel": {
+            "providers": [],
+            "aliases": {
+
+            }
+        }
+    },
+    "autoload": {
+        "psr-4": {
+            "App\\Modules\\Catalog\\": ""
+        }
+    }
+}
