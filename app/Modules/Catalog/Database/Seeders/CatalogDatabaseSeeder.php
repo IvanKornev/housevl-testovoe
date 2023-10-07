@@ -14,6 +14,9 @@ class CatalogDatabaseSeeder extends Seeder
      */
     public function run(): void
     {
-        Category::factory()->count(20)->create();
+        Category::factory()
+            ->hasProducts(10)
+            ->count(20)
+            ->create();
     }
 }
