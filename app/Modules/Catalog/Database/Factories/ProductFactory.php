@@ -5,7 +5,6 @@ namespace App\Modules\Catalog\Database\factories;
 use Illuminate\Support\Str;
 use Illuminate\Database\Eloquent\Factories\Factory;
 use App\Modules\Catalog\Entities\Product;
-use App\Modules\Catalog\Entities\Category;
 
 class ProductFactory extends Factory
 {
