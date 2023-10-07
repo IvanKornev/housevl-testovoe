@@ -18,7 +18,7 @@ class CategoryFactory extends Factory
      *
      * @return array
      */
-    public function definition()
+    public function definition(): array
     {
         $categoryName = fake()->words(3, true);
         return [
