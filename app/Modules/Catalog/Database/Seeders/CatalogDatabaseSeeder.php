@@ -3,19 +3,17 @@
 namespace App\Modules\Catalog\Database\Seeders;
 
 use Illuminate\Database\Seeder;
-use Illuminate\Database\Eloquent\Model;
+use App\Modules\Catalog\Entities\Category;
 
 class CatalogDatabaseSeeder extends Seeder
 {
     /**
-     * Run the database seeds.
+     * Заполняет каталог магазина фейковыми данными
      *
      * @return void
      */
-    public function run()
+    public function run(): void
     {
-        Model::unguard();
-
-        // $this->call("OthersTableSeeder");
+        Category::factory()->count(20)->create();
     }
 }
