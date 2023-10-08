@@ -32,7 +32,7 @@ class CategorySaving
         $slugValue = $model->name;
         $isChild = $model->parent_id !== null;
         if ($isChild) {
-            $slugValue = "{$model->parent->slug}/{$model->slug}";
+            $slugValue = "{$model->parent->slug}/{$model->name}";
         }
         $model->slug = Str::slug($slugValue);
     }
