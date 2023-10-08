@@ -6,6 +6,8 @@ use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\HasOne;
 use Illuminate\Database\Eloquent\Factories\Factory;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
+use Illuminate\Support\Str;
+
 use App\Modules\Catalog\Database\Factories\ProductFactory;
 
 class Product extends Model
@@ -13,6 +15,19 @@ class Product extends Model
     use HasFactory;
 
     protected $fillable = [];
+
+    /**
+     * Автогенерирует slug для товара
+     *
+     * @return void
+    */
+    protected static function booted(): void
+    {
+        $slugGenerationCallback = function (self $model) {
+            $model->slug = Str::slug($model->name);
+        };
+        static::creating($slugGenerationCallback);
+    }
 
     /**
      * Возвращает фабрику товара

@@ -2,8 +2,6 @@
 
 namespace App\Modules\Catalog\Database\Factories\Traits;
 
-use Illuminate\Support\Str;
-
 trait HasCategoryFields
 {
   /**
@@ -17,7 +15,6 @@ trait HasCategoryFields
     $name = fake()->words(3, true);
     return [
         'name' => $name,
-        'slug' => Str::slug($name),
         'image' => fake()->imageUrl(),
         'seo_title' => $name,
         'seo_description' => fake()->sentence(8),
