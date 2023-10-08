@@ -10,7 +10,7 @@ return new class extends Migration
      * Добавляет таблицу характеристик товара
      *
      * @return void
-     */
+    */
     public function up(): void
     {
         Schema::create('product_characteristics', function (Blueprint $table) {
@@ -27,7 +27,7 @@ return new class extends Migration
      * Убираем таблицу характеристик
      *
      * @return void
-     */
+    */
     public function down(): void
     {
         Schema::dropIfExists('product_characteristics');

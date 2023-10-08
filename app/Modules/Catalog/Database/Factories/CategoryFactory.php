@@ -19,7 +19,7 @@ class CategoryFactory extends Factory
      * Наполнение полей категорий
      *
      * @return array
-     */
+    */
     public function definition(): array
     {
         return $this->getCategoryFields();

@@ -14,6 +14,11 @@ class Product extends Model
 
     protected $fillable = [];
 
+    /**
+     * Возвращает фабрику товара
+     *
+     * @return Factory
+    */
     protected static function newFactory(): Factory
     {
         return ProductFactory::new();

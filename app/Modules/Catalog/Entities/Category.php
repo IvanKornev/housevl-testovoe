@@ -14,6 +14,11 @@ class Category extends Model
 
     protected $fillable = [];
 
+    /**
+     * Возвращает фабрику категории
+     *
+     * @return Factory
+    */
     protected static function newFactory(): Factory
     {
         return CategoryFactory::new();

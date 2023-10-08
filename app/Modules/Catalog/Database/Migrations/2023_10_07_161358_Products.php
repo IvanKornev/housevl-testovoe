@@ -10,7 +10,7 @@ return new class extends Migration
      * Добавляет FK-поле category_id, а также SEO-поля
      *
      * @return void
-     */
+    */
     public function up(): void
     {
         Schema::table('products', function (Blueprint $table) {
@@ -27,7 +27,7 @@ return new class extends Migration
      * Убирает поле category_id и SEO-поля
      *
      * @return void
-     */
+    */
     public function down(): void
     {
         Schema::table('products', function (Blueprint $table) {

@@ -10,7 +10,7 @@ return new class extends Migration
      * Добавляет таблицу товаров (без лишних отношений)
      *
      * @return void
-     */
+    */
     public function up(): void
     {
         Schema::create('products', function (Blueprint $table) {
@@ -28,7 +28,7 @@ return new class extends Migration
      * Убирает таблицу товаров
      *
      * @return void
-     */
+    */
     public function down(): void
     {
         Schema::dropIfExists('products');

@@ -17,7 +17,7 @@ class ProductCharacteristicFactory extends Factory
      * Заполняет характеристики товара
      *
      * @return array
-     */
+    */
     public function definition(): array
     {
         $filledFields = [];

@@ -13,14 +13,14 @@ class ProductFactory extends Factory
     /**
      *
      * @var string
-     */
+    */
     protected $model = Product::class;
 
     /**
      * Заполняет товары каталога
      *
      * @return array
-     */
+    */
     public function definition(): array
     {
         $categoryFields = $this->getCategoryFields();

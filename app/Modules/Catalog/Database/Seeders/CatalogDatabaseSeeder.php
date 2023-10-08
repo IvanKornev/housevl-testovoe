@@ -13,7 +13,7 @@ class CatalogDatabaseSeeder extends Seeder
      * Заполняет каталог магазина фейковыми данными
      *
      * @return void
-     */
+    */
     public function run(): void
     {
         $products = Product::factory()->count(5)->hasCharacteristics();

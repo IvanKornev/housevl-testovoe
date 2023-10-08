@@ -10,7 +10,7 @@ return new class extends Migration
      * Создает таблицу категорий
      *
      * @return void
-     */
+    */
     public function up(): void
     {
         Schema::create('categories', function (Blueprint $table) {
@@ -33,7 +33,7 @@ return new class extends Migration
      * Удаляет таблицу категорий
      *
      * @return void
-     */
+    */
     public function down(): void
     {
         Schema::dropIfExists('categories');

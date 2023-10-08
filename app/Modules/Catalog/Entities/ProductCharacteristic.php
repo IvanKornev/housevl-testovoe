@@ -14,6 +14,11 @@ class ProductCharacteristic extends Model
     protected $fillable = [];
     public $timestamps = false;
 
+    /**
+     * Возвращает фабрику характеристик товара
+     *
+     * @return Factory
+    */
     protected static function newFactory(): Factory
     {
         return ProductCharacteristicFactory::new();
