@@ -19,15 +19,13 @@ class CatalogDatabaseSeeder extends Seeder
         $products = Product::factory()->count(5)->hasCharacteristics();
         $parentCategories = Category::factory()->count(5)->create();
         foreach ($parentCategories as $parent) {
-            $changeChildState = function (array $child) use ($parent) {
-                $slug = "{$parent->slug}/{$child['slug']}";
-                $result = ['parent_id' => $parent->id, 'slug' => $slug];
-                return $result;
+            $setParentCategory = function () use ($parent) {
+                return ['parent_id' => $parent->id];
             };
             Category::factory()
                 ->count(3)
                 ->has($products)
-                ->state($changeChildState)
+                ->state($setParentCategory)
                 ->create();
         }
     }
