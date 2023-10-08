@@ -2,6 +2,7 @@
 
 namespace App\Modules\Catalog\Database\Seeders;
 
+use App\Modules\Catalog\Database\Factories\CategoryFactory;
 use Illuminate\Database\Seeder;
 use App\Modules\Catalog\Entities\Category;
 use App\Modules\Catalog\Entities\Product;
@@ -15,9 +16,16 @@ class CatalogDatabaseSeeder extends Seeder
      */
     public function run(): void
     {
-        $creatingProducts = Product::factory()
-            ->count(5)
-            ->hasCharacteristics();
-        Category::factory()->count(15)->has($creatingProducts)->create();
+        $products = Product::factory()->count(5)->hasCharacteristics();
+        $parentCategories = Category::factory()->count(5)->create();
+        foreach ($parentCategories as $parent) {
+            Category::factory()
+                ->count(3)
+                ->has($products)
+                ->state(function () use ($parent) {
+                    return ['parent_id' => $parent->id];
+                })
+                ->create();
+        }
     }
 }
