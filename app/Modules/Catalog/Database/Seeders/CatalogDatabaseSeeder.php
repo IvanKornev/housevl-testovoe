@@ -22,8 +22,12 @@ class CatalogDatabaseSeeder extends Seeder
             Category::factory()
                 ->count(3)
                 ->has($products)
-                ->state(function () use ($parent) {
-                    return ['parent_id' => $parent->id];
+                ->state(function (array $child) use ($parent) {
+                    $slug = "{$parent->slug}/{$child['slug']}";
+                    return [
+                        'parent_id' => $parent->id,
+                        'slug' => $slug,
+                    ];
                 })
                 ->create();
         }
