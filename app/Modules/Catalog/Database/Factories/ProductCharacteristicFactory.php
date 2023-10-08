@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Modules\Catalog\Database\factories;
+namespace App\Modules\Catalog\Database\Factories;
 
 use Illuminate\Database\Eloquent\Factories\Factory;
 use App\Modules\Catalog\Entities\ProductCharacteristic;

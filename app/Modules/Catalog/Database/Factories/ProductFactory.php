@@ -1,13 +1,15 @@
 <?php
 
-namespace App\Modules\Catalog\Database\factories;
+namespace App\Modules\Catalog\Database\Factories;
 
-use Illuminate\Support\Str;
 use Illuminate\Database\Eloquent\Factories\Factory;
+use App\Modules\Catalog\Database\Factories\Traits\HasCategoryFields;
 use App\Modules\Catalog\Entities\Product;
 
 class ProductFactory extends Factory
 {
+    use HasCategoryFields;
+
     /**
      *
      * @var string
@@ -21,13 +23,9 @@ class ProductFactory extends Factory
      */
     public function definition(): array
     {
-        $productName = fake()->words(3, true);
+        $categoryFields = $this->getCategoryFields();
         return [
-            'name' => $productName,
-            'slug' => Str::slug($productName),
-            'image' => fake()->imageUrl(),
-            'seo_title' => $productName,
-            'seo_description' => fake()->sentence(8),
+            ...$categoryFields,
             'description' => fake()->sentence(12),
             'price' => fake()->randomNumber(6),
         ];

@@ -2,12 +2,14 @@
 
 namespace App\Modules\Catalog\Database\Factories;
 
-use Illuminate\Support\Str;
 use Illuminate\Database\Eloquent\Factories\Factory;
+use App\Modules\Catalog\Database\Factories\Traits\HasCategoryFields;
 use App\Modules\Catalog\Entities\Category;
 
 class CategoryFactory extends Factory
 {
+    use HasCategoryFields;
+
     /**
      * @var string
      */
@@ -20,14 +22,7 @@ class CategoryFactory extends Factory
      */
     public function definition(): array
     {
-        $categoryName = fake()->words(3, true);
-        return [
-            'name' => $categoryName,
-            'slug' => Str::slug($categoryName),
-            'image' => fake()->imageUrl(),
-            'seo_title' => $categoryName,
-            'seo_description' => fake()->sentence(8),
-        ];
+        return $this->getCategoryFields();
     }
 }
 
