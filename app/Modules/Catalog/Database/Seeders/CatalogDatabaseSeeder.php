@@ -16,14 +16,14 @@ class CatalogDatabaseSeeder extends Seeder
     */
     public function run(): void
     {
-        $products = Product::factory()->count(5)->hasCharacteristics();
+        $products = Product::factory()->count(25)->hasCharacteristics();
         $parentCategories = Category::factory()->count(5)->create();
         foreach ($parentCategories as $parent) {
             $setParentCategory = function () use ($parent) {
                 return ['parent_id' => $parent->id];
             };
             Category::factory()
-                ->count(3)
+                ->count(8)
                 ->has($products)
                 ->state($setParentCategory)
                 ->create();
