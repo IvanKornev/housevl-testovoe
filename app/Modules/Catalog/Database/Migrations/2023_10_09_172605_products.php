@@ -7,26 +7,26 @@ use Illuminate\Database\Migrations\Migration;
 return new class extends Migration
 {
     /**
-     * Обновляет или создает таблицу $TABLE$ через миграцию
+     * Делаем цену decimal
      *
      * @return void
      */
-    public function up(): void
+    public function up()
     {
-        Schema::table('$TABLE$', function (Blueprint $table) {
-$FIELDS_UP$
+        Schema::table('products', function (Blueprint $table) {
+            $table->decimal('price')->change();
         });
     }
 
     /**
-     * Откатывает миграцию
+     * Делаем цену integer
      *
      * @return void
      */
     public function down()
     {
-        Schema::table('$TABLE$', function (Blueprint $table) {
-$FIELDS_DOWN$
+        Schema::table('products', function (Blueprint $table) {
+            $table->integer('price')->change();
         });
     }
 };
