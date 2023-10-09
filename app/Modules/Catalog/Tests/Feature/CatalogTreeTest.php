@@ -7,6 +7,8 @@ use Illuminate\Foundation\Testing\RefreshDatabase;
 
 final class CatalogTreeTest extends TestCase
 {
+    use RefreshDatabase;
+
     /**
      * Проверяет получение дерева категорий
      *
