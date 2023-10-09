@@ -1,5 +1,5 @@
 <?php
 
-use App\Modules\Catalog\Http\Controllers\CatalogController;
+use App\Modules\Catalog\Http\Controllers\TreeController;
 
-Route::get('/catalog/tree', [CatalogController::class, 'getTree']);
+Route::get('/catalog/tree', [TreeController::class, 'get']);
