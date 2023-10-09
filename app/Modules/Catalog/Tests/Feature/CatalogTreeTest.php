@@ -9,6 +9,11 @@ final class CatalogTreeTest extends TestCase
 {
     use RefreshDatabase;
 
+    /**
+     * URL вызываемого эндпоинта
+     *
+     * @var string
+     */
     public const URL = '/api/catalog/tree';
 
     /**
