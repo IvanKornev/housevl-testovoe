@@ -29,11 +29,11 @@ class CategorySaving
     */
     private function autoGenerateSlug(Category $model): void
     {
-        $slugValue = $model->name;
+        $slugValue = Str::slug($model->name);
         $isChild = $model->parent_id !== null;
         if ($isChild) {
-            $slugValue = "{$model->parent->slug}/{$model->name}";
+            $slugValue = "{$model->parent->slug}/{$slugValue}";
         }
-        $model->slug = Str::slug($slugValue);
+        $model->slug = $slugValue;
     }
 }
