@@ -20,5 +20,7 @@ final class CatalogTreeTest extends TestCase
     {
         $response = $this->json('GET', self::URL);
         $response->assertStatus(200);
+        $content = json_decode($response->getContent(), true);
+        $this->assertTrue(array_is_list($content['categories']));
     }
 }
