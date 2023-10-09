@@ -9,13 +9,16 @@ final class CatalogTreeTest extends TestCase
 {
     use RefreshDatabase;
 
+    public const URL = '/api/catalog/tree';
+
     /**
      * Проверяет получение дерева категорий
      *
      * @return void
      */
-    public function test_returns_the_catalog_tree(): void
+    public function testReturnsTheCatalogTree(): void
     {
-        $this->assertTrue(true);
+        $response = $this->json('GET', self::URL);
+        $response->assertStatus(200);
     }
 }
