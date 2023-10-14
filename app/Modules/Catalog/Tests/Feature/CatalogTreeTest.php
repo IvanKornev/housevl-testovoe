@@ -2,8 +2,9 @@
 
 namespace App\Modules\Catalog\Tests\Unit;
 
-use Tests\TestCase;
 use Illuminate\Foundation\Testing\RefreshDatabase;
+use Tests\TestCase;
+use App\Modules\Catalog\Database\Seeders\CatalogDatabaseSeeder;
 
 final class CatalogTreeTest extends TestCase
 {
@@ -23,9 +24,13 @@ final class CatalogTreeTest extends TestCase
      */
     public function testReturnsTheCatalogTree(): void
     {
+        $this->seed(CatalogDatabaseSeeder::class);
         $response = $this->json('GET', self::URL);
-        $response->assertStatus(200);
         $content = json_decode($response->getContent(), true);
-        $this->assertTrue(array_is_list($content['categories']));
+        $this->assertArrayHasKey('categories', $content);
+        $this->assertIsList($content['categories']);
+        foreach ($content['categories'] as $category) {
+            $this->assertArrayHasKey('children', $category);
+        }
     }
 }
