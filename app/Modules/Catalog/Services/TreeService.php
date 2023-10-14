@@ -9,7 +9,9 @@ final class TreeService implements ITreeService
 {
     public function get(): array
     {
-        $results = Category::all();
-        return $results->toArray();
+        $categories = Category::whereNull('parent_id')
+            ->with('childCategories')
+            ->get();
+        return $categories->toArray();
     }
 }

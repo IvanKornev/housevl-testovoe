@@ -32,6 +32,8 @@ class Category extends Model
 
     /**
      * Возвращает все продукты категории
+     *
+     * @return HasMany
     */
     public function products(): HasMany
     {
@@ -40,9 +42,21 @@ class Category extends Model
 
     /**
      * Возвращает родительскую категории
+     *
+     * @return BelongsTo
     */
     public function parent(): BelongsTo
     {
         return $this->belongsTo(self::class, 'parent_id');
+    }
+
+    /**
+     * Возвращает дочерние категории
+     *
+     * @return HasMany
+    */
+    public function childCategories(): HasMany
+    {
+        return $this->hasMany(self::class, 'parent_id');
     }
 }
