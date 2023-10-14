@@ -4,6 +4,7 @@ namespace App\Modules\Catalog\Entities;
 
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\HasOne;
+use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\Factories\Factory;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Support\Str;
@@ -40,7 +41,19 @@ class Product extends Model
     }
 
     /**
+     * Возвращает родительскую категорию
+     *
+     * @return BelongsTo
+    */
+    public function category(): BelongsTo
+    {
+        return $this->belongsTo(Category::class);
+    }
+
+    /**
      * Возвращает характеристики товара
+     *
+     * @return HasOne
     */
     public function characteristics(): HasOne
     {

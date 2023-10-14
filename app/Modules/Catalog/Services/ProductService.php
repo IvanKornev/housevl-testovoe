@@ -9,7 +9,10 @@ final class ProductService implements IProductService
 {
     public function get(string $slug): Product
     {
-        $product = Product::where('slug', $slug)->first();
+        $product = Product::where('slug', $slug)
+            ->with('category')
+            ->with('characteristics')
+            ->first();
         return $product;
     }
 }
