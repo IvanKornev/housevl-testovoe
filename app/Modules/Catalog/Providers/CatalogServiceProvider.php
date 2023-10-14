@@ -3,8 +3,12 @@
 namespace App\Modules\Catalog\Providers;
 
 use Illuminate\Support\ServiceProvider;
+
 use App\Modules\Catalog\Services\Contracts\ITreeService;
 use App\Modules\Catalog\Services\TreeService;
+
+use App\Modules\Catalog\Services\Contracts\IProductService;
+use App\Modules\Catalog\Services\ProductService;
 
 class CatalogServiceProvider extends ServiceProvider
 {
@@ -40,6 +44,7 @@ class CatalogServiceProvider extends ServiceProvider
     {
         $this->app->register(RouteServiceProvider::class);
         $this->app->bind(ITreeService::class, TreeService::class);
+        $this->app->bind(IProductService::class, ProductService::class);
     }
 
     /**
