@@ -30,7 +30,7 @@ final class CatalogTreeTest extends TestCase
         $this->assertArrayHasKey('categories', $content);
         $this->assertIsList($content['categories']);
         foreach ($content['categories'] as $category) {
-            $this->assertArrayHasKey('children', $category);
+            $this->assertArrayHasKey('child_categories', $category);
         }
     }
 }
