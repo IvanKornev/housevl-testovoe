@@ -2,7 +2,6 @@
 
 namespace App\Modules\Catalog\Database\Seeders;
 
-use App\Modules\Catalog\Database\Factories\CategoryFactory;
 use Illuminate\Database\Seeder;
 use App\Modules\Catalog\Entities\Category;
 use App\Modules\Catalog\Entities\Product;
