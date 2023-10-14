@@ -7,11 +7,11 @@ use Illuminate\Foundation\Http\FormRequest;
 class $CLASS$ extends FormRequest
 {
     /**
-     * Get the validation rules that apply to the request.
+     * Валидационые правила по отношению к запросу
      *
      * @return array
      */
-    public function rules()
+    public function rules(): array
     {
         return [
             //
@@ -19,11 +19,11 @@ class $CLASS$ extends FormRequest
     }
 
     /**
-     * Determine if the user is authorized to make this request.
+     * Имеет ли авториз. пользователь право сделать этот запрос
      *
      * @return bool
      */
-    public function authorize()
+    public function authorize(): bool
     {
         return true;
     }
