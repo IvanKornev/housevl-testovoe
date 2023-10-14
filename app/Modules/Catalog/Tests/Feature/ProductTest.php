@@ -37,4 +37,16 @@ final class ProductTest extends TestCase
         $this->assertIsArray($content['product']['category']);
         $this->assertIsArray($content['product']['characteristics']);
     }
+
+    /**
+     * Проверяет статус-код 404 при несуществующем товаре
+     *
+     * @return void
+     */
+    public function testReturnsNotFoundError(): void
+    {
+        $productUrl = str_replace('{slug}', 'unknown', static::URL);
+        $response = $this->json('GET', $productUrl);
+        $response->assertStatus(404);
+    }
 }
