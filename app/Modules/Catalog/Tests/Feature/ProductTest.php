@@ -24,11 +24,15 @@ final class ProductTest extends TestCase
      */
     public function testReturnsProductBySlug(): void
     {
-        $parentCategory = Category::factory()->create();
-        $categoryCallback = fn () => ['category_id' => $parentCategory->id];
-        $createdProduct = Product::factory()->state($categoryCallback)->create();
-        $productUrl = str_replace('{slug}', $createdProduct->slug, static::URL);
+        $parentCategory = Category::factory()->create()->toArray();
+        $createdProduct = Product::factory()
+            ->state(fn () => ['category_id' => $parentCategory['id']])
+            ->create()
+            ->toArray();
+        $productUrl = str_replace('{slug}', $createdProduct['slug'], static::URL);
         $response = $this->json('GET', $productUrl);
         $response->assertStatus(200);
+        $content = json_decode($response->getContent(), true);
+        $this->assertArrayHasKey('product', $content);
     }
 }
