@@ -9,11 +9,11 @@ class $CLASS$
     use HandlesAuthorization;
 
     /**
-     * Create a new policy instance.
+     * Создает инстанс новой политики
      *
      * @return void
      */
-    public function __construct()
+    public function __construct(): void
     {
         //
     }

@@ -9,22 +9,22 @@ use Illuminate\Contracts\Queue\ShouldQueue;
 class $CLASS$
 {
     /**
-     * Create the event listener.
+     * Новый прослушиватель событий
      *
      * @return void
      */
-    public function __construct()
+    public function __construct(): void
     {
         //
     }
 
     /**
-     * Handle the event.
+     * Обрабатывает событие
      *
      * @param $SHORTEVENTNAME$ $event
      * @return void
      */
-    public function handle($SHORTEVENTNAME$ $event)
+    public function handle($SHORTEVENTNAME$ $event): void
     {
         //
     }

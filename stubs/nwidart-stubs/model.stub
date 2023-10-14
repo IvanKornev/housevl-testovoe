@@ -3,6 +3,7 @@
 namespace $NAMESPACE$;
 
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\Factories\Factory;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 
 class $CLASS$ extends Model
@@ -10,7 +11,12 @@ class $CLASS$ extends Model
     use HasFactory;
 
     protected $fillable = $FILLABLE$;
-    
+
+    /**
+     * Возвращает фабрику сущности
+     *
+     * @return Factory
+     */
     protected static function newFactory()
     {
         return \$MODULE_NAMESPACE$\$MODULE$\Database\factories\$NAME$Factory::new();

@@ -12,33 +12,33 @@ class $CLASS$ extends Notification
     use Queueable;
 
     /**
-     * Create a new notification instance.
+     * Создает инстанс нового уведомления
      *
      * @return void
      */
-    public function __construct()
+    public function __construct(): void
     {
         //
     }
 
     /**
-     * Get the notification's delivery channels.
+     * Получает каналы доставки
      *
      * @param mixed $notifiable
      * @return array
      */
-    public function via($notifiable)
+    public function via($notifiable): array
     {
         return ['mail'];
     }
 
     /**
-     * Get the mail representation of the notification.
+     * Получает mail-репрезентацию
      *
      * @param mixed $notifiable
-     * @return \Illuminate\Notifications\Messages\MailMessage
+     * @return MailMessage
      */
-    public function toMail($notifiable)
+    public function toMail($notifiable): MailMessage
     {
         return (new MailMessage)
                     ->line('The introduction to the notification.')
@@ -47,12 +47,12 @@ class $CLASS$ extends Notification
     }
 
     /**
-     * Get the array representation of the notification.
+     * Репрезентация в виде массива
      *
      * @param mixed $notifiable
      * @return array
      */
-    public function toArray($notifiable)
+    public function toArray($notifiable): array
     {
         return [
             //

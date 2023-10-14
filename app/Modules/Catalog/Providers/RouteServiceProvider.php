@@ -8,42 +8,36 @@ use Illuminate\Foundation\Support\Providers\RouteServiceProvider as ServiceProvi
 class RouteServiceProvider extends ServiceProvider
 {
     /**
-     * The module namespace to assume when generating URLs to actions.
-     *
      * @var string
      */
     protected $moduleNamespace = 'App\Modules\Catalog\Http\Controllers';
 
     /**
-     * Called before routes are registered.
-     *
-     * Register any model bindings or pattern based filters.
+     * Регистрирует привязки моделей и прочее
      *
      * @return void
      */
-    public function boot()
+    public function boot(): void
     {
         parent::boot();
     }
 
     /**
-     * Define the routes for the application.
+     * Объявляет маршруты модуля
      *
      * @return void
      */
-    public function map()
+    public function map(): void
     {
         $this->mapApiRoutes();
     }
 
     /**
-     * Define the "api" routes for the application.
-     *
-     * These routes are typically stateless.
+     * Подключает API-эндпоинты модуля
      *
      * @return void
      */
-    protected function mapApiRoutes()
+    protected function mapApiRoutes(): void
     {
         Route::prefix('api')
             ->middleware('api')
