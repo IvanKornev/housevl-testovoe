@@ -2,7 +2,7 @@
 
 namespace App\Modules\Catalog\Services;
 
-use Illuminate\Database\Eloquent\ModelNotFoundException;
+use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
 use App\Modules\Catalog\Services\Contracts\IProductService;
 use App\Modules\Catalog\Entities\Product;
 
@@ -15,7 +15,7 @@ final class ProductService implements IProductService
             ->with('characteristics')
             ->first();
         if (!$product) {
-            throw new ModelNotFoundException;
+            throw new NotFoundHttpException('Товар не найден');
         }
         return $product;
     }
