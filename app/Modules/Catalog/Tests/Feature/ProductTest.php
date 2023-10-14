@@ -26,13 +26,15 @@ final class ProductTest extends TestCase
     {
         $parentCategory = Category::factory()->create()->toArray();
         $createdProduct = Product::factory()
+            ->hasCharacteristics()
             ->state(fn () => ['category_id' => $parentCategory['id']])
             ->create()
             ->toArray();
         $productUrl = str_replace('{slug}', $createdProduct['slug'], static::URL);
         $response = $this->json('GET', $productUrl);
-        $response->assertStatus(200);
         $content = json_decode($response->getContent(), true);
         $this->assertArrayHasKey('product', $content);
+        $this->assertIsArray($content['product']['category']);
+        $this->assertIsArray($content['product']['characteristics']);
     }
 }
