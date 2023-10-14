@@ -6,6 +6,7 @@ use Illuminate\Http\JsonResponse;
 use Illuminate\Routing\Controller;
 
 use App\Modules\Catalog\Services\Contracts\ITreeService;
+use App\Modules\Catalog\Transformers\TreeResource;
 
 class TreeController extends Controller
 {
@@ -22,7 +23,7 @@ class TreeController extends Controller
      */
     public function get(): JsonResponse
     {
-        $categories = $this->service->get();
+        $categories = TreeResource::collection($this->service->get());
         return response()->json(['categories' => $categories]);
     }
 }

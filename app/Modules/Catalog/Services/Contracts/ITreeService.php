@@ -2,11 +2,13 @@
 
 namespace App\Modules\Catalog\Services\Contracts;
 
+use Illuminate\Database\Eloquent\Collection;
+
 interface ITreeService
 {
     /**
      * Возвращает родительские категории вместе с дочерними
-     * @return array
+     * @return Collection
      */
-    public function get(): array;
+    public function get(): Collection;
 }
