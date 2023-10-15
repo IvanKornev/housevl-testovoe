@@ -17,4 +17,15 @@ class ProductFilter extends ModelFilter
         ['min' => $min, 'max' => $max] = $price;
         $this->whereBetween('price', [$min, $max]);
     }
+
+    /**
+     * Фильтр по slug родительской/дочерней категории
+     *
+     * @param string $slug
+     * @return void
+     */
+    public function category(string $slug): void
+    {
+        $this->related('category', 'slug', $slug);
+    }
 }
