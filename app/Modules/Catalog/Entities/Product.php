@@ -15,6 +15,7 @@ class Product extends Model
 {
     use HasFactory;
 
+    protected $casts = ['price' => 'integer'];
     protected $fillable = [];
 
     /**
