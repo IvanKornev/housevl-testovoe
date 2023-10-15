@@ -57,5 +57,7 @@ final class ProductTest extends TestCase
         $this->seed(SingleProductSeeder::class);
         $response = $this->json('GET', static::URL);
         $response->assertStatus(200);
+        $content = json_decode($response->getContent(), true);
+        $this->assertArrayHasKey('products', $content);
     }
 }
