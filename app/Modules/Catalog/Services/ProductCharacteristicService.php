@@ -10,10 +10,11 @@ final class ProductCharacteristicService implements IProductCharacteristicServic
 {
     public function update(array $values, int $id): ProductCharacteristic
     {
-        $foundCharacteristics = ProductCharacteristic::find($id);
+        $foundCharacteristics = ProductCharacteristic::find($id)->first();
         if (!$foundCharacteristics) {
             throw new NotFoundHttpException('Характеристики не найдены');
         }
+        $foundCharacteristics->update($values);
         return $foundCharacteristics;
     }
 }
