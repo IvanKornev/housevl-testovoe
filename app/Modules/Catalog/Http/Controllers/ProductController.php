@@ -33,7 +33,7 @@ class ProductController extends Controller
      */
     public function getAll(Request $request): JsonResponse
     {
-        $results = $this->service->getAll();
+        $results = $this->service->getAll($request->all());
         return response()->json($results);
     }
 }

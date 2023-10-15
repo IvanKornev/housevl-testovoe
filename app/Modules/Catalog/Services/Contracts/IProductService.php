@@ -16,5 +16,5 @@ interface IProductService
      * Получает все товары
      * @return LengthAwarePaginator
      */
-    public function getAll(): LengthAwarePaginator;
+    public function getAll(array $values): LengthAwarePaginator;
 }

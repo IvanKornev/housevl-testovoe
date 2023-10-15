@@ -22,9 +22,9 @@ final class ProductService implements IProductService
         return $product;
     }
 
-    public function getAll(): LengthAwarePaginator
+    public function getAll(array $values): LengthAwarePaginator
     {
-        $allProducts = Product::paginate(10);
+        $allProducts = Product::filter($values)->paginate(10);
         return $allProducts;
     }
 }
