@@ -3,8 +3,9 @@
 namespace App\Modules\Catalog\Http\Controllers;
 
 use Illuminate\Routing\Controller;
-use Illuminate\Http\{ JsonResponse, Request };
+use Illuminate\Http\JsonResponse;
 
+use App\Modules\Catalog\Http\Requests\ProductCharacteristicRequest;
 use App\Modules\Catalog\Services\Contracts\IProductCharacteristicService;
 use App\Modules\Catalog\Transformers\Product\CharacteristicResource;
 
@@ -21,9 +22,10 @@ class ProductCharacteristicController extends Controller
      * Обновляет характеристики товара по ID
      * @return JsonResponse
      */
-    public function update(Request $request, int $id): JsonResponse
-    {
-        $values = $request->input();
+    public function update(
+        ProductCharacteristicRequest $request, int $id,
+    ): JsonResponse {
+        $values = $request->validated();
         $charateristics = $this->service->update($values, $id);
         return response()->json([
             'message' => 'Товар успешно обновлен',
