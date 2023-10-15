@@ -40,8 +40,8 @@ final class CharacteristicsTest extends TestCase
      */
     public function testReturnsNotFoundError(): void
     {
-        $concreteUrl = str_replace('{id}', 'unknown', static::URL);
-        $response = $this->json('GET', $concreteUrl);
+        $concreteUrl = str_replace('{id}', '565', static::URL);
+        $response = $this->json('PATCH', $concreteUrl);
         $response->assertStatus(404);
     }
 }
