@@ -5,6 +5,9 @@ namespace App\Modules\Catalog\Tests\Unit;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 use Tests\TestCase;
 
+use App\Modules\Catalog\Database\Seeders\SingleProductSeeder;
+use App\Modules\Catalog\Entities\ProductCharacteristic;
+
 final class CharacteristicsTest extends TestCase
 {
     use RefreshDatabase;
@@ -15,6 +18,20 @@ final class CharacteristicsTest extends TestCase
      * @var string
      */
     public const URL = '/api/products/characterics/{id}';
+
+    /**
+     * Тест, успешно обновляющий характеристики товара
+     *
+     * @return void
+     */
+    public function testUpdatesCharacteristics(): void
+    {
+        $this->seed(SingleProductSeeder::class);
+        $id = ProductCharacteristic::first()->id;
+        $concreteUrl = str_replace('{id}', $id, static::URL);
+        $response = $this->json('PATCH', $concreteUrl);
+        $response->assertStatus(200);
+    }
 
     /**
      * Проверяет статус-код 404 при несуществующих характеристиках
