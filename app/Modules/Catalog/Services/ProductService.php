@@ -11,7 +11,7 @@ final class ProductService implements IProductService
     public function get(string $slug): Product
     {
         $product = Product::where('slug', $slug)
-            ->with('category')
+            ->with('category.parent')
             ->with('characteristics')
             ->first();
         if (!$product) {

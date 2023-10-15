@@ -15,7 +15,9 @@ class CategoryResource extends JsonResource
      */
     public function toArray(Request $request): array
     {
+        $parentCategory = $this->whenLoaded('parent');
         return [
+            'parent' => new static($parentCategory),
             'id' => $this->id,
             'name' => $this->name,
             'slug' => $this->slug,
