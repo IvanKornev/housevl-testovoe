@@ -16,7 +16,7 @@ final class ProductTest extends TestCase
      *
      * @var string
      */
-    public const URL = '/api/products/{slug}';
+    public const URL = '/api/products';
 
     /**
      * Проверяет получение товара по slug
@@ -27,7 +27,7 @@ final class ProductTest extends TestCase
     {
         $this->seed(SingleProductSeeder::class);
         $createdProduct = Product::first();
-        $productUrl = str_replace('{slug}', $createdProduct['slug'], static::URL);
+        $productUrl = static::URL . $createdProduct['slug'];
         $response = $this->json('GET', $productUrl);
         $content = json_decode($response->getContent(), true);
         $this->assertArrayHasKey('product', $content);
@@ -45,5 +45,19 @@ final class ProductTest extends TestCase
         $productUrl = str_replace('{slug}', 'unknown', static::URL);
         $response = $this->json('GET', $productUrl);
         $response->assertStatus(404);
+    }
+
+    /**
+     * Проверяет получение всех товаров
+     *
+     * @return void
+     */
+    public function testReturnsAllProducts(): void
+    {
+        $this->seed(SingleProductSeeder::class);
+        $response = $this->json('GET', static::URL);
+        $response->assertStatus(200);
+        $content = json_decode($response->getContent(), true);
+        $this->assertArrayHasKey('products', $content);
     }
 }
