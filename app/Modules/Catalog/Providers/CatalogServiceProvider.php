@@ -10,6 +10,9 @@ use App\Modules\Catalog\Services\TreeService;
 use App\Modules\Catalog\Services\Contracts\IProductService;
 use App\Modules\Catalog\Services\ProductService;
 
+use App\Modules\Catalog\Services\Contracts\IProductCharacteristicService;
+use App\Modules\Catalog\Services\ProductCharacteristicService;
+
 class CatalogServiceProvider extends ServiceProvider
 {
     /**
@@ -44,6 +47,7 @@ class CatalogServiceProvider extends ServiceProvider
         $this->app->register(RouteServiceProvider::class);
         $this->app->bind(ITreeService::class, TreeService::class);
         $this->app->bind(IProductService::class, ProductService::class);
+        $this->app->bind(IProductCharacteristicService::class, ProductCharacteristicService::class);
     }
 
     /**
