@@ -26,6 +26,7 @@ final class ProductService implements IProductService
     {
         $allProducts = Product::filter($values)
             ->with('category')
+            ->with('characteristics')
             ->paginate(10);
         return $allProducts;
     }

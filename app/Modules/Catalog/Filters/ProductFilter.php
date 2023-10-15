@@ -6,8 +6,15 @@ use EloquentFilter\ModelFilter;
 
 class ProductFilter extends ModelFilter
 {
-    public function slug($value)
+    /**
+     * Фильтр по диапазону цен
+     *
+     * @param array $price (min/max object)
+     * @return void
+     */
+    public function price(array $price): void
     {
-        return $this->whereLike('slug', "%$value%");
+        ['min' => $min, 'max' => $max] = $price;
+        $this->whereBetween('price', [$min, $max]);
     }
 }
