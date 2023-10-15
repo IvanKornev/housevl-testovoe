@@ -50,6 +50,9 @@ final class CharacteristicsTest extends TestCase
         $concreteUrl = str_replace('{id}', '1', static::URL);
         $response = $this->json('PATCH', $concreteUrl, $newValues);
         $response->assertStatus(422);
+        $content = json_decode($response->getContent(), true);
+        $expectedMessage = 'Поле "длина" должно быть строкой';
+        $this->assertEquals($expectedMessage, $content['length'][0]);
     }
 
     /**
