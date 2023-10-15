@@ -5,6 +5,9 @@ namespace App\Modules\Catalog\Transformers;
 use Illuminate\Http\Request;
 use Illuminate\Http\Resources\Json\JsonResource;
 
+use App\Modules\Catalog\Transformers\Product\CategoryResource;
+use App\Modules\Catalog\Transformers\Product\CharacteristicResource;
+
 class ProductResource extends JsonResource
 {
     /**
@@ -16,6 +19,7 @@ class ProductResource extends JsonResource
     public function toArray(Request $request): array
     {
         $characteristics = $this->whenLoaded('characteristics');
+        $category = $this->whenLoaded('category');
         return [
             'id' => $this->id,
             'name' => $this->name,
@@ -25,7 +29,8 @@ class ProductResource extends JsonResource
             'price' => $this->price,
             'createdAt' => $this->created_at,
             'updatedAt' => $this->updated_at,
-            'characteristics' => new ProductCharacteristicResource($characteristics),
+            'category' => new CategoryResource($category),
+            'characteristics' => new CharacteristicResource($characteristics),
         ];
     }
 }
