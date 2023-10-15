@@ -40,6 +40,19 @@ final class CharacteristicsTest extends TestCase
     }
 
     /**
+     * Тест, успешно обновляющий характеристики товара
+     *
+     * @return void
+     */
+    public function testChecksBodyValidation(): void
+    {
+        $newValues = ['length' => true];
+        $concreteUrl = str_replace('{id}', '1', static::URL);
+        $response = $this->json('PATCH', $concreteUrl, $newValues);
+        $response->assertStatus(422);
+    }
+
+    /**
      * Проверяет статус-код 404 при несуществующих характеристиках
      *
      * @return void
