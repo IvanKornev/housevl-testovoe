@@ -2,8 +2,9 @@
 
 namespace App\Modules\Catalog\Tests\Unit;
 
+use App\Modules\Catalog\Database\Seeders\SingleProductSeeder;
 use Illuminate\Foundation\Testing\RefreshDatabase;
-use App\Modules\Catalog\Entities\{ Product, Category };
+use App\Modules\Catalog\Entities\Product;
 use Tests\TestCase;
 
 final class ProductTest extends TestCase
@@ -24,12 +25,8 @@ final class ProductTest extends TestCase
      */
     public function testReturnsProductBySlug(): void
     {
-        $parentCategory = Category::factory()->create()->toArray();
-        $createdProduct = Product::factory()
-            ->hasCharacteristics()
-            ->state(fn () => ['category_id' => $parentCategory['id']])
-            ->create()
-            ->toArray();
+        $this->seed(SingleProductSeeder::class);
+        $createdProduct = Product::first();
         $productUrl = str_replace('{slug}', $createdProduct['slug'], static::URL);
         $response = $this->json('GET', $productUrl);
         $content = json_decode($response->getContent(), true);
