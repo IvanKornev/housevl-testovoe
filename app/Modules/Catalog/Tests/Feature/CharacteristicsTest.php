@@ -40,7 +40,19 @@ final class CharacteristicsTest extends TestCase
     }
 
     /**
-     * Тест, успешно обновляющий характеристики товара
+     * Проверяет валидацию параметра в url
+     *
+     * @return void
+     */
+    public function testChecksRouteParam(): void
+    {
+        $concreteUrl = str_replace('{id}', 'string', static::URL);
+        $response = $this->json('PATCH', $concreteUrl);
+        $response->assertStatus(404);
+    }
+
+    /**
+     * Проверяет валидацию тела запроса
      *
      * @return void
      */
