@@ -6,6 +6,7 @@ use Illuminate\Routing\Controller;
 use Illuminate\Http\{ JsonResponse, Request };
 
 use App\Modules\Catalog\Transformers\ProductResource;
+use App\Modules\Catalog\Http\Requests\ProductListRequest;
 use App\Modules\Catalog\Services\Contracts\IProductService;
 
 class ProductController extends Controller
@@ -31,7 +32,7 @@ class ProductController extends Controller
      * Возвращает все товары
      * @return JsonResponse
      */
-    public function getAll(Request $request): JsonResponse
+    public function getAll(ProductListRequest $request): JsonResponse
     {
         $results = $this->service->getAll($request->all());
         return response()->json($results);
