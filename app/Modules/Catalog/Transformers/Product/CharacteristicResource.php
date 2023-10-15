@@ -1,11 +1,11 @@
 <?php
 
-namespace $NAMESPACE$;
+namespace App\Modules\Catalog\Transformers\Product;
 
 use Illuminate\Http\Request;
 use Illuminate\Http\Resources\Json\JsonResource;
 
-class $CLASS$ extends JsonResource
+class CharacteristicResource extends JsonResource
 {
     /**
      * Преобразует ресурс сущности или коллекции в массив
@@ -15,6 +15,11 @@ class $CLASS$ extends JsonResource
      */
     public function toArray(Request $request): array
     {
-        return parent::toArray($request);
+        return [
+            'weight' => $this->weight,
+            'length' => $this->length,
+            'width' => $this->width,
+            'height' => $this->height,
+        ];
     }
 }

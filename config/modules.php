@@ -6,8 +6,8 @@ use Nwidart\Modules\Commands;
 return [
     'namespace' => 'App\Modules',
     'stubs' => [
-        'enabled' => false,
-        'path' => base_path('vendor/nwidart/laravel-modules/src/Commands/stubs'),
+        'enabled' => true,
+        'path' => base_path('stubs/nwidart-stubs'),
         'files' => [
             'routes/api' => 'Routes/api.php',
             'scaffold/config' => 'Config/config.php',

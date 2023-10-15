@@ -3,8 +3,12 @@
 namespace App\Modules\Catalog\Providers;
 
 use Illuminate\Support\ServiceProvider;
+
 use App\Modules\Catalog\Services\Contracts\ITreeService;
 use App\Modules\Catalog\Services\TreeService;
+
+use App\Modules\Catalog\Services\Contracts\IProductService;
+use App\Modules\Catalog\Services\ProductService;
 
 class CatalogServiceProvider extends ServiceProvider
 {
@@ -19,35 +23,35 @@ class CatalogServiceProvider extends ServiceProvider
     protected $moduleNameLower = 'catalog';
 
     /**
-     * Boot the application events.
+     * Загружает события приложения
      *
      * @return void
      */
-    public function boot()
+    public function boot(): void
     {
         $this->registerTranslations();
         $this->registerConfig();
-        $this->registerViews();
         $this->loadMigrationsFrom(module_path($this->moduleName, 'Database/Migrations'));
     }
 
     /**
-     * Register the service provider.
+     * Регистрирует поставщика услуг
      *
      * @return void
      */
-    public function register()
+    public function register(): void
     {
         $this->app->register(RouteServiceProvider::class);
         $this->app->bind(ITreeService::class, TreeService::class);
+        $this->app->bind(IProductService::class, ProductService::class);
     }
 
     /**
-     * Register config.
+     * Регистрирует конфиг модуля
      *
      * @return void
      */
-    protected function registerConfig()
+    protected function registerConfig(): void
     {
         $this->publishes([
             module_path($this->moduleName, 'Config/config.php') => config_path($this->moduleNameLower . '.php'),
@@ -58,29 +62,11 @@ class CatalogServiceProvider extends ServiceProvider
     }
 
     /**
-     * Register views.
+     * Регистрирует переводы для модуля
      *
      * @return void
      */
-    public function registerViews()
-    {
-        $viewPath = resource_path('views/modules/' . $this->moduleNameLower);
-
-        $sourcePath = module_path($this->moduleName, 'Resources/views');
-
-        $this->publishes([
-            $sourcePath => $viewPath
-        ], ['views', $this->moduleNameLower . '-module-views']);
-
-        $this->loadViewsFrom(array_merge($this->getPublishableViewPaths(), [$sourcePath]), $this->moduleNameLower);
-    }
-
-    /**
-     * Register translations.
-     *
-     * @return void
-     */
-    public function registerTranslations()
+    public function registerTranslations(): void
     {
         $langPath = resource_path('lang/modules/' . $this->moduleNameLower);
 
@@ -94,23 +80,12 @@ class CatalogServiceProvider extends ServiceProvider
     }
 
     /**
-     * Get the services provided by the provider.
+     * Получает сервисы поставщика
      *
      * @return array
      */
-    public function provides()
+    public function provides(): array
     {
         return [];
-    }
-
-    private function getPublishableViewPaths(): array
-    {
-        $paths = [];
-        foreach (\Config::get('view.paths') as $path) {
-            if (is_dir($path . '/modules/' . $this->moduleNameLower)) {
-                $paths[] = $path . '/modules/' . $this->moduleNameLower;
-            }
-        }
-        return $paths;
     }
 }

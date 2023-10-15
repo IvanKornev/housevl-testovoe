@@ -7,33 +7,33 @@ use Illuminate\Contracts\Validation\Rule;
 class $CLASS$ implements Rule
 {
     /**
-     * Create a new rule instance.
+     * Новый инстанс правила
      *
      * @return void
      */
-    public function __construct()
+    public function __construct(): void
     {
         //
     }
 
     /**
-     * Determine if the validation rule passes.
+     * Если валидация проходит
      *
      * @param  string  $attribute
      * @param  mixed  $value
      * @return bool
      */
-    public function passes($attribute, $value)
+    public function passes($attribute, $value): bool
     {
         //
     }
 
     /**
-     * Get the validation error message.
+     * Возвращает ошибку валидации
      *
      * @return string
      */
-    public function message()
+    public function message(): void
     {
         return 'The validation error message.';
     }
