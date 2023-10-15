@@ -4,7 +4,9 @@ namespace App\Modules\Catalog\Http\Controllers;
 
 use Illuminate\Routing\Controller;
 use Illuminate\Http\{ JsonResponse, Request };
+
 use App\Modules\Catalog\Services\Contracts\IProductCharacteristicService;
+use App\Modules\Catalog\Transformers\Product\CharacteristicResource;
 
 class ProductCharacteristicController extends Controller
 {
@@ -21,7 +23,11 @@ class ProductCharacteristicController extends Controller
      */
     public function update(Request $request, int $id): JsonResponse
     {
-        $this->service->update($request->input(), $id);
-        return response()->json(['message' => 'Товар успешно обновлен']);
+        $values = $request->input();
+        $charateristics = $this->service->update($values, $id);
+        return response()->json([
+            'message' => 'Товар успешно обновлен',
+            'characteristics' => new CharacteristicResource($charateristics),
+        ]);
     }
 }
