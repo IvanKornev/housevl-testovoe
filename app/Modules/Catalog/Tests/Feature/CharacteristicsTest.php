@@ -17,7 +17,7 @@ final class CharacteristicsTest extends TestCase
      *
      * @var string
      */
-    public const URL = '/api/products/characterics/{id}';
+    public const URL = '/api/products/characteristics/{id}';
 
     /**
      * Тест, успешно обновляющий характеристики товара
