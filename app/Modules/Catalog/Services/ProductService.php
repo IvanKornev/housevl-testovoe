@@ -24,7 +24,9 @@ final class ProductService implements IProductService
 
     public function getAll(array $values): LengthAwarePaginator
     {
-        $allProducts = Product::filter($values)->paginate(10);
+        $allProducts = Product::filter($values)
+            ->with('category')
+            ->paginate(10);
         return $allProducts;
     }
 }
