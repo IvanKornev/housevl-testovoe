@@ -27,7 +27,7 @@ final class ProductTest extends TestCase
     {
         $this->seed(SingleProductSeeder::class);
         $createdProduct = Product::first();
-        $productUrl = static::URL . $createdProduct['slug'];
+        $productUrl = static::URL . '/' . $createdProduct['slug'];
         $response = $this->json('GET', $productUrl);
         $content = json_decode($response->getContent(), true);
         $this->assertArrayHasKey('product', $content);
@@ -42,7 +42,7 @@ final class ProductTest extends TestCase
      */
     public function testReturnsNotFoundError(): void
     {
-        $productUrl = str_replace('{slug}', 'unknown', static::URL);
+        $productUrl = static::URL . '/' . 'unknown';
         $response = $this->json('GET', $productUrl);
         $response->assertStatus(404);
     }
@@ -58,6 +58,6 @@ final class ProductTest extends TestCase
         $response = $this->json('GET', static::URL);
         $response->assertStatus(200);
         $content = json_decode($response->getContent(), true);
-        $this->assertArrayHasKey('products', $content);
+        $this->assertArrayHasKey('data', $content);
     }
 }
