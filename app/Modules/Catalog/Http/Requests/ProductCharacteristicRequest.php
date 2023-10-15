@@ -32,8 +32,9 @@ class ProductCharacteristicRequest extends FormRequest
         return true;
     }
 
-    public function failedValidation(Validator $validator) {
+    public function failedValidation(Validator $validator)
+    {
         $response = response()->json($validator->errors(), 422);
         throw new HttpResponseException($response);
-   }
+    }
 }
