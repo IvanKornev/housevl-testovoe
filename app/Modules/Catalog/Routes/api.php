@@ -8,4 +8,4 @@ Route::get('/catalog/tree', [TreeController::class, 'get']);
 Route::get('/products/{slug}', [ProductController::class, 'get']);
 Route::patch('/products/characteristics/{id}', [
     ProductCharacteristicController::class, 'update',
-]);
+])->where('id', '[0-9]+');
