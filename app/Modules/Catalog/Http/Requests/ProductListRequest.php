@@ -16,6 +16,7 @@ class ProductListRequest extends FormRequest
     public function rules(): array
     {
         return [
+            'category' => 'string',
             'price.min' => 'required_with:price.max|numeric|integer',
             'price.max' => 'required_with:price.min|numeric|integer',
         ];
