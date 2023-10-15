@@ -24,7 +24,8 @@ class ProductCharacteristicFactory extends Factory
         $requiredFields = ['weight', 'length', 'width', 'height'];
         foreach ($requiredFields as $fieldName) {
             $generatedNumber = fake()->randomNumber(nbDigits: 2, strict: true);
-            $filledFields[$fieldName] = $generatedNumber;
+            $unit = $fieldName === 'weight' ? 'кг.' : 'см.';
+            $filledFields[$fieldName] = "$generatedNumber $unit";
         }
         return $filledFields;
     }
