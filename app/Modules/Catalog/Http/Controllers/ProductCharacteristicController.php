@@ -21,7 +21,7 @@ class ProductCharacteristicController extends Controller
      */
     public function update(Request $request, int $id): JsonResponse
     {
-        $this->service->update([], $id);
+        $this->service->update($request->input(), $id);
         return response()->json(['message' => 'Товар успешно обновлен']);
     }
 }
