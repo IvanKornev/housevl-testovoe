@@ -11,7 +11,7 @@ class ProductCharacteristic extends Model
 {
     use HasFactory;
 
-    protected $fillable = [];
+    protected $guarded = ['id', 'product_id'];
     public $timestamps = false;
 
     /**
