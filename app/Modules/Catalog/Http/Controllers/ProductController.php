@@ -26,4 +26,13 @@ class ProductController extends Controller
         $product = new ProductResource($this->service->get($slug));
         return response()->json(['product' => $product]);
     }
+
+    /**
+     * Возвращает все товары
+     * @return JsonResponse
+     */
+    public function getAll(Request $request): JsonResponse
+    {
+        return response()->json(['message' => 'ok']);
+    }
 }
