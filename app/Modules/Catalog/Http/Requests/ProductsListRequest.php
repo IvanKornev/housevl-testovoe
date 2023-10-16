@@ -6,7 +6,7 @@ use Illuminate\Contracts\Validation\Validator;
 use Illuminate\Http\Exceptions\HttpResponseException;
 use Illuminate\Foundation\Http\FormRequest;
 
-class ProductListRequest extends FormRequest
+class ProductsListRequest extends FormRequest
 {
     /**
      * Валидационые правила по отношению к запросу
