@@ -5,6 +5,7 @@ namespace App\Modules\Catalog\Transformers;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Http\Request;
 use Illuminate\Http\Resources\Json\ResourceCollection;
+use App\Modules\Catalog\Transformers\Product\FilterResource;
 
 class ProductsListCollection extends ResourceCollection
 {
@@ -18,7 +19,7 @@ class ProductsListCollection extends ResourceCollection
     {
         return [
             'data' => ProductResource::collection($this->collection),
-            'filters' => $this->getFilters(),
+            'filters' => new FilterResource($this->getFiltersValues()),
         ];
     }
 
@@ -46,21 +47,21 @@ class ProductsListCollection extends ResourceCollection
         return $default;
     }
 
-    private function getFilters(): object
+    private function getFiltersValues(): object
     {
         $maxAggregations = [
-            DB::raw('MAX(price) as max_price'),
-            DB::raw('MAX(weight) as max_weight'),
-            DB::raw('MAX(height) as max_height'),
-            DB::raw('MAX(width) as max_width'),
-            DB::raw('MAX(length) as max_length'),
+            DB::raw('MAX(price) as price'),
+            DB::raw('MAX(weight) as weight'),
+            DB::raw('MAX(height) as height'),
+            DB::raw('MAX(width) as width'),
+            DB::raw('MAX(length) as length'),
         ];
         $table = 'products';
         $joiningTable = 'product_characteristics';
-        $filtersValues = DB::table($table)
+        $filters = DB::table($table)
             ->join($joiningTable, "$table.id", '=', "$joiningTable.product_id")
             ->select($maxAggregations)
             ->first();
-        return $filtersValues;
+        return $filters;
     }
 }
