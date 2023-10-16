@@ -18,7 +18,9 @@ class ProductCharacteristicRequest extends FormRequest
         $rules = [];
         $allowedFields = ['length', 'weight', 'width', 'height'];
         foreach ($allowedFields as $fieldName) {
-            $rules[$fieldName] = 'string|nullable';
+            $rules[$fieldName] = 'integer|numeric|nullable';
+            $unitField = "{$fieldName}_unit";
+            $rules[$unitField] = "required_with:$fieldName|string|nullable";
         }
         return $rules;
     }
