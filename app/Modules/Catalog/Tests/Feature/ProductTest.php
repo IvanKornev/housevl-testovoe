@@ -60,4 +60,22 @@ final class ProductTest extends TestCase
         $content = json_decode($response->getContent(), true);
         $this->assertArrayHasKey('data', $content);
     }
+
+    /**
+     * Проверяет корректность и наличие
+     * доступных фильтров для каталога
+     *
+     * @return void
+     */
+    public function testReturnsAvailableFilters(): void
+    {
+        $response = $this->json('GET', static::URL);
+        $response->assertStatus(200);
+        $content = json_decode($response->getContent(), true);
+        $this->assertArrayHasKey('filters', $content);
+        foreach ($content['filters'] as $filter) {
+            $this->assertArrayHasKey('min', $filter);
+            $this->assertArrayHasKey('max', $filter);
+        }
+    }
 }
