@@ -30,6 +30,7 @@ final class CharacteristicsTest extends TestCase
         $id = ProductCharacteristic::first()->id;
         $concreteUrl = str_replace('{id}', $id, static::URL);
         $newValues = ProductCharacteristic::factory()->make()->toArray();
+        print(json_encode($newValues));
         $response = $this->json('PATCH', $concreteUrl, $newValues);
         $response->assertStatus(200);
         $content = json_decode($response->getContent(), true);
@@ -63,7 +64,7 @@ final class CharacteristicsTest extends TestCase
         $response = $this->json('PATCH', $concreteUrl, $newValues);
         $response->assertStatus(422);
         $content = json_decode($response->getContent(), true);
-        $expectedMessage = 'Поле "единицы длины" должно быть строкой';
+        $expectedMessage = 'Поле "длина" должно быть числом';
         $this->assertEquals($expectedMessage, $content['length'][0]);
     }
 
