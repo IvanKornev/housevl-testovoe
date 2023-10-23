@@ -18,9 +18,10 @@ class CharacteristicResource extends JsonResource
         $results = [];
         $possibleFields = ['weight', 'length', 'width', 'height'];
         foreach ($possibleFields as $field) {
-            $results[$field] = $this[$field];
+            $value = $this->resource[$field];
             $unitField = "{$field}_unit";
-            $results[$unitField] = $this[$unitField];
+            $unit = $this->resource[$unitField];
+            $results[$field] = "$value $unit";
         }
         return $results;
     }
