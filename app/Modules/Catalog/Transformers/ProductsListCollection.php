@@ -2,13 +2,23 @@
 
 namespace App\Modules\Catalog\Transformers;
 
-use Illuminate\Support\Facades\DB;
 use Illuminate\Http\Request;
 use Illuminate\Http\Resources\Json\ResourceCollection;
+use Illuminate\Pagination\LengthAwarePaginator;
+
 use App\Modules\Catalog\Transformers\Product\FilterResource;
+use App\Modules\Catalog\Repositories\Contracts\IProductFilterRepository;
 
 class ProductsListCollection extends ResourceCollection
 {
+    private IProductFilterRepository $productFilter;
+
+    public function __construct(LengthAwarePaginator $resource) {
+        parent::__construct($resource);
+        $this->resource = $resource;
+        $this->productFilter = app(IProductFilterRepository::class);
+    }
+
     /**
      * Преобразует ресурс коллекции в массив
      *
@@ -17,9 +27,10 @@ class ProductsListCollection extends ResourceCollection
      */
     public function toArray(Request $request): array
     {
+        $filters = $this->productFilter->getAll();
         return [
             'data' => ProductResource::collection($this->collection),
-            'filters' => new FilterResource($this->getFiltersValues()),
+            'filters' => new FilterResource($filters),
         ];
     }
 
@@ -45,23 +56,5 @@ class ProductsListCollection extends ResourceCollection
             ]
         ];
         return $default;
-    }
-
-    private function getFiltersValues(): object
-    {
-        $maxAggregations = [
-            DB::raw('MAX(price) as price'),
-            DB::raw('MAX(weight) as weight'),
-            DB::raw('MAX(height) as height'),
-            DB::raw('MAX(width) as width'),
-            DB::raw('MAX(length) as length'),
-        ];
-        $table = 'products';
-        $joiningTable = 'product_characteristics';
-        $filters = DB::table($table)
-            ->join($joiningTable, "$table.id", '=', "$joiningTable.product_id")
-            ->select($maxAggregations)
-            ->first();
-        return $filters;
     }
 }
