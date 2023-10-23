@@ -5,6 +5,7 @@ namespace App\Modules\Catalog\Http\Requests;
 use Illuminate\Contracts\Validation\Validator;
 use Illuminate\Http\Exceptions\HttpResponseException;
 use Illuminate\Foundation\Http\FormRequest;
+use App\Modules\Catalog\Enums\ProductCharacteristicEnum;
 
 class ProductCharacteristicRequest extends FormRequest
 {
@@ -16,8 +17,8 @@ class ProductCharacteristicRequest extends FormRequest
     public function rules(): array
     {
         $rules = [];
-        $allowedFields = ['length', 'weight', 'width', 'height'];
-        foreach ($allowedFields as $fieldName) {
+        foreach (ProductCharacteristicEnum::cases() as $value) {
+            $fieldName = strtolower($value->name);
             $rules[$fieldName] = 'integer|numeric|nullable';
             $unitField = "{$fieldName}_unit";
             $rules[$unitField] = "required_with:$fieldName|string|nullable";
