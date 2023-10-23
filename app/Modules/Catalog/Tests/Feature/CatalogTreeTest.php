@@ -15,7 +15,7 @@ final class CatalogTreeTest extends TestCase
      *
      * @var string
      */
-    public const URL = '/api/catalog/tree';
+    private const URL = '/api/catalog/tree';
 
     /**
      * Проверяет получение дерева категорий

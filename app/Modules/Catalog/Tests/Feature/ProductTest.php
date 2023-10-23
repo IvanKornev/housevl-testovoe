@@ -16,7 +16,7 @@ final class ProductTest extends TestCase
      *
      * @var string
      */
-    public const URL = '/api/products';
+    private const URL = '/api/products';
 
     /**
      * Проверяет получение товара по slug
