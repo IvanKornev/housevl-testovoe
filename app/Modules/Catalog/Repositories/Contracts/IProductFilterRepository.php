@@ -10,5 +10,5 @@ interface IProductFilterRepository
      *
      * @return object
      */
-    public function getRangeValues(): object;
+    public function getRangeValues(array $rangeFields = []): object;
 }
