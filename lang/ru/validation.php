@@ -12,5 +12,9 @@ return [
         'weight' => 'вес',
         'width' => 'ширина',
         'height' => 'высота',
+        'length_unit' => 'единицы длины',
+        'weight_unit' => 'единицы веса',
+        'width_unit' => 'единицы ширины',
+        'height_unit' => 'единицы высоты',
     ],
 ];
