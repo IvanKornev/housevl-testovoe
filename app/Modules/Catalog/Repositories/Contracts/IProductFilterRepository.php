@@ -10,5 +10,5 @@ interface IProductFilterRepository
      *
      * @return object
      */
-    public function getAll(): object;
+    public function getRangeValues(): object;
 }

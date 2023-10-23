@@ -7,7 +7,7 @@ use App\Modules\Catalog\Repositories\Contracts\IProductFilterRepository;
 
 final class ProductFilterRepository implements IProductFilterRepository
 {
-    public function getAll(): object
+    public function getRangeValues(): object
     {
         $maxAggregations = [
             DB::raw('MAX(price) as price'),

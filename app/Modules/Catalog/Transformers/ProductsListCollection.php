@@ -27,7 +27,7 @@ class ProductsListCollection extends ResourceCollection
      */
     public function toArray(Request $request): array
     {
-        $filters = $this->productFilter->getAll();
+        $filters = $this->productFilter->getRangeValues();
         return [
             'data' => ProductResource::collection($this->collection),
             'filters' => new FilterResource($filters),
