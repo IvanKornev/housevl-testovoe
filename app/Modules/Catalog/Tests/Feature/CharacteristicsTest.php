@@ -29,14 +29,14 @@ final class CharacteristicsTest extends TestCase
         $this->seed(SingleProductSeeder::class);
         $id = ProductCharacteristic::first()->id;
         $concreteUrl = str_replace('{id}', $id, static::URL);
-        $newValues = ProductCharacteristic::factory()->make()->toArray();
-        print(json_encode($newValues));
-        $response = $this->json('PATCH', $concreteUrl, $newValues);
+        $newValues = ProductCharacteristic::factory()->make();
+        $response = $this->json('PATCH', $concreteUrl, $newValues->toArray());
         $response->assertStatus(200);
         $content = json_decode($response->getContent(), true);
         $this->assertArrayHasKey('characteristics', $content);
+        $expectedValues = $newValues->valuesWithUnits;
         foreach ($content['characteristics'] as $name => $value) {
-            $this->assertEquals($newValues[$name], $value);
+            $this->assertEquals($expectedValues[$name], $value);
         }
     }
 
