@@ -17,8 +17,8 @@ class ProductsListRequest extends FormRequest
     {
         return [
             'category' => 'string',
-            'price.min' => 'required_with:price.max|numeric|integer',
-            'price.max' => 'required_with:price.min|numeric|integer',
+            'price.min' => 'numeric|integer',
+            'price.max' => 'numeric|integer',
         ];
     }
 
