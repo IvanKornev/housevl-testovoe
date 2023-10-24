@@ -6,12 +6,12 @@ use Illuminate\Support\ServiceProvider;
 
 use App\Modules\Catalog\Services\Contracts\ITreeService;
 use App\Modules\Catalog\Services\TreeService;
-
 use App\Modules\Catalog\Services\Contracts\IProductService;
 use App\Modules\Catalog\Services\ProductService;
-
 use App\Modules\Catalog\Services\Contracts\IProductCharacteristicService;
 use App\Modules\Catalog\Services\ProductCharacteristicService;
+use App\Modules\Catalog\Repositories\Contracts\IProductFilterRepository;
+use App\Modules\Catalog\Repositories\ProductFilterRepository;
 
 class CatalogServiceProvider extends ServiceProvider
 {
@@ -48,6 +48,7 @@ class CatalogServiceProvider extends ServiceProvider
         $this->app->bind(ITreeService::class, TreeService::class);
         $this->app->bind(IProductService::class, ProductService::class);
         $this->app->bind(IProductCharacteristicService::class, ProductCharacteristicService::class);
+        $this->app->bind(IProductFilterRepository::class, ProductFilterRepository::class);
     }
 
     /**

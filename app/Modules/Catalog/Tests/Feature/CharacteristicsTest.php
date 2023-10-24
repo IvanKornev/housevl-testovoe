@@ -17,7 +17,7 @@ final class CharacteristicsTest extends TestCase
      *
      * @var string
      */
-    public const URL = '/api/products/characteristics/{id}';
+    private const URL = '/api/products/characteristics/{id}';
 
     /**
      * Тест, успешно обновляющий характеристики товара
@@ -29,13 +29,14 @@ final class CharacteristicsTest extends TestCase
         $this->seed(SingleProductSeeder::class);
         $id = ProductCharacteristic::first()->id;
         $concreteUrl = str_replace('{id}', $id, static::URL);
-        $newValues = ProductCharacteristic::factory()->make()->toArray();
-        $response = $this->json('PATCH', $concreteUrl, $newValues);
+        $newValues = ProductCharacteristic::factory()->make();
+        $response = $this->json('PATCH', $concreteUrl, $newValues->toArray());
         $response->assertStatus(200);
         $content = json_decode($response->getContent(), true);
         $this->assertArrayHasKey('characteristics', $content);
+        $expectedValues = $newValues->valuesWithUnits;
         foreach ($content['characteristics'] as $name => $value) {
-            $this->assertEquals($newValues[$name], $value);
+            $this->assertEquals($expectedValues[$name], $value);
         }
     }
 
@@ -63,7 +64,7 @@ final class CharacteristicsTest extends TestCase
         $response = $this->json('PATCH', $concreteUrl, $newValues);
         $response->assertStatus(422);
         $content = json_decode($response->getContent(), true);
-        $expectedMessage = 'Поле "длина" должно быть строкой';
+        $expectedMessage = 'Поле "длина" должно быть числом';
         $this->assertEquals($expectedMessage, $content['length'][0]);
     }
 

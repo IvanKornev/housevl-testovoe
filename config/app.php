@@ -163,6 +163,7 @@ return [
         /*
          * Application Service Providers...
          */
+        EloquentFilter\ServiceProvider::class,
         App\Shared\Providers\AppServiceProvider::class,
         App\Shared\Providers\AuthServiceProvider::class,
         // App\Providers\BroadcastServiceProvider::class,

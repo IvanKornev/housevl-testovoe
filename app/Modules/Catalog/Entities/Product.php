@@ -8,12 +8,14 @@ use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\Factories\Factory;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Support\Str;
+use EloquentFilter\Filterable;
 
 use App\Modules\Catalog\Database\Factories\ProductFactory;
+use App\Modules\Catalog\Filters\ProductFilter;
 
 class Product extends Model
 {
-    use HasFactory;
+    use HasFactory, Filterable;
 
     protected $casts = ['price' => 'integer'];
     protected $fillable = [];
@@ -29,6 +31,16 @@ class Product extends Model
             $model->slug = Str::slug($model->name);
         };
         static::creating($slugGenerationCallback);
+    }
+
+    /**
+     * Возвращает название класса-фильтра
+     *
+     * @return string
+    */
+    public function modelFilter(): string
+    {
+        return $this->provideFilter(ProductFilter::class);
     }
 
     /**

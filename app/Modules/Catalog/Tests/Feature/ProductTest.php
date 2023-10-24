@@ -16,7 +16,7 @@ final class ProductTest extends TestCase
      *
      * @var string
      */
-    public const URL = '/api/products/{slug}';
+    private const URL = '/api/products';
 
     /**
      * Проверяет получение товара по slug
@@ -27,7 +27,7 @@ final class ProductTest extends TestCase
     {
         $this->seed(SingleProductSeeder::class);
         $createdProduct = Product::first();
-        $productUrl = str_replace('{slug}', $createdProduct['slug'], static::URL);
+        $productUrl = static::URL . '/' . $createdProduct['slug'];
         $response = $this->json('GET', $productUrl);
         $content = json_decode($response->getContent(), true);
         $this->assertArrayHasKey('product', $content);
@@ -42,8 +42,40 @@ final class ProductTest extends TestCase
      */
     public function testReturnsNotFoundError(): void
     {
-        $productUrl = str_replace('{slug}', 'unknown', static::URL);
+        $productUrl = static::URL . '/' . 'unknown';
         $response = $this->json('GET', $productUrl);
         $response->assertStatus(404);
+    }
+
+    /**
+     * Проверяет получение всех товаров
+     *
+     * @return void
+     */
+    public function testReturnsAllProducts(): void
+    {
+        $this->seed(SingleProductSeeder::class);
+        $response = $this->json('GET', static::URL);
+        $response->assertStatus(200);
+        $content = json_decode($response->getContent(), true);
+        $this->assertArrayHasKey('data', $content);
+    }
+
+    /**
+     * Проверяет корректность и наличие
+     * доступных фильтров для каталога
+     *
+     * @return void
+     */
+    public function testReturnsAvailableFilters(): void
+    {
+        $response = $this->json('GET', static::URL);
+        $response->assertStatus(200);
+        $content = json_decode($response->getContent(), true);
+        $this->assertArrayHasKey('filters', $content);
+        foreach ($content['filters'] as $filter) {
+            $this->assertArrayHasKey('min', $filter);
+            $this->assertArrayHasKey('max', $filter);
+        }
     }
 }
