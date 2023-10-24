@@ -1,6 +1,7 @@
 {
     "branchNameLinter": {
         "prefixes": [
+            "refactor",
             "feature",
             "hotfix",
             "release"
