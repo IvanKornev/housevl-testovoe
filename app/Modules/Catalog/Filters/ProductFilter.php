@@ -3,9 +3,19 @@
 namespace App\Modules\Catalog\Filters;
 
 use EloquentFilter\ModelFilter;
+use Illuminate\Database\Eloquent\Builder;
+use App\Modules\Catalog\Repositories\Contracts\IProductFilterRepository;
 
-class ProductFilter extends ModelFilter
+final class ProductFilter extends ModelFilter
 {
+    private IProductFilterRepository $repository;
+
+    public function __construct(Builder $builder, array $input)
+    {
+        parent::__construct($builder, $input);
+        $this->repository = app(IProductFilterRepository::class);
+    }
+
     /**
      * Фильтр по диапазону цен
      *
@@ -14,8 +24,16 @@ class ProductFilter extends ModelFilter
      */
     public function price(array $price): void
     {
-        ['min' => $min, 'max' => $max] = $price;
-        $this->whereBetween('price', [$min, $max]);
+        $max = $price['max'] ?? false;
+        if (!$max) {
+            $maxFallback = $this->repository
+                ->getRangeValues(['price'])
+                ->price;
+            $max = $maxFallback;
+        }
+        $min = $price['min'] ?? 0;
+        $rangeValues = [(int) $min, (int) $max];
+        $this->whereBetween('price', $rangeValues);
     }
 
     /**
