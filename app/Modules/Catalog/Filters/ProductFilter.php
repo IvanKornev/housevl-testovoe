@@ -22,8 +22,11 @@ final class ProductFilter extends ModelFilter
      * @param array $price (min/max object)
      * @return void
      */
-    public function price(array $price): void
+    public function price(string | array $price): void
     {
+        if (gettype($price) !== 'array') {
+            return;
+        }
         $max = $price['max'] ?? false;
         if (!$max) {
             $maxFallback = $this->repository
