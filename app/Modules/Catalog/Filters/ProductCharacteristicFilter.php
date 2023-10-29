@@ -41,4 +41,15 @@ final class ProductCharacteristicFilter extends ModelFilter
     {
         $this->filterByRange($values, 'length');
     }
+
+    /**
+     * Фильтр по значениям веса
+     *
+     * @param string|array $values (min/max object)
+     * @return void
+     */
+    public function weight(string | array $values): void
+    {
+        $this->filterByRange($values, 'weight');
+    }
 }

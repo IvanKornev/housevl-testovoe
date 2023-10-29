@@ -11,7 +11,10 @@ final class ProductFilter extends ModelFilter
 
     public $relations = [
         'characteristics' => [
-            'height', 'widgth', 'length',
+            'height',
+            'width',
+            'length',
+            'weight',
         ],
     ];
 
