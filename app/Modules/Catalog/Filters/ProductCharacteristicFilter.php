@@ -19,4 +19,26 @@ final class ProductCharacteristicFilter extends ModelFilter
     {
         $this->filterByRange($values, 'height');
     }
+
+    /**
+     * Фильтр по значениям ширины
+     *
+     * @param string|array $values (min/max object)
+     * @return void
+     */
+    public function width(string | array $values): void
+    {
+        $this->filterByRange($values, 'width');
+    }
+
+    /**
+     * Фильтр по значениям длины
+     *
+     * @param string|array $values (min/max object)
+     * @return void
+     */
+    public function length(string | array $values): void
+    {
+        $this->filterByRange($values, 'length');
+    }
 }

@@ -10,7 +10,9 @@ final class ProductFilter extends ModelFilter
     use HasRangeOfValues;
 
     public $relations = [
-        'characteristics' => ['height'],
+        'characteristics' => [
+            'height', 'widgth', 'length',
+        ],
     ];
 
     /**
