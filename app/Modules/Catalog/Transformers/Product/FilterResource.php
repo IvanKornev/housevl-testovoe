@@ -19,7 +19,7 @@ class FilterResource extends JsonResource
         $results = [];
         $allFilters = (array) $this->resource;
         foreach ($allFilters as $name => $value) {
-            $results[$name] = ['min' => 0, 'max' => $value];
+            $results[$name] = ['min' => 0, 'max' => (int) $value];
         }
         return $results;
     }

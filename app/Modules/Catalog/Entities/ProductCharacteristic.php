@@ -6,13 +6,15 @@ use Illuminate\Database\Eloquent\Factories\Factory;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Casts\Attribute;
 use Illuminate\Database\Eloquent\Model;
+use EloquentFilter\Filterable;
 
 use App\Modules\Catalog\Database\Factories\ProductCharacteristicFactory;
+use App\Modules\Catalog\Filters\ProductCharacteristicFilter;
 use App\Modules\Catalog\Enums\ProductCharacteristicEnum;
 
 class ProductCharacteristic extends Model
 {
-    use HasFactory;
+    use HasFactory, Filterable;
 
     protected $guarded = ['id', 'product_id'];
     public $timestamps = false;
@@ -25,6 +27,16 @@ class ProductCharacteristic extends Model
     protected static function newFactory(): Factory
     {
         return ProductCharacteristicFactory::new();
+    }
+
+    /**
+     * Возвращает название класса-фильтра
+     *
+     * @return string
+    */
+    protected function modelFilter(): string
+    {
+        return $this->provideFilter(ProductCharacteristicFilter::class);
     }
 
     /**

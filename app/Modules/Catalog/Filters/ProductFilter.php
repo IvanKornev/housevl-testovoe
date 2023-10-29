@@ -3,37 +3,30 @@
 namespace App\Modules\Catalog\Filters;
 
 use EloquentFilter\ModelFilter;
-use Illuminate\Database\Eloquent\Builder;
-use App\Modules\Catalog\Repositories\Contracts\IProductFilterRepository;
+use App\Modules\Catalog\Filters\Traits\HasRangeOfValues;
 
 final class ProductFilter extends ModelFilter
 {
-    private IProductFilterRepository $repository;
+    use HasRangeOfValues;
 
-    public function __construct(Builder $builder, array $input)
-    {
-        parent::__construct($builder, $input);
-        $this->repository = app(IProductFilterRepository::class);
-    }
+    public $relations = [
+        'characteristics' => [
+            'height',
+            'width',
+            'length',
+            'weight',
+        ],
+    ];
 
     /**
      * Фильтр по диапазону цен
      *
-     * @param array $price (min/max object)
+     * @param string|array $values (min/max object)
      * @return void
      */
-    public function price(array $price): void
+    public function price(string | array $values): void
     {
-        $max = $price['max'] ?? false;
-        if (!$max) {
-            $maxFallback = $this->repository
-                ->getRangeValues(['price'])
-                ->price;
-            $max = $maxFallback;
-        }
-        $min = $price['min'] ?? 0;
-        $rangeValues = [(int) $min, (int) $max];
-        $this->whereBetween('price', $rangeValues);
+       $this->filterByRange($values, 'price');
     }
 
     /**

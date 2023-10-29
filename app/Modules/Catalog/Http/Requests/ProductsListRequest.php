@@ -6,8 +6,17 @@ use Illuminate\Contracts\Validation\Validator;
 use Illuminate\Http\Exceptions\HttpResponseException;
 use Illuminate\Foundation\Http\FormRequest;
 
-class ProductsListRequest extends FormRequest
+use App\Modules\Catalog\Enums\ProductCharacteristicEnum;
+
+final class ProductsListRequest extends FormRequest
 {
+    /**
+     * Правило для любых полей диапазона
+     *
+     * @var string
+     */
+    private const RANGE_RULE = 'numeric|integer|gte:0';
+
     /**
      * Валидационые правила по отношению к запросу
      *
@@ -15,11 +24,14 @@ class ProductsListRequest extends FormRequest
      */
     public function rules(): array
     {
-        return [
-            'category' => 'string',
-            'price.min' => 'numeric|integer|gte:0',
-            'price.max' => 'numeric|integer|gte:0',
-        ];
+        $rules = ['category' => 'string'];
+        $fields = [...ProductCharacteristicEnum::cases(), 'price'];
+        foreach($fields as $field) {
+            $fieldName = strtolower($field->name ?? $field);
+            $rules["$fieldName.min"] = self::RANGE_RULE;
+            $rules["$fieldName.max"] = self::RANGE_RULE;
+        }
+        return $rules;
     }
 
     /**
