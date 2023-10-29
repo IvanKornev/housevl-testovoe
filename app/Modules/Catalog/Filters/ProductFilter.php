@@ -17,6 +17,31 @@ final class ProductFilter extends ModelFilter
     }
 
     /**
+     * Фильтр по значению высоты
+     *
+     * @param array $value (min/max object)
+     * @return void
+     */
+    public function height(string | array $value): void
+    {
+        if (gettype($value) !== 'array') {
+            return;
+        }
+        $max = $value['max'] ?? false;
+        if (!$max) {
+            $maxFallback = $this->repository
+                ->getRangeValues(['height'])
+                ->height;
+            $max = $maxFallback;
+        }
+        $min = $value['min'] ?? 0;
+        $this->related('characteristics', function ($query) use ($min, $max) {
+            $rangeValues = [(int) $min, (int) $max];
+            $query->whereBetween('height', $rangeValues);
+        });
+    }
+
+    /**
      * Фильтр по диапазону цен
      *
      * @param array $price (min/max object)
