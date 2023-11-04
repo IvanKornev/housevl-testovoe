@@ -3,7 +3,9 @@
 namespace App\Modules\User\Providers;
 
 use Illuminate\Support\ServiceProvider;
-use Illuminate\Database\Eloquent\Factory;
+
+use App\Modules\User\Services\Contracts\ICartService;
+use App\Modules\User\Services\CartService;
 
 class UserServiceProvider extends ServiceProvider
 {
@@ -37,6 +39,7 @@ class UserServiceProvider extends ServiceProvider
     public function register(): void
     {
         $this->app->register(RouteServiceProvider::class);
+        $this->app->bind(ICartService::class, CartService::class);
     }
 
     /**
