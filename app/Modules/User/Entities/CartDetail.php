@@ -8,24 +8,21 @@ use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Relations\HasOne;
 
 use App\Modules\User\Database\Factories\CartDetailFactory;
+use App\Modules\User\Events\CartDetailCreating;
 
 class CartDetail extends Model
 {
     use HasFactory;
 
     protected $guarded = [];
+    protected $dispatchesEvents = [
+        'creating' => CartDetailCreating::class,
+    ];
 
-    /**
-     * Высчитывает итоговую цену во время создания
-     * записи
-     *
-     * @return void
-    */
     protected static function booted(): void
     {
         $totalPriceCallback = function (self $model) {
-            $relatedProduct = Product::find($model->product_id);
-            $model->total_price = $relatedProduct->price * $model->quantity;
+
         };
         static::creating($totalPriceCallback);
     }
