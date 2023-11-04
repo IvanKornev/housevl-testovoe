@@ -11,11 +11,11 @@ final class CartTest extends TestCase
     use RefreshDatabase;
 
     /**
-     * URL вызываемого эндпоинта
+     * Базовый URL вызываемого эндпоинта
      *
      * @var string
      */
-    private const URL = '/api/cart/add';
+    private const BASE_URL = '/api/cart';
 
     /**
      * Проверяет добавление первого товара в анонимную корзину
@@ -24,7 +24,21 @@ final class CartTest extends TestCase
      */
     public function testAddsFirstItemToAnonymousCart(): void
     {
-        $response = $this->json('GET', self::URL);
+        $url = self::BASE_URL . '/add?quantity=2&productId=1';
+        $response = $this->json('GET', $url);
         $response->assertStatus(200);
+    }
+
+    /**
+     * Проверяет возврат ошибок при некорректных
+     * query-параметрах
+     *
+     * @return void
+     */
+    public function testAddsItemWithRequestError(): void
+    {
+        $url = self::BASE_URL . '/add?quantity=sdfg';
+        $response = $this->json('GET', $url);
+        $response->assertStatus(422);
     }
 }
