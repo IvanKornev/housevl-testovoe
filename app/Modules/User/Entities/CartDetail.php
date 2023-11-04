@@ -6,6 +6,7 @@ use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Factories\Factory;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Relations\HasOne;
+use Illuminate\Database\Eloquent\Relations\BelongsTo;
 
 use App\Modules\User\Database\Factories\CartDetailFactory;
 use App\Modules\User\Events\CartDetailCreating;
@@ -45,5 +46,15 @@ class CartDetail extends Model
     public function product(): HasOne
     {
         return $this->hasOne(Product::class);
+    }
+
+    /**
+     * Возвращает корзину, к которой относится
+     *
+     * @return HasOne
+    */
+    public function cart(): BelongsTo
+    {
+        return $this->belongsTo(Cart::class);
     }
 }

@@ -30,6 +30,7 @@ class CartController extends Controller
         return response()->json([
             'message' => 'Товар успешно добавлен в корзину',
             'record' => new CartDetailResource($createdRecord),
+            'cartHash' => $createdRecord->cart->hash,
         ]);
     }
 }
