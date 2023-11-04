@@ -2,8 +2,8 @@
 
 namespace App\Modules\User\Events;
 
+use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
 use Illuminate\Queue\SerializesModels;
-use Illuminate\Support\Str;
 
 use App\Modules\User\Entities\CartDetail;
 use App\Modules\User\Entities\Product;
@@ -31,6 +31,10 @@ class CartDetailCreating
     private function setTotalPrice(CartDetail $model): void
     {
         $relatedProduct = Product::find($model->product_id);
-        $model->total_price = $relatedProduct->price * $model->quantity;
+        if (!$relatedProduct) {
+            throw new NotFoundHttpException('Такой товар не найден');
+        }
+        $totalPrice = $relatedProduct->price * $model->quantity;
+        $model->total_price = $totalPrice;
     }
 }
