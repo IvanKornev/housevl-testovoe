@@ -26,7 +26,6 @@ class CartDetailFactory extends Factory
         return [
             'product_id' => $addedProduct->id,
             'quantity' => $quantity,
-            'total_price' => $quantity * $addedProduct->price,
         ];
     }
 }
