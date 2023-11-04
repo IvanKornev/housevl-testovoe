@@ -24,8 +24,8 @@ final class CartTest extends TestCase
      */
     public function testAddsFirstItemToAnonymousCart(): void
     {
-        $url = self::BASE_URL . '/add?quantity=2&productId=1';
-        $response = $this->json('GET', $url);
+        $url = self::BASE_URL . '/add';
+        $response = $this->json('POST', $url);
         $response->assertStatus(200);
     }
 
@@ -38,7 +38,9 @@ final class CartTest extends TestCase
     public function testAddsItemWithRequestError(): void
     {
         $url = self::BASE_URL . '/add?quantity=sdfg';
-        $response = $this->json('GET', $url);
+        $response = $this->json('POST', $url, [
+            'quantity' => 'some-string',
+        ]);
         $response->assertStatus(422);
     }
 }
