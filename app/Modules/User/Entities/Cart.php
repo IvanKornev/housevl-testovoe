@@ -6,6 +6,7 @@ use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Factories\Factory;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Relations\HasMany;
+use Illuminate\Support\Str;
 
 use App\Modules\User\Database\Factories\CartFactory;
 
@@ -13,7 +14,20 @@ class Cart extends Model
 {
     use HasFactory;
 
-    protected $fillable = [];
+    protected $fillable = ['user_id'];
+
+    /**
+     * Автогенерирует ULID как хеш корзины
+     *
+     * @return void
+    */
+    protected static function booted(): void
+    {
+        $ulidGenerationCallback = function (self $model) {
+            $model->hash = Str::ulid()->toBase32();
+        };
+        static::creating($ulidGenerationCallback);
+    }
 
     /**
      * Возвращает фабрику корзины
