@@ -10,7 +10,7 @@ use Exception;
 
 final class CartService implements ICartService
 {
-    public function store(AddToCartDTO $operationData): object
+    public function store(AddToCartDTO $operationData): CartDetail
     {
         $createdCart = null;
         if ($operationData->cartHash === null) {
@@ -24,11 +24,11 @@ final class CartService implements ICartService
                 . 'существует или она была удалена';
             throw new Exception($message);
         }
-        CartDetail::create([
+        $createdRecord = CartDetail::create([
             'cart_id' => $foundCart->id,
             'product_id' => $operationData->productId,
             'quantity' => $operationData->quantity,
         ]);
-        return new \stdClass;
+        return $createdRecord;
     }
 }

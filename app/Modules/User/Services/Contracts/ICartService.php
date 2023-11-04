@@ -3,12 +3,13 @@
 namespace App\Modules\User\Services\Contracts;
 
 use App\Modules\User\DTO\AddToCartDTO;
+use App\Modules\User\Entities\CartDetail;
 
 interface ICartService
 {
     /**
-     * Возвращает товар, добавленный в корзину
-     * @return object
+     * Возвращает запись о товаре, добавленной в корзину
+     * @return CartDetail
      */
-    public function store(AddToCartDTO $operationData): object;
+    public function store(AddToCartDTO $operationData): CartDetail;
 }
