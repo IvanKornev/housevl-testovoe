@@ -18,7 +18,7 @@ return new class extends Migration
             $table->foreignId('cart_id')->references('id')->on('carts')->cascadeOnDelete();
             $table->foreignId('product_id')->references('id')->on('products');
             $table->integer('quantity')->default(1);
-            $table->decimal('total');
+            $table->integer('total_price');
             $table->timestamps();
         });
     }
