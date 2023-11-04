@@ -3,8 +3,8 @@
 namespace App\Modules\User\Tests\Feature;
 
 use Illuminate\Foundation\Testing\RefreshDatabase;
+use App\Modules\User\Entities\Product;
 use Tests\TestCase;
-use App\Modules\User\Database\Seeders\UserDatabaseSeeder;
 
 final class CartTest extends TestCase
 {
@@ -18,14 +18,27 @@ final class CartTest extends TestCase
     private const BASE_URL = '/api/cart';
 
     /**
+     * Поднимает тесты, а также заполняет БД
+     * минимальными значениями
+     *
+     * @return void
+     */
+    public function setUp(): void
+    {
+        parent::setUp();
+        $this->artisan('db:seed --class=TestDatabaseSeeder');
+    }
+
+    /**
      * Проверяет добавление первого товара в анонимную корзину
      *
      * @return void
      */
     public function testAddsFirstItemToAnonymousCart(): void
     {
+        $product = Product::inRandomOrder()->limit(1)->first();
         $response = $this->json('POST', self::BASE_URL, [
-            'productId' => 1,
+            'productId' => $product->id,
         ]);
         $response->assertStatus(200);
     }

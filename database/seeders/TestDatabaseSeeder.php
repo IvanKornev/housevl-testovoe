@@ -3,10 +3,11 @@
 namespace Database\Seeders;
 
 use Illuminate\Database\Seeder;
+
 use App\Modules\Catalog\Database\Seeders\SingleProductSeeder;
 use App\Modules\User\Database\Seeders\SingleUserSeeder;
 
-class DatabaseSeeder extends Seeder
+class TestDatabaseSeeder extends Seeder
 {
     /**
      * Запускает все сидеры внутри модулей для тестов
