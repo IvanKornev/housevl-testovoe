@@ -3,7 +3,9 @@
 namespace App\Modules\User\Database\Seeders;
 
 use Illuminate\Database\Seeder;
+
 use App\Modules\User\Entities\User;
+use App\Modules\User\Entities\Cart;
 
 class UserDatabaseSeeder extends Seeder
 {
@@ -14,6 +16,11 @@ class UserDatabaseSeeder extends Seeder
      */
     public function run(): void
     {
-        User::factory()->count(20)->create();
+        $cartsWithDetails = Cart::factory()->hasDetails();
+        $cartsWithDetails->count(5)->create();
+        User::factory()
+            ->has($cartsWithDetails)
+            ->count(20)
+            ->create();
     }
 }
