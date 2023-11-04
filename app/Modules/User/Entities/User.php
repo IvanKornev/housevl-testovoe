@@ -5,6 +5,7 @@ namespace App\Modules\User\Entities;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Factories\Factory;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
+use Illuminate\Database\Eloquent\Relations\HasOne;
 
 use App\Modules\User\Database\Factories\UserFactory;
 
@@ -22,5 +23,15 @@ class User extends Model
     protected static function newFactory(): Factory
     {
         return UserFactory::new();
+    }
+
+    /**
+     * Возвращает корзину пользователя
+     *
+     * @return HasOne
+    */
+    public function cart(): HasOne
+    {
+        return $this->hasOne(Cart::class);
     }
 }
