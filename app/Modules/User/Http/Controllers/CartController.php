@@ -12,7 +12,7 @@ class CartController extends Controller
      * Добавляет товар в корзину
      * @return JsonResponse
      */
-    public function add(AddToCartRequest $request): JsonResponse
+    public function store(AddToCartRequest $request): JsonResponse
     {
         return response()->json([
             'message' => 'Товар успешно добавлен в корзину',

@@ -2,4 +2,4 @@
 
 use App\Modules\User\Http\Controllers\CartController;
 
-Route::post('/cart/add', [CartController::class, 'add']);
+Route::resources(['cart' => CartController::class]);
