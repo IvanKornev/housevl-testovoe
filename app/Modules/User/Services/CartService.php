@@ -24,7 +24,7 @@ final class CartService implements ICartService
                 . 'существует или она была удалена';
             throw new Exception($message);
         }
-        $createdRecord = CartDetail::create([
+        $createdRecord = CartDetail::with('product')->create([
             'cart_id' => $foundCart->id,
             'product_id' => $operationData->productId,
             'quantity' => $operationData->quantity,

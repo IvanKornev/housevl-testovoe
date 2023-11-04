@@ -5,9 +5,9 @@ namespace App\Modules\Catalog\Http\Controllers;
 use Illuminate\Routing\Controller;
 use Illuminate\Http\JsonResponse;
 
+use App\Shared\Transformers\Product\CharacteristicResource;
 use App\Modules\Catalog\Http\Requests\ProductCharacteristicRequest;
 use App\Modules\Catalog\Services\Contracts\IProductCharacteristicService;
-use App\Modules\Catalog\Transformers\Product\CharacteristicResource;
 
 class ProductCharacteristicController extends Controller
 {
