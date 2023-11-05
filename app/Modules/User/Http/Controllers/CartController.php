@@ -16,6 +16,7 @@ class CartController extends Controller
 
     public function __construct(ICartService $service)
     {
+        $this->middleware('cart.hash')->except('store');
         $this->service = $service;
     }
 
