@@ -94,14 +94,15 @@ final class CartTest extends TestCase
      */
     public function testEditsProductQuantityInTheCart(): void
     {
-        $cartDetails = CartDetail::inRandomOrder()->limit(1)
-            ->with('cart')
-            ->first();
-        $url = self::BASE_URL . "/{$cartDetails->product_id}";
-        $response = $this->json('PATCH', $url, [], [
-            'Cart-Hash' => $cartDetails->cart->hash,
-        ]);
+        $details = CartDetail::inRandomOrder()->limit(1)->with('cart')->first();
+        $url = self::BASE_URL . "/{$details->product_id}";
+        $quantity = fake()->randomNumber(1, 10);
+        $data = ['quantity' => $quantity];
+        $headers = ['Cart-Hash' => $details->cart->hash];
+        $response = $this->json('PATCH', $url, $data, $headers);
         $response->assertStatus(200);
+        $content = json_decode($response->getContent(), true);
+        $this->assertEquals($content['record']['quantity'], $quantity);
     }
 
     /**
