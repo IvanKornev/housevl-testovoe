@@ -4,6 +4,7 @@ namespace App\Modules\User\Tests\Feature;
 
 use Illuminate\Foundation\Testing\RefreshDatabase;
 use App\Modules\User\Entities\Product;
+use App\Modules\User\Entities\CartDetail;
 use Tests\TestCase;
 
 final class CartTest extends TestCase
@@ -83,5 +84,23 @@ final class CartTest extends TestCase
         $correctQuantity = 4;
         $this->assertEquals($correctQuantity, $newContent['record']['quantity']);
         $this->assertEquals($content['record']['id'], $newContent['record']['id']);
+    }
+
+    /**
+     * Проверяет изменение количества товара, добавленного
+     * в корзину
+     *
+     * @return void
+     */
+    public function testEditsProductQuantityInTheCart(): void
+    {
+        $cartDetails = CartDetail::inRandomOrder()->limit(1)
+            ->with('cart')
+            ->first();
+        $data = ['productId' => $cartDetails->product_id];
+        $response = $this->json('PATCH', self::BASE_URL, $data, [
+            'Cart-Hash' => $cartDetails->cart->hash,
+        ]);
+        $response->assertStatus(200);
     }
 }
