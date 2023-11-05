@@ -8,9 +8,9 @@ use Illuminate\Routing\Controller;
 use App\Modules\User\Http\Requests\AddToCartRequest;
 use App\Modules\User\Http\Requests\CartEditRequest;
 
+use App\Modules\User\DTO\CartDTO;
 use App\Modules\User\Services\Contracts\ICartService;
 use App\Modules\User\Transformers\CartDetailResource;
-use App\Modules\User\DTO\AddToCartDTO;
 
 class CartController extends Controller
 {
@@ -28,7 +28,7 @@ class CartController extends Controller
      */
     public function store(AddToCartRequest $request): JsonResponse
     {
-        $operationData = AddToCartDTO::fromRequest($request);
+        $operationData = CartDTO::fromRequest($request);
         $createdRecord = $this->service->store($operationData);
         return response()->json([
             'message' => 'Товар успешно добавлен в корзину',
@@ -43,6 +43,7 @@ class CartController extends Controller
      */
     public function update(CartEditRequest $request): JsonResponse
     {
+        $operationData = CartDTO::fromRequest($request);
         return response()->json([
             'message' => 'Товар в корзине был успешно обновлен',
         ]);

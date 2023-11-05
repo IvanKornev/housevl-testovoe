@@ -3,14 +3,14 @@
 namespace App\Modules\User\Repositories;
 
 use App\Modules\User\Repositories\Contracts\ICartRepository;
-use App\Modules\User\DTO\AddToCartDTO;
+use App\Modules\User\DTO\CartDTO;
 
 use App\Modules\User\Entities\CartDetail;
 use App\Modules\User\Entities\Cart;
 
 final class CartRepository implements ICartRepository
 {
-    public function store(AddToCartDTO $data, Cart $cart): CartDetail
+    public function store(CartDTO $data, Cart $cart): CartDetail
     {
         $existingRecord = CartDetail::where('product_id', $data->productId)
             ->where('cart_id', $cart->id)
