@@ -161,5 +161,7 @@ final class CartTest extends TestCase
         $headers = ['Cart-Hash' => $cart->hash];
         $response = $this->json('GET', self::BASE_URL, [], $headers);
         $response->assertStatus(200);
+        $content = json_decode($response->getContent(), true);
+        $this->assertIsArray($content['records']);
     }
 }
