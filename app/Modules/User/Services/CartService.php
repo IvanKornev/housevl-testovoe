@@ -40,21 +40,15 @@ final class CartService implements ICartService
 
     public function update(CartEditDTO $operationData): CartDetail
     {
-        $details = CartDetail::findOrFail($operationData->cartDetailsId);
-        if ($details->cart->hash !== $operationData->cartHash) {
-            throw new Exception('Запись не принадлежит этой корзине');
-        }
-        $details->quantity = $operationData->quantity;
-        $details->save();
-        return $details;
+        $record = $this->repository->get($operationData);
+        $record->quantity = $operationData->quantity;
+        $record->save();
+        return $record;
     }
 
     public function remove(RemoveFromCartDTO $operationData): array
     {
-        $record = CartDetail::findOrFail($operationData->cartDetailsId);
-        if ($record->cart->hash !== $operationData->cartHash) {
-            throw new Exception('Запись не принадлежит этой корзине');
-        }
+        $record = $this->repository->get($operationData);
         $record->delete();
         $cartIsEmpty = count($record->cart->details) < 1;
         $cartWasRemoved = false;
