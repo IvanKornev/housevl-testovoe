@@ -2,6 +2,9 @@
 
 namespace App\Modules\User\Services;
 
+use Illuminate\Support\Collection;
+use Exception;
+
 use App\Modules\User\Services\Contracts\ICartService;
 use App\Modules\User\Repositories\Contracts\ICartRepository;
 
@@ -11,7 +14,6 @@ use App\Modules\User\DTO\RemoveFromCartDTO;
 
 use App\Modules\User\Entities\Cart;
 use App\Modules\User\Entities\CartDetail;
-use Exception;
 
 final class CartService implements ICartService
 {
@@ -44,6 +46,12 @@ final class CartService implements ICartService
         $record->quantity = $operationData->quantity;
         $record->save();
         return $record;
+    }
+
+    public function getAll(string $cartHash): Collection
+    {
+        $cart = Cart::where('hash', $cartHash)->first();
+        return $cart->details ?? [];
     }
 
     public function remove(RemoveFromCartDTO $operationData): array
