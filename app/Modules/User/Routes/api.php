@@ -3,8 +3,6 @@
 use App\Modules\User\Http\Controllers\CartController;
 
 Route::resource('cart', CartController::class)
-    ->parameters([
-        'cart' => 'productId'
-    ])
-    ->whereNumber('productId')
+    ->parameters(['cart' => 'cartDetailsId'])
+    ->whereNumber('cartDetailsId')
     ->only(['store', 'update']);

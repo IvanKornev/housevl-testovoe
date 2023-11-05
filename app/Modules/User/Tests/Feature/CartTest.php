@@ -95,7 +95,7 @@ final class CartTest extends TestCase
     public function testEditsProductQuantityInTheCart(): void
     {
         $details = CartDetail::inRandomOrder()->limit(1)->with('cart')->first();
-        $url = self::BASE_URL . "/{$details->product_id}";
+        $url = self::BASE_URL . "/{$details->id}";
         $quantity = fake()->randomNumber(1, 10);
         $data = ['quantity' => $quantity];
         $headers = ['Cart-Hash' => $details->cart->hash];

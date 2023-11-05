@@ -5,7 +5,7 @@ namespace App\Modules\User\DTO;
 use Spatie\LaravelData\Data;
 use Illuminate\Http\Request;
 
-final class CartDTO extends Data
+final class AddToCartDTO extends Data
 {
     public function __construct(
         public int $productId,
@@ -25,7 +25,7 @@ final class CartDTO extends Data
         if ($request->hasHeader('Cart-Hash')) {
             $cartHash = $request->header('Cart-Hash');
         }
-        $productId = $body['productId'] ?? $request->route('productId');
+        $productId = $body['productId'];
         return new self($productId, $quantity, $cartHash);
     }
 }
