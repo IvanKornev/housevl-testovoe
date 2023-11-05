@@ -3,6 +3,7 @@
 namespace App\Modules\User\Services\Contracts;
 
 use App\Modules\User\DTO\AddToCartDTO;
+use App\Modules\User\DTO\CartEditDTO;
 use App\Modules\User\Entities\CartDetail;
 
 interface ICartService
@@ -16,5 +17,5 @@ interface ICartService
      * Обновляет количество товара в корзине
      * @return CartDetail
      */
-    public function update(AddToCartDTO $operationData): CartDetail;
+    public function update(CartEditDTO $operationData): CartDetail;
 }

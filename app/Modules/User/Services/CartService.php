@@ -3,10 +3,13 @@
 namespace App\Modules\User\Services;
 
 use App\Modules\User\Services\Contracts\ICartService;
+use App\Modules\User\Repositories\Contracts\ICartRepository;
+
+use App\Modules\User\DTO\CartEditDTO;
 use App\Modules\User\DTO\AddToCartDTO;
+
 use App\Modules\User\Entities\Cart;
 use App\Modules\User\Entities\CartDetail;
-use App\Modules\User\Repositories\Contracts\ICartRepository;
 use Exception;
 
 final class CartService implements ICartService
@@ -42,13 +45,9 @@ final class CartService implements ICartService
         return $record;
     }
 
-    public function update(AddToCartDTO $operationData): CartDetail
+    public function update(CartEditDTO $operationData): CartDetail
     {
-        $foundCart = Cart::where('hash', $operationData->cartHash)->first();
-        $details = CartDetail::query()
-            ->where('cart_id', $foundCart->id)
-            ->where('product_id', $operationData->productId)
-            ->firstOrFail();
+        $details = CartDetail::findOrFail($operationData->cartDetailsId);
         $details->quantity = $operationData->quantity;
         $details->save();
         return $details;
