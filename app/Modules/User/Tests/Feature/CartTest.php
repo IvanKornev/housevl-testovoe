@@ -116,4 +116,18 @@ final class CartTest extends TestCase
         $response = $this->json('PATCH', $url);
         $response->assertStatus(500);
     }
+
+    /**
+     * Проверяет наличие ошибки, которая должна вернуться при
+     * некорректном хеше корзины
+     *
+     * @return void
+     */
+    public function testReturnsErrorOnInvalidCartHash(): void
+    {
+        $url = self::BASE_URL . '/1';
+        $headers = ['Cart-Hash' => 'some-string'];
+        $response = $this->json('PATCH', $url, [], $headers);
+        $response->assertStatus(500);
+    }
 }
