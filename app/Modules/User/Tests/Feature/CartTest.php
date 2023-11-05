@@ -5,6 +5,7 @@ namespace App\Modules\User\Tests\Feature;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 use App\Modules\User\Entities\Product;
 use App\Modules\User\Entities\CartDetail;
+use App\Modules\User\Entities\Cart;
 use Tests\TestCase;
 
 final class CartTest extends TestCase
@@ -147,5 +148,18 @@ final class CartTest extends TestCase
         $content = json_decode($response->getContent(), true);
         $removedCartHash = null;
         $this->assertEquals($content['cartHash'], $removedCartHash);
+    }
+
+    /**
+     * Проверяет получение полной корзины
+     *
+     * @return void
+     */
+    public function testGetsFullCart(): void
+    {
+        $cart = Cart::inRandomOrder()->limit(1)->first();
+        $headers = ['Cart-Hash' => $cart->hash];
+        $response = $this->json('GET', self::BASE_URL, [], $headers);
+        $response->assertStatus(200);
     }
 }
