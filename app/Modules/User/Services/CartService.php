@@ -7,6 +7,7 @@ use App\Modules\User\Repositories\Contracts\ICartRepository;
 
 use App\Modules\User\DTO\CartEditDTO;
 use App\Modules\User\DTO\AddToCartDTO;
+use App\Modules\User\DTO\RemoveFromCartDTO;
 
 use App\Modules\User\Entities\Cart;
 use App\Modules\User\Entities\CartDetail;
@@ -45,6 +46,16 @@ final class CartService implements ICartService
         }
         $details->quantity = $operationData->quantity;
         $details->save();
+        return $details;
+    }
+
+    public function remove(RemoveFromCartDTO $operationData): CartDetail
+    {
+        $details = CartDetail::findOrFail($operationData->cartDetailsId);
+        if ($details->cart->hash !== $operationData->cartHash) {
+            throw new Exception('Запись не принадлежит этой корзине');
+        }
+        $details->delete();
         return $details;
     }
 }
