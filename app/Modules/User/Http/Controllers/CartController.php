@@ -56,6 +56,15 @@ class CartController extends Controller
     }
 
     /**
+     * Получает полную корзину
+     * @return JsonResponse
+     */
+    public function index(Request $request): JsonResponse
+    {
+        return response()->json(['message' => 'Корзина успешно получена']);
+    }
+
+    /**
      * Удаляет товар из корзины
      * @return JsonResponse
      */
