@@ -9,6 +9,7 @@ use App\Modules\User\Http\Requests\AddToCartRequest;
 use App\Modules\User\Http\Requests\CartEditRequest;
 
 use App\Modules\User\DTO\AddToCartDTO;
+use App\Modules\User\DTO\CartEditDTO;
 use App\Modules\User\Services\Contracts\ICartService;
 use App\Modules\User\Transformers\CartDetailResource;
 
@@ -43,7 +44,7 @@ class CartController extends Controller
      */
     public function update(CartEditRequest $request): JsonResponse
     {
-        $operationData = AddToCartDTO::fromRequest($request);
+        $operationData = CartEditDTO::fromRequest($request);
         $updatedRecord = $this->service->update($operationData);
         return response()->json([
             'message' => 'Товар в корзине был успешно обновлен',

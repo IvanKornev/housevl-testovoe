@@ -5,12 +5,12 @@ namespace App\Modules\User\DTO;
 use Spatie\LaravelData\Data;
 use Illuminate\Http\Request;
 
-final class AddToCartDTO extends Data
+final class CartEditDTO extends Data
 {
     public function __construct(
-        public int $productId,
+        public int $cartDetailsId,
         public int $quantity,
-        public string | null $cartHash,
+        public string $cartHash,
     ) {}
 
     /**
@@ -20,12 +20,9 @@ final class AddToCartDTO extends Data
     public static function fromRequest(Request $request): self
     {
         $body = $request->validated();
-        $quantity = $body['quantity'] ?? 1;
-        $cartHash = null;
-        if ($request->hasHeader('Cart-Hash')) {
-            $cartHash = $request->header('Cart-Hash');
-        }
-        $productId = $body['productId'];
-        return new self($productId, $quantity, $cartHash);
+        $quantity = $body['quantity'];
+        $cartHash = $request->header('Cart-Hash');
+        $cartDetailsId = $request->route('cartDetailsId');
+        return new self($cartDetailsId, $quantity, $cartHash);
     }
 }
