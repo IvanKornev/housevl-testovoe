@@ -10,6 +10,14 @@ use Exception;
 
 final class CartService implements ICartService
 {
+    /**
+     * Сообщение о некорректной корзине
+     *
+     * @var string
+     */
+    private const INVALID_CART_MESSAGE = 'Запрошенной в запросе корзины не '
+        . 'существует или она была удалена';
+
     public function store(AddToCartDTO $operationData): CartDetail
     {
         $createdCart = null;
@@ -20,9 +28,7 @@ final class CartService implements ICartService
         $searchQuery = Cart::query()->where('hash', $operationData->cartHash);
         $foundCart = $createdCart ?? $searchQuery->first();
         if (!$foundCart) {
-            $message = 'Запрошенной в запросе корзины не '
-                . 'существует или она была удалена';
-            throw new Exception($message);
+            throw new Exception(self::INVALID_CART_MESSAGE);
         }
         $createdRecord = CartDetail::with('product')->create([
             'cart_id' => $foundCart->id,
