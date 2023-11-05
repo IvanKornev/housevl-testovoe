@@ -41,6 +41,11 @@ final class CartTest extends TestCase
             'productId' => $product->id,
         ]);
         $response->assertStatus(200);
+        $content = json_decode($response->getContent(), true);
+        $record = $content['record'];
+        $this->assertEquals($product->id, $record['product']['id']);
+        $expectedQuantity = 1;
+        $this->assertEquals($expectedQuantity, $record['quantity']);
     }
 
     /**
@@ -58,9 +63,9 @@ final class CartTest extends TestCase
     }
 
     /**
-     * Проверяет то, что при повторном добавлении товара, вместо
-     * повторного добавления записи, просто будет изменено количество
-     * в уже существующем поле
+     * Проверяет то, что при повторном добавлении товара в ту же корзину, вместо
+     * добавления ещё одной записи, просто будет изменено поле quantity
+     * в уже существующей записи
      *
      * @return void
      */
