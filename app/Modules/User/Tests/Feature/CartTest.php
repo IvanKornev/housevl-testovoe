@@ -4,6 +4,7 @@ namespace App\Modules\User\Tests\Feature;
 
 use Illuminate\Foundation\Testing\RefreshDatabase;
 use App\Modules\User\Entities\Product;
+use App\Modules\User\Entities\CartDetail;
 use Tests\TestCase;
 
 final class CartTest extends TestCase
@@ -83,5 +84,51 @@ final class CartTest extends TestCase
         $correctQuantity = 4;
         $this->assertEquals($correctQuantity, $newContent['record']['quantity']);
         $this->assertEquals($content['record']['id'], $newContent['record']['id']);
+    }
+
+    /**
+     * Проверяет изменение количества товара, добавленного
+     * в корзину
+     *
+     * @return void
+     */
+    public function testEditsProductQuantityInTheCart(): void
+    {
+        $details = CartDetail::inRandomOrder()->limit(1)->with('cart')->first();
+        $url = self::BASE_URL . "/{$details->product_id}";
+        $quantity = fake()->randomNumber(1, 10);
+        $data = ['quantity' => $quantity];
+        $headers = ['Cart-Hash' => $details->cart->hash];
+        $response = $this->json('PATCH', $url, $data, $headers);
+        $response->assertStatus(200);
+        $content = json_decode($response->getContent(), true);
+        $this->assertEquals($content['record']['quantity'], $quantity);
+    }
+
+    /**
+     * Проверяет наличие ошибки, которая должна вернуться при
+     * отсутствующем хеше корзины
+     *
+     * @return void
+     */
+    public function testReturnsErrorOnCartHashMissing(): void
+    {
+        $url = self::BASE_URL . '/1';
+        $response = $this->json('PATCH', $url);
+        $response->assertStatus(500);
+    }
+
+    /**
+     * Проверяет наличие ошибки, которая должна вернуться при
+     * некорректном хеше корзины
+     *
+     * @return void
+     */
+    public function testReturnsErrorOnInvalidCartHash(): void
+    {
+        $url = self::BASE_URL . '/1';
+        $headers = ['Cart-Hash' => 'some-string'];
+        $response = $this->json('PATCH', $url, [], $headers);
+        $response->assertStatus(500);
     }
 }

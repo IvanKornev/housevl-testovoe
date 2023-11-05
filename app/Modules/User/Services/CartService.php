@@ -3,7 +3,7 @@
 namespace App\Modules\User\Services;
 
 use App\Modules\User\Services\Contracts\ICartService;
-use App\Modules\User\DTO\AddToCartDTO;
+use App\Modules\User\DTO\CartDTO;
 use App\Modules\User\Entities\Cart;
 use App\Modules\User\Entities\CartDetail;
 use App\Modules\User\Repositories\Contracts\ICartRepository;
@@ -26,7 +26,7 @@ final class CartService implements ICartService
         $this->repository = $repository;
     }
 
-    public function store(AddToCartDTO $operationData): CartDetail
+    public function store(CartDTO $operationData): CartDetail
     {
         $createdCart = null;
         if ($operationData->cartHash === null) {
@@ -40,5 +40,17 @@ final class CartService implements ICartService
         }
         $record = $this->repository->store($operationData, $foundCart);
         return $record;
+    }
+
+    public function update(CartDTO $operationData): CartDetail
+    {
+        $foundCart = Cart::where('hash', $operationData->cartHash)->first();
+        $details = CartDetail::query()
+            ->where('cart_id', $foundCart->id)
+            ->where('product_id', $operationData->productId)
+            ->firstOrFail();
+        $details->quantity = $operationData->quantity;
+        $details->save();
+        return $details;
     }
 }

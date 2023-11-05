@@ -5,10 +5,12 @@ namespace App\Modules\User\Http\Controllers;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Routing\Controller;
 
-use App\Modules\User\Services\Contracts\ICartService;
 use App\Modules\User\Http\Requests\AddToCartRequest;
+use App\Modules\User\Http\Requests\CartEditRequest;
+
+use App\Modules\User\DTO\CartDTO;
+use App\Modules\User\Services\Contracts\ICartService;
 use App\Modules\User\Transformers\CartDetailResource;
-use App\Modules\User\DTO\AddToCartDTO;
 
 class CartController extends Controller
 {
@@ -16,6 +18,7 @@ class CartController extends Controller
 
     public function __construct(ICartService $service)
     {
+        $this->middleware('cart.hash')->except('store');
         $this->service = $service;
     }
 
@@ -25,12 +28,26 @@ class CartController extends Controller
      */
     public function store(AddToCartRequest $request): JsonResponse
     {
-        $operationData = AddToCartDTO::fromRequest($request);
-        $createdRecord = $this->service->store($operationData);
+        $operationData = CartDTO::fromRequest($request);
+        $record = $this->service->store($operationData);
         return response()->json([
             'message' => 'Товар успешно добавлен в корзину',
-            'record' => new CartDetailResource($createdRecord),
-            'cartHash' => $createdRecord->cart->hash,
+            'record' => new CartDetailResource($record),
+            'cartHash' => $record->cart->hash,
+        ]);
+    }
+
+    /**
+     * Обновляет товар в корзине
+     * @return JsonResponse
+     */
+    public function update(CartEditRequest $request): JsonResponse
+    {
+        $operationData = CartDTO::fromRequest($request);
+        $updatedRecord = $this->service->update($operationData);
+        return response()->json([
+            'message' => 'Товар в корзине был успешно обновлен',
+            'record' => new CartDetailResource($updatedRecord),
         ]);
     }
 }
