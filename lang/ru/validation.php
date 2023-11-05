@@ -5,6 +5,7 @@ return [
     'numeric' => 'Поле ":attribute" должно быть числом',
     'integer' => 'Поле ":attribute" должно иметь тип integer',
     'required_with' => 'Поле ":attribute" обязательно, когда присутствует ":values"',
+    'required' => 'Поле ":attribute" - обязательное',
     'gte' => [
         'numeric' => 'Значение поля ":attribute" должно быть больше или равно :value',
     ],
@@ -19,6 +20,8 @@ return [
         'height.max' => 'макс.высота',
         'price.min' => 'мин.цена',
         'price.max' => 'макс.цена',
+        'quantity' => 'количество',
+        'productId' => 'ID товара',
         'length' => 'длина',
         'weight' => 'вес',
         'width' => 'ширина',

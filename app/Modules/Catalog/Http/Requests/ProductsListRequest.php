@@ -2,14 +2,15 @@
 
 namespace App\Modules\Catalog\Http\Requests;
 
-use Illuminate\Contracts\Validation\Validator;
-use Illuminate\Http\Exceptions\HttpResponseException;
 use Illuminate\Foundation\Http\FormRequest;
 
 use App\Modules\Catalog\Enums\ProductCharacteristicEnum;
+use App\Shared\Http\Traits\HasJsonRequestError;
 
 final class ProductsListRequest extends FormRequest
 {
+    use HasJsonRequestError;
+
     /**
      * Правило для любых полей диапазона
      *
@@ -41,11 +42,5 @@ final class ProductsListRequest extends FormRequest
     public function authorize(): bool
     {
         return true;
-    }
-
-    public function failedValidation(Validator $validator)
-    {
-        $response = response()->json($validator->errors(), 422);
-        throw new HttpResponseException($response);
     }
 }

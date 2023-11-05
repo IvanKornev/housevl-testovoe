@@ -1,12 +1,12 @@
 <?php
 
-namespace App\Modules\Catalog\Transformers;
+namespace App\Shared\Transformers;
 
 use Illuminate\Http\Request;
 use Illuminate\Http\Resources\Json\JsonResource;
 
-use App\Modules\Catalog\Transformers\Product\CategoryResource;
-use App\Modules\Catalog\Transformers\Product\CharacteristicResource;
+use App\Shared\Transformers\Product\CategoryResource;
+use App\Shared\Transformers\Product\CharacteristicResource;
 
 class ProductResource extends JsonResource
 {

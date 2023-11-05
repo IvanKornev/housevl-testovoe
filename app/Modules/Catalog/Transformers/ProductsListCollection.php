@@ -6,6 +6,7 @@ use Illuminate\Http\Request;
 use Illuminate\Http\Resources\Json\ResourceCollection;
 use Illuminate\Pagination\LengthAwarePaginator;
 
+use App\Shared\Transformers\ProductResource;
 use App\Modules\Catalog\Transformers\Product\FilterResource;
 use App\Modules\Catalog\Repositories\Contracts\IProductFilterRepository;
 
