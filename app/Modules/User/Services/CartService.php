@@ -14,14 +14,6 @@ use Exception;
 
 final class CartService implements ICartService
 {
-    /**
-     * Сообщение о некорректной корзине
-     *
-     * @var string
-     */
-    private const INVALID_CART_MESSAGE = 'Запрошенной в запросе корзины не '
-        . 'существует или она была удалена';
-
     private ICartRepository $repository;
 
     public function __construct(ICartRepository $repository)
@@ -39,7 +31,7 @@ final class CartService implements ICartService
         $searchQuery = Cart::query()->where('hash', $operationData->cartHash);
         $foundCart = $createdCart ?? $searchQuery->first();
         if (!$foundCart) {
-            throw new Exception(self::INVALID_CART_MESSAGE);
+            throw new Exception('Запрошенной корзины не существует');
         }
         $record = $this->repository->store($operationData, $foundCart);
         return $record;
@@ -48,6 +40,9 @@ final class CartService implements ICartService
     public function update(CartEditDTO $operationData): CartDetail
     {
         $details = CartDetail::findOrFail($operationData->cartDetailsId);
+        if ($details->cart->hash !== $operationData->cartHash) {
+            throw new Exception('Запись не принадлежит этой корзине');
+        }
         $details->quantity = $operationData->quantity;
         $details->save();
         return $details;
