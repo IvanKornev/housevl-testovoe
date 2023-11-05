@@ -144,5 +144,8 @@ final class CartTest extends TestCase
         $url = self::BASE_URL . "/{$details->id}";
         $response = $this->json('DELETE', $url, [], $headers);
         $response->assertStatus(200);
+        $content = json_decode($response->getContent(), true);
+        $removedCartHash = null;
+        $this->assertEquals($content['cartHash'], $removedCartHash);
     }
 }
