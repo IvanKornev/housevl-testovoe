@@ -62,10 +62,11 @@ class CartController extends Controller
     public function destroy(Request $request): JsonResponse
     {
         $operationData = RemoveFromCartDTO::fromRequest($request);
-        $removedRecord = $this->service->remove($operationData);
+        [$removedRecord, $cartHash] = $this->service->remove($operationData);
         return response()->json([
             'message' => 'Товар был успешно удален из корзины',
             'record' => new CartDetailResource($removedRecord),
+            'cartHash' => $cartHash,
         ]);
     }
 }

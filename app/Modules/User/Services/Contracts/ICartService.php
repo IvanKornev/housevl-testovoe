@@ -21,7 +21,7 @@ interface ICartService
     public function update(CartEditDTO $operationData): CartDetail;
     /**
      * Удаляет товар из корзины
-     * @return CartDetail
+     * @return array (кортеж из удаленной записи и текущего хеша корзины)
      */
-    public function remove(RemoveFromCartDTO $operationData): CartDetail;
+    public function remove(RemoveFromCartDTO $operationData): array;
 }

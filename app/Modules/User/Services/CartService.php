@@ -49,13 +49,19 @@ final class CartService implements ICartService
         return $details;
     }
 
-    public function remove(RemoveFromCartDTO $operationData): CartDetail
+    public function remove(RemoveFromCartDTO $operationData): array
     {
-        $details = CartDetail::findOrFail($operationData->cartDetailsId);
-        if ($details->cart->hash !== $operationData->cartHash) {
+        $record = CartDetail::findOrFail($operationData->cartDetailsId);
+        if ($record->cart->hash !== $operationData->cartHash) {
             throw new Exception('Запись не принадлежит этой корзине');
         }
-        $details->delete();
-        return $details;
+        $record->delete();
+        $cartIsEmpty = count($record->cart->details) < 1;
+        $cartWasRemoved = false;
+        if ($cartIsEmpty) {
+            $cartWasRemoved = $record->cart->delete();
+        }
+        $cartHash = $cartWasRemoved ? null : $record->cart->hash;
+        return [$record, $cartHash];
     }
 }
