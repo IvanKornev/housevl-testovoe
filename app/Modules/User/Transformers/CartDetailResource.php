@@ -18,6 +18,7 @@ class CartDetailResource extends JsonResource
     {
         $product = new ProductResource($this->product);
         return [
+            'id' => $this->id,
             'quantity' => $this->quantity,
             'productId' => $this->product_id,
             'totalPrice' => $this->total_price,

@@ -56,4 +56,27 @@ final class CartTest extends TestCase
         ]);
         $response->assertStatus(422);
     }
+
+    /**
+     * Проверяет то, что при повторном добавлении товара, вместо
+     * повторного добавления записи, просто будет изменено количество
+     * в уже существующем поле
+     *
+     * @return void
+     */
+    public function testIncreasesItemQuantityInsteadOfAddingDuplicate(): void
+    {
+        $product = Product::inRandomOrder()->limit(1)->first();
+        $data = ['productId' => $product->id, 'quantity' => 2];
+        $response = $this->json('POST', self::BASE_URL, $data);
+        $response->assertStatus(200);
+        $content = json_decode($response->getContent(), true);
+        $response = $this->json('POST', self::BASE_URL, $data, [
+            'Cart-Hash' => $content['cartHash'],
+        ]);
+        $newContent = json_decode($response->getContent(), true);
+        $correctQuantity = 4;
+        $this->assertEquals($correctQuantity, $newContent['record']['quantity']);
+        $this->assertEquals($content['record']['id'], $newContent['record']['id']);
+    }
 }
