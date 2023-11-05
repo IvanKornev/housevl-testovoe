@@ -5,8 +5,10 @@ namespace App\Modules\User\Http\Controllers;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Routing\Controller;
 
-use App\Modules\User\Services\Contracts\ICartService;
 use App\Modules\User\Http\Requests\AddToCartRequest;
+use App\Modules\User\Http\Requests\CartEditRequest;
+
+use App\Modules\User\Services\Contracts\ICartService;
 use App\Modules\User\Transformers\CartDetailResource;
 use App\Modules\User\DTO\AddToCartDTO;
 
@@ -39,7 +41,7 @@ class CartController extends Controller
      * Обновляет товар в корзине
      * @return JsonResponse
      */
-    public function update($request): JsonResponse
+    public function update(CartEditRequest $request): JsonResponse
     {
         return response()->json([
             'message' => 'Товар в корзине был успешно обновлен',
