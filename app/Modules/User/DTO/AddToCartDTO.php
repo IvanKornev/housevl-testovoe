@@ -5,7 +5,7 @@ namespace App\Modules\User\DTO;
 use Spatie\LaravelData\Data;
 use Illuminate\Http\Request;
 
-final class CartDTO extends Data
+final class AddToCartDTO extends Data
 {
     public function __construct(
         public int $productId,
