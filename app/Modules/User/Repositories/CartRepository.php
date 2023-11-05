@@ -7,28 +7,25 @@ use App\Modules\User\DTO\AddToCartDTO;
 
 use App\Modules\User\Entities\CartDetail;
 use App\Modules\User\Entities\Cart;
-use Exception;
 
 final class CartRepository implements ICartRepository
 {
-    /**
-     * Сообщение о некорректной корзине
-     *
-     * @var string
-     */
-    private const INVALID_CART_MESSAGE = 'Запрошенной в запросе корзины не '
-        . 'существует или она была удалена';
-
     public function store(AddToCartDTO $data, Cart $cart): CartDetail
     {
-        if (!$cart) {
-            throw new Exception(self::INVALID_CART_MESSAGE);
+        $existingRecord = CartDetail::where('product_id', $data->productId)
+            ->where('cart_id', $cart->id)
+            ->first();
+        if ($existingRecord) {
+            $newQuantity = $data->quantity + $existingRecord->quantity;
+            $existingRecord->quantity = $newQuantity;
+            $existingRecord->save();
+            return $existingRecord;
         }
-        $record = CartDetail::with('product')->create([
+        $createdRecord = CartDetail::with('product')->create([
             'cart_id' => $cart->id,
             'product_id' => $data->productId,
             'quantity' => $data->quantity,
         ]);
-        return $record;
+        return $createdRecord;
     }
 }
