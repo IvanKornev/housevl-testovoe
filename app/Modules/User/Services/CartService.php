@@ -6,17 +6,16 @@ use App\Modules\User\Services\Contracts\ICartService;
 use App\Modules\User\DTO\AddToCartDTO;
 use App\Modules\User\Entities\Cart;
 use App\Modules\User\Entities\CartDetail;
-use Exception;
+use App\Modules\User\Repositories\Contracts\ICartRepository;
 
 final class CartService implements ICartService
 {
-    /**
-     * Сообщение о некорректной корзине
-     *
-     * @var string
-     */
-    private const INVALID_CART_MESSAGE = 'Запрошенной в запросе корзины не '
-        . 'существует или она была удалена';
+    private ICartRepository $repository;
+
+    public function __construct(ICartRepository $repository)
+    {
+        $this->repository = $repository;
+    }
 
     public function store(AddToCartDTO $operationData): CartDetail
     {
@@ -27,14 +26,7 @@ final class CartService implements ICartService
         }
         $searchQuery = Cart::query()->where('hash', $operationData->cartHash);
         $foundCart = $createdCart ?? $searchQuery->first();
-        if (!$foundCart) {
-            throw new Exception(self::INVALID_CART_MESSAGE);
-        }
-        $createdRecord = CartDetail::with('product')->create([
-            'cart_id' => $foundCart->id,
-            'product_id' => $operationData->productId,
-            'quantity' => $operationData->quantity,
-        ]);
-        return $createdRecord;
+        $record = $this->repository->store($operationData, $foundCart);
+        return $record;
     }
 }

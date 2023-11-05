@@ -7,6 +7,9 @@ use Illuminate\Support\ServiceProvider;
 use App\Modules\User\Services\Contracts\ICartService;
 use App\Modules\User\Services\CartService;
 
+use App\Modules\User\Repositories\Contracts\ICartRepository;
+use App\Modules\User\Repositories\CartRepository;
+
 class UserServiceProvider extends ServiceProvider
 {
     /**
@@ -40,6 +43,7 @@ class UserServiceProvider extends ServiceProvider
     {
         $this->app->register(RouteServiceProvider::class);
         $this->app->bind(ICartService::class, CartService::class);
+        $this->app->bind(ICartRepository::class, CartRepository::class);
     }
 
     /**
