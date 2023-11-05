@@ -131,4 +131,21 @@ final class CartTest extends TestCase
         $response = $this->json('PATCH', $url, [], $headers);
         $response->assertStatus(500);
     }
+
+    /**
+     * Проверяет удаление товара из корзины
+     *
+     * @return void
+     */
+    public function testRemovesProductFromCart(): void
+    {
+        $details = CartDetail::inRandomOrder()->limit(1)->with('cart')->first();
+        $headers = ['Cart-Hash' => $details->cart->hash];
+        $url = self::BASE_URL . "/{$details->id}";
+        $response = $this->json('DELETE', $url, [], $headers);
+        $response->assertStatus(200);
+        $content = json_decode($response->getContent(), true);
+        $removedCartHash = null;
+        $this->assertEquals($content['cartHash'], $removedCartHash);
+    }
 }

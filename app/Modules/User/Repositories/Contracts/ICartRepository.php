@@ -3,6 +3,9 @@
 namespace App\Modules\User\Repositories\Contracts;
 
 use App\Modules\User\DTO\AddToCartDTO;
+use App\Modules\User\DTO\CartEditDTO;
+use App\Modules\User\DTO\RemoveFromCartDTO;
+
 use App\Modules\User\Entities\CartDetail;
 use App\Modules\User\Entities\Cart;
 
@@ -13,4 +16,9 @@ interface ICartRepository
      * @return CartDetail
      */
     public function store(AddToCartDTO $data, Cart $cart): CartDetail;
+    /**
+     * Получает запись корзины после проверки хеша и ID
+     * @return CartDetail
+     */
+    public function get(CartEditDTO | RemoveFromCartDTO $data): CartDetail;
 }

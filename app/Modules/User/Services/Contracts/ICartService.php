@@ -4,6 +4,7 @@ namespace App\Modules\User\Services\Contracts;
 
 use App\Modules\User\DTO\AddToCartDTO;
 use App\Modules\User\DTO\CartEditDTO;
+use App\Modules\User\DTO\RemoveFromCartDTO;
 use App\Modules\User\Entities\CartDetail;
 
 interface ICartService
@@ -18,4 +19,9 @@ interface ICartService
      * @return CartDetail
      */
     public function update(CartEditDTO $operationData): CartDetail;
+    /**
+     * Удаляет товар из корзины
+     * @return array (кортеж из удаленной записи и текущего хеша корзины)
+     */
+    public function remove(RemoveFromCartDTO $operationData): array;
 }
