@@ -6,7 +6,9 @@ namespace App\Modules\User\Http\Middleware;
 
 use Illuminate\Http\Request;
 use Symfony\Component\HttpFoundation\Response;
-use Closure, Exception;
+
+use App\Modules\User\Entities\Cart;
+use Closure;
 
 class VerifyCartHash
 {
@@ -19,7 +21,14 @@ class VerifyCartHash
     public function handle(Request $request, Closure $next): Response
     {
         if (!$request->hasHeader('Cart-Hash')) {
-            throw new Exception('Для данной операции хеш корзины обязателен');
+            $content = ['message' => 'Для данной операции хеш корзины обязателен'];
+            return response($content, 500);
+        }
+        $hash = $request->header('Cart-Hash');
+        $foundCart = Cart::where('hash', $hash)->first();
+        if (!$foundCart) {
+            $content = ['message' => 'Был передан некорректный хеш корзины'];
+            return response($content, 500);
         }
         return $next($request);
     }
