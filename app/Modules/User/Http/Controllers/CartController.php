@@ -2,6 +2,7 @@
 
 namespace App\Modules\User\Http\Controllers;
 
+use Illuminate\Http\Request;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Routing\Controller;
 
@@ -10,6 +11,8 @@ use App\Modules\User\Http\Requests\CartEditRequest;
 
 use App\Modules\User\DTO\AddToCartDTO;
 use App\Modules\User\DTO\CartEditDTO;
+use App\Modules\User\DTO\RemoveFromCartDTO;
+
 use App\Modules\User\Services\Contracts\ICartService;
 use App\Modules\User\Transformers\CartDetailResource;
 
@@ -49,6 +52,18 @@ class CartController extends Controller
         return response()->json([
             'message' => 'Товар в корзине был успешно обновлен',
             'record' => new CartDetailResource($updatedRecord),
+        ]);
+    }
+
+    /**
+     * Удаляет товар из корзины
+     * @return JsonResponse
+     */
+    public function destroy(Request $request): JsonResponse
+    {
+        $operationData = RemoveFromCartDTO::fromRequest($request);
+        return response()->json([
+            'message' => 'Товар был успешно удален из корзины',
         ]);
     }
 }
