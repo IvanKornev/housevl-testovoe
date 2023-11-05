@@ -33,4 +33,15 @@ class CartController extends Controller
             'cartHash' => $createdRecord->cart->hash,
         ]);
     }
+
+    /**
+     * Обновляет товар в корзине
+     * @return JsonResponse
+     */
+    public function update($request): JsonResponse
+    {
+        return response()->json([
+            'message' => 'Товар в корзине был успешно обновлен',
+        ]);
+    }
 }

@@ -2,4 +2,4 @@
 
 use App\Modules\User\Http\Controllers\CartController;
 
-Route::resources(['cart' => CartController::class]);
+Route::resource('cart', CartController::class)->only(['store', 'update']);

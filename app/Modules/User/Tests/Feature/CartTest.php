@@ -97,8 +97,8 @@ final class CartTest extends TestCase
         $cartDetails = CartDetail::inRandomOrder()->limit(1)
             ->with('cart')
             ->first();
-        $data = ['productId' => $cartDetails->product_id];
-        $response = $this->json('PATCH', self::BASE_URL, $data, [
+        $url = self::BASE_URL . "/{$cartDetails->product_id}";
+        $response = $this->json('PATCH', $url, [], [
             'Cart-Hash' => $cartDetails->cart->hash,
         ]);
         $response->assertStatus(200);
