@@ -41,4 +41,16 @@ final class CartService implements ICartService
         $record = $this->repository->store($operationData, $foundCart);
         return $record;
     }
+
+    public function update(CartDTO $operationData): CartDetail
+    {
+        $foundCart = Cart::where('hash', $operationData->cartHash)->first();
+        $details = CartDetail::query()
+            ->where('cart_id', $foundCart->id)
+            ->where('product_id', $operationData->productId)
+            ->firstOrFail();
+        $details->quantity = $operationData->quantity;
+        $details->save();
+        return $details;
+    }
 }

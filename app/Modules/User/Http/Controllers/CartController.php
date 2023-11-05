@@ -29,11 +29,11 @@ class CartController extends Controller
     public function store(AddToCartRequest $request): JsonResponse
     {
         $operationData = CartDTO::fromRequest($request);
-        $createdRecord = $this->service->store($operationData);
+        $record = $this->service->store($operationData);
         return response()->json([
             'message' => 'Товар успешно добавлен в корзину',
-            'record' => new CartDetailResource($createdRecord),
-            'cartHash' => $createdRecord->cart->hash,
+            'record' => new CartDetailResource($record),
+            'cartHash' => $record->cart->hash,
         ]);
     }
 
@@ -44,8 +44,10 @@ class CartController extends Controller
     public function update(CartEditRequest $request): JsonResponse
     {
         $operationData = CartDTO::fromRequest($request);
+        $updatedRecord = $this->service->update($operationData);
         return response()->json([
             'message' => 'Товар в корзине был успешно обновлен',
+            'record' => new CartDetailResource($updatedRecord),
         ]);
     }
 }

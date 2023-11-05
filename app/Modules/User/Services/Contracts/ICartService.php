@@ -12,4 +12,9 @@ interface ICartService
      * @return CartDetail
      */
     public function store(CartDTO $operationData): CartDetail;
+    /**
+     * Обновляет количество товара в корзине
+     * @return CartDetail
+     */
+    public function update(CartDTO $operationData): CartDetail;
 }
