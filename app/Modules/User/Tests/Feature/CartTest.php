@@ -103,4 +103,17 @@ final class CartTest extends TestCase
         ]);
         $response->assertStatus(200);
     }
+
+    /**
+     * Проверяет наличие ошибки, которая должна вернуться при
+     * отсутствующем хеше корзины
+     *
+     * @return void
+     */
+    public function testReturnsErrorOnCartHashMissing(): void
+    {
+        $url = self::BASE_URL . '/1';
+        $response = $this->json('PATCH', $url);
+        $response->assertStatus(500);
+    }
 }
