@@ -62,10 +62,13 @@ class CartController extends Controller
     public function index(Request $request): JsonResponse
     {
         $cartHash = $request->header('Cart-Hash');
-        $records = $this->service->getAll($cartHash);
+        $result = $this->service->getAll($cartHash);
         return response()->json([
             'message' => 'Корзина успешно получена',
-            'records' => CartDetailResource::collection($records),
+            'data' => [
+                'items' => CartDetailResource::collection($result['items']),
+                'totalPrice' => $result['totalPrice'],
+            ],
         ]);
     }
 

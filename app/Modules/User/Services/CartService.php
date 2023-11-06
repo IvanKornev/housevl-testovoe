@@ -48,10 +48,17 @@ final class CartService implements ICartService
         return $record;
     }
 
-    public function getAll(string $cartHash): Collection | array
+    public function getAll(string $cartHash): array
     {
         $cart = Cart::where('hash', $cartHash)->first();
-        return $cart->details ?? [];
+        $totalPrice = 0;
+        if ($cart && $cart->details) {
+            $totalPrice = $cart->details->sum('total_price');
+        }
+        return [
+            'items' => $cart->details ?? [],
+            'totalPrice' => $totalPrice,
+        ];
     }
 
     public function remove(RemoveFromCartDTO $operationData): array

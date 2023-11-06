@@ -8,6 +8,8 @@ use Closure;
 use Illuminate\Http\Request;
 use Illuminate\Http\JsonResponse;
 use Symfony\Component\HttpFoundation\Response;
+
+use App\Modules\User\Transformers\CartDetailResource;
 use App\Modules\User\Services\Contracts\ICartService;
 
 final class ResponseWithCart
@@ -28,7 +30,11 @@ final class ResponseWithCart
         }
         $currentData = json_decode(json_encode($response->getData()), true);
         $cartHash = $request->header('Cart-Hash') ?? '';
-        $currentData['meta']['cart'] = $this->cartService->getAll($cartHash);
+        $cartObject = $this->cartService->getAll($cartHash);
+        $currentData['meta']['cart'] = [
+            'items' => CartDetailResource::collection($cartObject['items']),
+            'totalPrice' => $cartObject['totalPrice'],
+        ];
         $response->setData($currentData);
         return $response;
     }

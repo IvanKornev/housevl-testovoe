@@ -176,6 +176,6 @@ final class CartTest extends TestCase
         $response = $this->json('GET', '/api/catalog/tree');
         $content = json_decode($response->getContent(), true);
         $this->assertIsArray($content['meta']['cart']['items']);
-        $this->assertIsInt($content['meta']['cart']['totalSum']);
+        $this->assertIsInt($content['meta']['cart']['totalPrice']);
     }
 }
