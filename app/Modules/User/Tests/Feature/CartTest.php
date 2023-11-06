@@ -162,7 +162,7 @@ final class CartTest extends TestCase
         $response = $this->json('GET', self::BASE_URL, [], $headers);
         $response->assertStatus(200);
         $content = json_decode($response->getContent(), true);
-        $this->assertIsArray($content['records']);
+        $this->assertIsArray($content['meta']['cart']['items']);
     }
 
     /**
@@ -175,6 +175,7 @@ final class CartTest extends TestCase
     {
         $response = $this->json('GET', '/api/catalog/tree');
         $content = json_decode($response->getContent(), true);
-        $this->assertIsArray($content['meta']['cart']);
+        $this->assertIsArray($content['meta']['cart']['items']);
+        $this->assertIsInt($content['meta']['cart']['totalSum']);
     }
 }
