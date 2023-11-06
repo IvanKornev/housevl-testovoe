@@ -6,14 +6,19 @@ use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Factories\Factory;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Relations\HasOne;
+use Laravel\Sanctum\HasApiTokens;
 
 use App\Modules\User\Database\Factories\UserFactory;
-use Laravel\Sanctum\HasApiTokens;
+use App\Modules\User\Events\UserChanges;
 
 class User extends Model
 {
     use HasFactory, HasApiTokens;
 
+    protected $dispatchesEvents = [
+        'creating' => UserChanges::class,
+        'updating' => UserChanges::class,
+    ];
     protected $hidden = ['password'];
     protected $guarded = [];
 

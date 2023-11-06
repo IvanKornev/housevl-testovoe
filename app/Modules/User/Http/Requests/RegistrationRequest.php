@@ -18,6 +18,7 @@ final class RegistrationRequest extends FormRequest
     {
         return [
             'name' => 'required|string|max:300',
+            'password' => 'required|string|max:300',
             'surname' => 'required|string|max:300',
             'patronymic' => 'required|string|max:300',
             'email' => 'required|email|max:300',
