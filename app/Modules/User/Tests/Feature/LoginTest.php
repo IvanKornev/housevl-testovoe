@@ -32,4 +32,16 @@ final class LoginTest extends TestCase
         $response = $this->json('POST', self::URL, $loginForm);
         $response->assertStatus(200);
     }
+
+    /**
+     * Проверяет возврат ошибки при провале валидации
+     *
+     * @return void
+     */
+    public function testFailsRequestValidation(): void
+    {
+        $response = $this->json('POST', self::URL,);
+        $response->assertStatus(422);
+    }
+
 }
