@@ -22,7 +22,9 @@ class Handler extends ExceptionHandler
             }
             $fallbackMessage = 'Запись не найдена';
             $message = $e->getMessage() ?? $fallbackMessage;
-            return response()->json(['message' => $message], 404);
+            $code = $e->getCode();
+            $code = $code !== 0 ? $code : 404;
+            return response()->json(['message' => $message], $code);
         });
     }
 }
