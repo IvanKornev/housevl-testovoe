@@ -26,6 +26,7 @@ class UserFactory extends Factory
             'patronymic' => fake()->word(),
             'email' => fake()->email(),
             'phone' => fake()->e164PhoneNumber(),
+            'password' => fake()->password(),
         ];
     }
 }
