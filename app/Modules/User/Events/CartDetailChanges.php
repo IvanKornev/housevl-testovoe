@@ -8,7 +8,7 @@ use Illuminate\Queue\SerializesModels;
 use App\Modules\User\Entities\CartDetail;
 use App\Modules\User\Entities\Product;
 
-class CartDetailCreating
+class CartDetailChanges
 {
     use SerializesModels;
 
@@ -23,7 +23,7 @@ class CartDetailCreating
     }
 
      /**
-     * Высчитывает итоговую цену во время создания
+     * Высчитывает итоговую цену во время создания или обновления
      * записи
      *
      * @return void
