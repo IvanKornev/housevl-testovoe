@@ -22,7 +22,7 @@ final class RegistrationRequest extends FormRequest
             'surname' => 'required|string|max:300',
             'patronymic' => 'required|string|max:300',
             'email' => 'required|email|max:300',
-            'phone' => 'phone',
+            'phone' => 'required|phone',
         ];
     }
 
