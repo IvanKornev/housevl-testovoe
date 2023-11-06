@@ -28,8 +28,7 @@ final class LoginTest extends TestCase
         $user = User::factory()
             ->state(fn ($state) => [...$state, 'password' => $password])
             ->create();
-        $loginFields = ['email', 'password'];
-        $loginForm = $user->makeVisible('password')->only($loginFields);
+        $loginForm = ['email' => $user->email, 'password' => $password];
         $response = $this->json('POST', self::URL, $loginForm);
         $response->assertStatus(200);
     }
