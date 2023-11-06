@@ -40,7 +40,7 @@ final class LoginTest extends TestCase
      */
     public function testFailsRequestValidation(): void
     {
-        $response = $this->json('POST', self::URL,);
+        $response = $this->json('POST', self::URL);
         $response->assertStatus(422);
     }
 

@@ -2,15 +2,16 @@
 
 namespace App\Modules\User\Http\Controllers;
 
-use Illuminate\Http\Request;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Routing\Controller;
 
 use App\Modules\User\Http\Requests\RegistrationRequest;
+use App\Modules\User\Http\Requests\LoginRequest;
+
 use App\Modules\User\Services\Contracts\IAuthService;
 use App\Modules\User\DTO\RegistrationDTO;
 
-class AuthController extends Controller
+final class AuthController extends Controller
 {
     private IAuthService $service;
 
@@ -37,7 +38,7 @@ class AuthController extends Controller
      * Авторизует пользователя
      * @return JsonResponse
      */
-    public function login(Request $request): JsonResponse
+    public function login(LoginRequest $request): JsonResponse
     {
         return response()->json(['message' => 'OK']);
     }
