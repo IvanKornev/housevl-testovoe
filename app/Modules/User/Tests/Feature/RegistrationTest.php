@@ -22,6 +22,8 @@ final class RegistrationTest extends TestCase
         $userForm = User::factory()->make()->toArray();
         $response = $this->json('POST', self::URL, $userForm);
         $response->assertStatus(200);
+        $content = json_decode($response->getContent(), true);
+        $this->assertIsArray($content['user']);
     }
 
     public function testFailsRequestValidation(): void

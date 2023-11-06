@@ -14,6 +14,7 @@ class User extends Model
 {
     use HasFactory, HasApiTokens;
 
+    protected $hidden = ['password'];
     protected $fillable = [];
 
     /**
