@@ -7,8 +7,9 @@ use Illuminate\Routing\Controller;
 
 use App\Modules\User\Http\Requests\RegistrationRequest;
 use App\Modules\User\Http\Requests\LoginRequest;
-
 use App\Modules\User\Services\Contracts\IAuthService;
+
+use App\Modules\User\DTO\LoginDTO;
 use App\Modules\User\DTO\RegistrationDTO;
 
 final class AuthController extends Controller
@@ -40,6 +41,7 @@ final class AuthController extends Controller
      */
     public function login(LoginRequest $request): JsonResponse
     {
+        $formData = LoginDTO::from($request->validated());
         return response()->json(['message' => 'OK']);
     }
 }
