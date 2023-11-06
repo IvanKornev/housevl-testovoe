@@ -6,6 +6,8 @@ return [
     'integer' => 'Поле ":attribute" должно иметь тип integer',
     'required_with' => 'Поле ":attribute" обязательно, когда присутствует ":values"',
     'required' => 'Поле ":attribute" - обязательное',
+    'email' => 'В поле ":attribute" должна быть корректная электронная почта',
+    'phone' => 'В поле ":attribute" должен быть корректный номер телефона',
     'gte' => [
         'numeric' => 'Значение поля ":attribute" должно быть больше или равно :value',
     ],
@@ -30,5 +32,11 @@ return [
         'weight_unit' => 'единицы веса',
         'width_unit' => 'единицы ширины',
         'height_unit' => 'единицы высоты',
+        'name' => 'имя/название',
+        'password' => 'пароль',
+        'surname' => 'фамилия',
+        'patronymic' => 'отчество',
+        'email' => 'электронная почта',
+        'phone' => 'номер телефона',
     ],
 ];
