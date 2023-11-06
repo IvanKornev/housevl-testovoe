@@ -23,4 +23,11 @@ final class RegistrationTest extends TestCase
         $response = $this->json('POST', self::URL, $userForm);
         $response->assertStatus(200);
     }
+
+    public function testFailsRequestValidation(): void
+    {
+        $userForm = ['name' => false];
+        $response = $this->json('POST', self::URL, $userForm);
+        $response->assertStatus(422);
+    }
 }
