@@ -10,5 +10,6 @@ Route::resource('cart', CartController::class)
 
 $authModuleCallback = function () {
     Route::post('/registration', [AuthController::class, 'register']);
+    Route::post('/login', [AuthController::class, 'login']);
 };
 Route::prefix('auth')->group($authModuleCallback);
