@@ -164,4 +164,17 @@ final class CartTest extends TestCase
         $content = json_decode($response->getContent(), true);
         $this->assertIsArray($content['records']);
     }
+
+    /**
+     * Проверяет наличие корзины в поле meta в любом из
+     * эндпоинтов
+     *
+     * @return void
+     */
+    public function testChecksCartExistenceInTheApiMetaObject(): void
+    {
+        $response = $this->json('GET', '/api/catalog/tree');
+        $content = json_decode($response->getContent(), true);
+        $this->assertIsArray($content['meta']['cart']);
+    }
 }
