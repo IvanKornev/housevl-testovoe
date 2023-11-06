@@ -29,6 +29,8 @@ final class LoginTest extends TestCase
         $loginForm = ['email' => $user->email, 'password' => $password];
         $response = $this->json('POST', self::URL, $loginForm);
         $response->assertStatus(200);
+        $content = json_decode($response->getContent(), true);
+        $this->assertIsString($content['token']);
     }
 
     /**
