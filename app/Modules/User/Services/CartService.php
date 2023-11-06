@@ -48,7 +48,7 @@ final class CartService implements ICartService
         return $record;
     }
 
-    public function getAll(string $cartHash): Collection
+    public function getAll(string $cartHash): Collection | array
     {
         $cart = Cart::where('hash', $cartHash)->first();
         return $cart->details ?? [];

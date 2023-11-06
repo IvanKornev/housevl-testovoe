@@ -22,9 +22,9 @@ interface ICartService
     public function update(CartEditDTO $operationData): CartDetail;
     /**
      * Получает полную корзину
-     * @return Collection
+     * @return Collection | array
      */
-    public function getAll(string $cartHash): Collection;
+    public function getAll(string $cartHash): Collection | array;
     /**
      * Удаляет товар из корзины
      * @return array (кортеж из удаленной записи и текущего хеша корзины)
