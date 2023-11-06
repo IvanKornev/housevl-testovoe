@@ -30,7 +30,7 @@ final class AuthController extends Controller
         $formData = RegistrationDTO::from($request->validated());
         $createdUser = $this->service->register($formData);
         return response()->json([
-            'message' => 'Пользователь успешно зарегистрирован',
+            'message' => 'Регистрация прошла успешно',
             'record' => $createdUser,
         ]);
     }
@@ -42,7 +42,11 @@ final class AuthController extends Controller
     public function login(LoginRequest $request): JsonResponse
     {
         $formData = LoginDTO::from($request->validated());
-        $this->service->login($formData);
-        return response()->json(['message' => 'OK']);
+        $authorizedUser = $this->service->login($formData);
+        $token = $authorizedUser->createToken('api');
+        return response()->json([
+            'message' => 'Вход был успешно осуществлен',
+            'token' => $token->plainTextToken,
+        ]);
     }
 }
