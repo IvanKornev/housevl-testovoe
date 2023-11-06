@@ -42,6 +42,7 @@ final class AuthController extends Controller
     public function login(LoginRequest $request): JsonResponse
     {
         $formData = LoginDTO::from($request->validated());
+        $this->service->login($formData);
         return response()->json(['message' => 'OK']);
     }
 }
