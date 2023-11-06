@@ -8,7 +8,7 @@ use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 
 use App\Modules\User\Database\Factories\CartDetailFactory;
-use App\Modules\User\Events\CartDetailCreating;
+use App\Modules\User\Events\CartDetailChanges;
 
 class CartDetail extends Model
 {
@@ -16,16 +16,9 @@ class CartDetail extends Model
 
     protected $guarded = [];
     protected $dispatchesEvents = [
-        'creating' => CartDetailCreating::class,
+        'creating' => CartDetailChanges::class,
+        'updating' => CartDetailChanges::class,
     ];
-
-    protected static function booted(): void
-    {
-        $totalPriceCallback = function (self $model) {
-
-        };
-        static::creating($totalPriceCallback);
-    }
 
     /**
      * Возвращает фабрику деталей конкретной корзины

@@ -56,6 +56,23 @@ class CartController extends Controller
     }
 
     /**
+     * Получает полную корзину
+     * @return JsonResponse
+     */
+    public function index(Request $request): JsonResponse
+    {
+        $cartHash = $request->header('Cart-Hash');
+        $result = $this->service->getAll($cartHash);
+        return response()->json([
+            'message' => 'Корзина успешно получена',
+            'data' => [
+                'items' => CartDetailResource::collection($result['items']),
+                'totalPrice' => $result['totalPrice'],
+            ],
+        ]);
+    }
+
+    /**
      * Удаляет товар из корзины
      * @return JsonResponse
      */
