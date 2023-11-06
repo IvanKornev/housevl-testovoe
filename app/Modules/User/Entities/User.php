@@ -15,7 +15,7 @@ class User extends Model
     use HasFactory, HasApiTokens;
 
     protected $hidden = ['password'];
-    protected $fillable = [];
+    protected $guarded = [];
 
     /**
      * Возвращает фабрику пользователя

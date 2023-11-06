@@ -23,7 +23,7 @@ final class RegistrationTest extends TestCase
         $response = $this->json('POST', self::URL, $userForm);
         $response->assertStatus(200);
         $content = json_decode($response->getContent(), true);
-        $this->assertIsArray($content['user']);
+        $this->assertIsArray($content['record']);
     }
 
     public function testFailsRequestValidation(): void
