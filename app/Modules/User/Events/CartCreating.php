@@ -40,7 +40,7 @@ final class CartCreating
     {
         $oldCarts = Cart::where('user_id', $model->user_id);
         if ($oldCarts->count() > 0) {
-            throw new Exception(self::NON_UNIQUE_CART_ERROR);
+            throw new Exception(self::NON_UNIQUE_CART_ERROR, 500);
         }
     }
 }
