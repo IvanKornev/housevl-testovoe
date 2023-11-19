@@ -29,7 +29,9 @@ final class CartService implements ICartService
             $createdCart = Cart::create(['user_id' => $operationData->userId]);
             $operationData->cartHash = $createdCart->hash;
         }
-        $searchQuery = Cart::query()->where('hash', $operationData->cartHash);
+        $searchQuery = Cart::query()
+            ->where('hash', $operationData->cartHash)
+            ->where('user_id', $operationData->userId);
         $foundCart = $createdCart ?? $searchQuery->first();
         if (!$foundCart) {
             throw new Exception('Запрошенной корзины не существует');
