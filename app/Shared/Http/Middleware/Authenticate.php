@@ -5,7 +5,7 @@ declare(strict_types=1);
 namespace App\Shared\Http\Middleware;
 
 use Illuminate\Auth\Middleware\Authenticate as Middleware;
-use Illuminate\Auth\AuthenticationException;
+use Exception;
 
 class Authenticate extends Middleware
 {
@@ -14,7 +14,7 @@ class Authenticate extends Middleware
     */
     protected function unauthenticated($request, array $guards): void
     {
-        throw new AuthenticationException('Вы не авторизованы', $guards);
+        throw new Exception('Вы не авторизованы', 401);
     }
 
 }
