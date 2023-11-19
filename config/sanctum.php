@@ -8,10 +8,8 @@ return [
         'localhost,localhost:3000,127.0.0.1,127.0.0.1:8000,::1',
         Sanctum::currentApplicationUrlWithPort()
     ))),
-    'guard' => ['api'],
     'expiration' => null,
     'middleware' => [
         'encrypt_cookies' => App\Shared\Http\Middleware\EncryptCookies::class,
     ],
-
 ];
