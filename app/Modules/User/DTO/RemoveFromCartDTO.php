@@ -10,6 +10,7 @@ final class RemoveFromCartDTO extends Data
     public function __construct(
         public int $cartDetailsId,
         public string $cartHash,
+        public int | null $userId,
     ) {}
 
     /**
@@ -21,6 +22,7 @@ final class RemoveFromCartDTO extends Data
         return new self(
             $request->route('cartDetailsId'),
             $request->header('Cart-Hash'),
+            $request->user()->id ?? null,
         );
     }
 }

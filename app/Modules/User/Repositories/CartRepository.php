@@ -61,12 +61,13 @@ final class CartRepository implements ICartRepository
 
     public function getDetail(CartEditDTO | RemoveFromCartDTO $data): CartDetail
     {
-        $record = CartDetail::find($data->cartDetailsId);
+        $record = CartDetail::join('carts', 'carts.id', '=', 'cart_details.cart_id')
+            ->where('carts.user_id', $data->userId)
+            ->where('carts.hash', $data->cartHash)
+            ->where('cart_details.id', $data->cartDetailsId)
+            ->first();
         if (!$record) {
             throw new NotFoundHttpException('Такой записи не существует');
-        }
-        if ($record->cart->hash !== $data->cartHash) {
-            throw new Exception('Запись не принадлежит этой корзине', 500);
         }
         return $record;
     }

@@ -27,10 +27,7 @@ final class AddToCartDTO extends Data
             $cartHash = $request->header('Cart-Hash');
         }
         $productId = $body['productId'];
-        $userId = null;
-        if ($request->user()) {
-            $userId = $request->user()->id;
-        }
+        $userId = $request->user()->id ?? null;
         return new self($productId, $quantity, $userId, $cartHash);
     }
 }
