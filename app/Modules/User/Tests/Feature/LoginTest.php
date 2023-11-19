@@ -25,8 +25,7 @@ final class LoginTest extends TestCase
     public function testAuthorizesUserInTheSystem(): void
     {
         $password = fake()->password();
-        $user = $this->prepareUser($password);
-        $loginForm = ['email' => $user->email, 'password' => $password];
+        $loginForm = $this->getLoginData($password);
         $response = $this->json('POST', self::URL, $loginForm);
         $response->assertStatus(200);
         $content = json_decode($response->getContent(), true);
@@ -65,8 +64,8 @@ final class LoginTest extends TestCase
      */
     public function testFailsPasswordValidation(): void
     {
-        $user = $this->prepareUser();
-        $loginForm = ['email' => $user->email, 'password' => '1'];
+        $loginForm = $this->getLoginData();
+        $loginForm['password'] = fake()->password();
         $response = $this->json('POST', self::URL, $loginForm);
         $response->assertStatus(500);
     }
@@ -77,11 +76,12 @@ final class LoginTest extends TestCase
      *
      * @return User
      */
-    private function prepareUser(string $password = '123'): User
+    private function getLoginData(string $password = '123'): array
     {
         $user = User::factory()
             ->state(fn ($state) => [...$state, 'password' => $password])
             ->create();
-        return $user;
+        $results = ['email' => $user->email, 'password' => $password];
+        return $results;
     }
 }
