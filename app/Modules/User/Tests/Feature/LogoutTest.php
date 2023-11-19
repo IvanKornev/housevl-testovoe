@@ -3,6 +3,7 @@
 namespace App\Modules\User\Tests\Feature;
 
 use Illuminate\Foundation\Testing\RefreshDatabase;
+use App\Modules\User\Entities\User;
 use Tests\TestCase;
 
 final class LogoutTest extends TestCase
@@ -23,8 +24,17 @@ final class LogoutTest extends TestCase
      */
     public function testChecksLogout(): void
     {
-        $response = $this->json('DELETE', self::URL, []);
-        $response->assertStatus(200);
+        $user = User::factory()
+            ->state(fn ($state) => [...$state, 'password' => '123'])
+            ->create();
+        $loginForm = ['email' => $user->email, 'password' => '123'];
+        $loginUrl = '/api/auth/login';
+        $loginResponse = $this->json('POST', $loginUrl, $loginForm);
+        $content = json_decode($loginResponse->getContent(), true);
+        $logoutResponse = $this->json('DELETE', self::URL, [], [
+            'Authorization' => 'Bearer ' . $content['token'],
+        ]);
+        $logoutResponse->assertStatus(200);
     }
 
     /**
