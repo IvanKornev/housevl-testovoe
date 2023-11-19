@@ -36,6 +36,8 @@ final class LogoutTest extends TestCase
     public function testReturnsErrorIfAuthorizationHeaderIsMissing(): void
     {
         $response = $this->json('DELETE', self::URL);
-        $response->assertStatus(200);
+        $response->assertStatus(401);
+        $content = json_decode($response->getContent(), true);
+        $this->assertEquals('Вы не авторизованы', $content['message']);
     }
 }
