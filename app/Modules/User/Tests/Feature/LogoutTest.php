@@ -3,12 +3,13 @@
 namespace App\Modules\User\Tests\Feature;
 
 use Illuminate\Foundation\Testing\RefreshDatabase;
-use App\Modules\User\Entities\User;
 use Tests\TestCase;
+
+use App\Modules\User\Tests\Feature\Traits\HasLoginData;
 
 final class LogoutTest extends TestCase
 {
-    use RefreshDatabase;
+    use RefreshDatabase, HasLoginData;
 
     /**
      * URL вызываемого эндпоинта
@@ -24,15 +25,12 @@ final class LogoutTest extends TestCase
      */
     public function testChecksLogout(): void
     {
-        $user = User::factory()
-            ->state(fn ($state) => [...$state, 'password' => '123'])
-            ->create();
-        $loginForm = ['email' => $user->email, 'password' => '123'];
-        $loginUrl = '/api/auth/login';
-        $loginResponse = $this->json('POST', $loginUrl, $loginForm);
-        $content = json_decode($loginResponse->getContent(), true);
+        $loginForm = $this->getLoginData();
+        $loginResponse = $this->json('POST', '/api/auth/login', $loginForm);
+        $loginContent = json_decode($loginResponse->getContent(), true);
+        $token = 'Bearer ' . $loginContent['token'];
         $logoutResponse = $this->json('DELETE', self::URL, [], [
-            'Authorization' => 'Bearer ' . $content['token'],
+            'Authorization' => $token,
         ]);
         $logoutResponse->assertStatus(200);
     }
