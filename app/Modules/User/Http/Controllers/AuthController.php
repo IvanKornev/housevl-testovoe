@@ -3,6 +3,7 @@
 namespace App\Modules\User\Http\Controllers;
 
 use Illuminate\Http\JsonResponse;
+use Illuminate\Http\Request;
 use Illuminate\Routing\Controller;
 
 use App\Modules\User\Http\Requests\RegistrationRequest;
@@ -48,5 +49,22 @@ final class AuthController extends Controller
             'message' => 'Вход был успешно осуществлен',
             'token' => $token->plainTextToken,
         ]);
+    }
+
+    /**
+     * Выход из аккаунта путем удаления API-токена
+     * @return JsonResponse
+     */
+    public function logout(Request $request): JsonResponse
+    {
+        $wasDeleted = $request->user()->currentAccessToken()->delete();
+        $body = [
+            'status' => $wasDeleted ? 'success' : 'error',
+            'message' => 'Вы успешно вышли из аккаунта',
+        ];
+        if (!$wasDeleted) {
+            $body['message'] = 'При выходе из аккаунта произошла ошибка';
+        }
+        return response()->json($body);
     }
 }
