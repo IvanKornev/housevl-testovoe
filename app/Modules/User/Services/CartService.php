@@ -9,7 +9,6 @@ use App\Modules\User\DTO\CartEditDTO;
 use App\Modules\User\DTO\AddToCartDTO;
 use App\Modules\User\DTO\RemoveFromCartDTO;
 
-use App\Modules\User\Entities\Cart;
 use App\Modules\User\Entities\CartDetail;
 use Exception;
 
@@ -24,13 +23,7 @@ final class CartService implements ICartService
 
     public function store(AddToCartDTO $operationData): CartDetail
     {
-        $createdCart = null;
-        if ($operationData->cartHash === null) {
-            $createdCart = Cart::create();
-            $operationData->cartHash = $createdCart->hash;
-        }
-        $searchQuery = Cart::query()->where('hash', $operationData->cartHash);
-        $foundCart = $createdCart ?? $searchQuery->first();
+        $foundCart = $this->repository->findOrCreate($operationData);
         if (!$foundCart) {
             throw new Exception('Запрошенной корзины не существует');
         }
@@ -40,7 +33,7 @@ final class CartService implements ICartService
 
     public function update(CartEditDTO $operationData): CartDetail
     {
-        $record = $this->repository->get($operationData);
+        $record = $this->repository->getDetail($operationData);
         $record->quantity = $operationData->quantity;
         $record->save();
         return $record;
@@ -48,7 +41,7 @@ final class CartService implements ICartService
 
     public function getAll(string $cartHash): array
     {
-        $cart = Cart::where('hash', $cartHash)->first();
+        $cart = $this->repository->get($cartHash);
         $totalPrice = 0;
         if ($cart && $cart->details) {
             $totalPrice = $cart->details->sum('total_price');
@@ -61,7 +54,7 @@ final class CartService implements ICartService
 
     public function remove(RemoveFromCartDTO $operationData): array
     {
-        $record = $this->repository->get($operationData);
+        $record = $this->repository->getDetail($operationData);
         $record->delete();
         $cartIsEmpty = count($record->cart->details) < 1;
         $cartWasRemoved = false;

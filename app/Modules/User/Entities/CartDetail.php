@@ -10,7 +10,7 @@ use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use App\Modules\User\Database\Factories\CartDetailFactory;
 use App\Modules\User\Events\CartDetailChanges;
 
-class CartDetail extends Model
+final class CartDetail extends Model
 {
     use HasFactory;
 

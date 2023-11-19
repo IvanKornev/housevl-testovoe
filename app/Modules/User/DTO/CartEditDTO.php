@@ -11,6 +11,7 @@ final class CartEditDTO extends Data
         public int $cartDetailsId,
         public int $quantity,
         public string $cartHash,
+        public int | null $userId,
     ) {}
 
     /**
@@ -23,6 +24,7 @@ final class CartEditDTO extends Data
         $quantity = $body['quantity'];
         $cartHash = $request->header('Cart-Hash');
         $cartDetailsId = $request->route('cartDetailsId');
-        return new self($cartDetailsId, $quantity, $cartHash);
+        $userId = $request->user()->id ?? null;
+        return new self($cartDetailsId, $quantity, $cartHash, $userId);
     }
 }

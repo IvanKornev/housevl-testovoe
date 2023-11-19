@@ -3,7 +3,7 @@
 namespace App\Modules\Catalog\Tests\Feature;
 
 use Illuminate\Foundation\Testing\RefreshDatabase;
-use Tests\TestCase;
+use App\Shared\Tests\TestCase;
 use App\Modules\Catalog\Database\Seeders\CatalogDatabaseSeeder;
 
 final class CatalogTreeTest extends TestCase

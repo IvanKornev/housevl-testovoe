@@ -11,7 +11,7 @@ use Laravel\Sanctum\HasApiTokens;
 use App\Modules\User\Database\Factories\UserFactory;
 use App\Modules\User\Events\UserChanges;
 
-class User extends Authenticatable
+final class User extends Authenticatable
 {
     use HasFactory, HasApiTokens;
 

@@ -15,6 +15,7 @@ trait HasLoginData
     private function getLoginData(string $password = '123'): array
     {
         $user = User::factory()
+            ->hasCart()
             ->state(fn ($state) => [...$state, 'password' => $password])
             ->create();
         $results = ['email' => $user->email, 'password' => $password];

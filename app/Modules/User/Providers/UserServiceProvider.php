@@ -3,6 +3,7 @@
 namespace App\Modules\User\Providers;
 
 use Illuminate\Support\ServiceProvider;
+use Laravel\Sanctum\Sanctum;
 
 use App\Modules\User\Services\Contracts\ICartService;
 use App\Modules\User\Services\CartService;
@@ -11,6 +12,7 @@ use App\Modules\User\Services\AuthService;
 
 use App\Modules\User\Repositories\Contracts\ICartRepository;
 use App\Modules\User\Repositories\CartRepository;
+use App\Modules\User\Entities\PersonalAccessToken;
 
 class UserServiceProvider extends ServiceProvider
 {
@@ -34,6 +36,7 @@ class UserServiceProvider extends ServiceProvider
         $this->registerTranslations();
         $this->registerConfig();
         $this->loadMigrationsFrom(module_path($this->moduleName, 'Database/Migrations'));
+        Sanctum::usePersonalAccessTokenModel(PersonalAccessToken::class);
     }
 
     /**
