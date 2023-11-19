@@ -83,4 +83,28 @@ final class UserCartTest extends TestCase
         $content = json_decode($response->getContent(), true);
         $this->assertEquals(self::NON_UNIQUE_CART_ERROR, $content['message']);
     }
+
+    /**
+     * Проверяет создание новой корзины
+     * пользователя после удаления старой
+     * (вследствие удаления последнего товара из неё)
+     *
+     * @return void
+     */
+    public function testCreatesNewCartAfterRemovingTheOldOne(): void
+    {
+        $detail = CartDetail::first();
+        $token = User::find($detail->cart->user_id)->createToken('api');
+        $url = self::BASE_URL . '/' . $detail->id;
+        $this->json('DELETE', $url, [], [
+            'Cart-Hash' => $detail->cart->hash,
+            'Authorization' => "Bearer {$token->plainTextToken}",
+        ]);
+        $response = $this->json('POST', self::BASE_URL, self::BODY, [
+            'Authorization' => "Bearer $token->plainTextToken",
+        ]);
+        $content = json_decode($response->getContent(), true);
+        $this->assertNotEquals($detail->cart->hash, $content['cartHash']);
+        $this->assertEquals($detail->product_id, $content['record']['productId']);
+    }
 }
