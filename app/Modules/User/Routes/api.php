@@ -10,5 +10,8 @@ Route::resource('cart', CartController::class)
 
 $authModuleCallback = function () {
     Route::post('/registration', [AuthController::class, 'register']);
+    Route::post('/login', [AuthController::class, 'login']);
+    Route::middleware('auth:sanctum')
+        ->delete('/logout', [AuthController::class, 'logout']);
 };
 Route::prefix('auth')->group($authModuleCallback);

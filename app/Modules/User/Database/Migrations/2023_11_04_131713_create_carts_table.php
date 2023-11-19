@@ -16,7 +16,11 @@ return new class extends Migration
         Schema::create('carts', function (Blueprint $table) {
             $table->id();
             $table->ulid('hash');
-            $table->foreignId('user_id')->nullable()->references('id')->on('users');
+            $table->foreignId('user_id')
+                ->unique()
+                ->nullable()
+                ->references('id')
+                ->on('users');
             $table->timestamps();
         });
     }

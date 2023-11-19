@@ -2,7 +2,7 @@
 
 namespace App\Modules\User\Entities;
 
-use Illuminate\Database\Eloquent\Model;
+use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Database\Eloquent\Factories\Factory;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Relations\HasOne;
@@ -11,7 +11,7 @@ use Laravel\Sanctum\HasApiTokens;
 use App\Modules\User\Database\Factories\UserFactory;
 use App\Modules\User\Events\UserChanges;
 
-class User extends Model
+class User extends Authenticatable
 {
     use HasFactory, HasApiTokens;
 
