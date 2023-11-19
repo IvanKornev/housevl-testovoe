@@ -10,6 +10,7 @@ final class AddToCartDTO extends Data
     public function __construct(
         public int $productId,
         public int $quantity,
+        public int | null $userId,
         public string | null $cartHash,
     ) {}
 
@@ -26,6 +27,10 @@ final class AddToCartDTO extends Data
             $cartHash = $request->header('Cart-Hash');
         }
         $productId = $body['productId'];
-        return new self($productId, $quantity, $cartHash);
+        $userId = null;
+        if ($request->user()) {
+            $userId = $request->user()->id;
+        }
+        return new self($productId, $quantity, $userId, $cartHash);
     }
 }

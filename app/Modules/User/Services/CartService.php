@@ -26,7 +26,7 @@ final class CartService implements ICartService
     {
         $createdCart = null;
         if ($operationData->cartHash === null) {
-            $createdCart = Cart::create();
+            $createdCart = Cart::create(['user_id' => $operationData->userId]);
             $operationData->cartHash = $createdCart->hash;
         }
         $searchQuery = Cart::query()->where('hash', $operationData->cartHash);
