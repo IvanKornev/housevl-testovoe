@@ -29,8 +29,8 @@ final class ResponseWithCart
             return $response;
         }
         $currentData = json_decode(json_encode($response->getData()), true);
-        $cartHash = $request->header('Cart-Hash') ?? '';
-        $cartObject = $this->cartService->getAll($cartHash);
+        $hash = $currentData['cartHash'] ?? $request->header('Cart-Hash') ?? '';
+        $cartObject = $this->cartService->getAll($hash);
         $currentData['meta']['cart'] = [
             'items' => CartDetailResource::collection($cartObject['items']),
             'totalPrice' => $cartObject['totalPrice'],
