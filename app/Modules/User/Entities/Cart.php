@@ -9,12 +9,17 @@ use Illuminate\Database\Eloquent\Relations\HasMany;
 use Illuminate\Support\Str;
 
 use App\Modules\User\Database\Factories\CartFactory;
+use App\Modules\User\Events\CartCreating;
 
 class Cart extends Model
 {
     use HasFactory;
 
     protected $fillable = ['user_id'];
+    protected $dispatchesEvents = [
+        'creating' => CartCreating::class,
+    ];
+
 
     /**
      * Автогенерирует ULID как хеш корзины

@@ -8,7 +8,7 @@ use Illuminate\Queue\SerializesModels;
 use App\Modules\User\Entities\CartDetail;
 use App\Modules\User\Entities\Product;
 
-class CartDetailChanges
+final class CartDetailChanges
 {
     use SerializesModels;
 

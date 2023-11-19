@@ -40,7 +40,7 @@ final class CartRepository implements ICartRepository
             throw new NotFoundHttpException('Такой записи не существует');
         }
         if ($record->cart->hash !== $data->cartHash) {
-            throw new Exception('Запись не принадлежит этой корзине');
+            throw new Exception('Запись не принадлежит этой корзине', 500);
         }
         return $record;
     }

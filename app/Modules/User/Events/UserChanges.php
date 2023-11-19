@@ -6,7 +6,7 @@ use Illuminate\Support\Facades\Hash;
 use Illuminate\Queue\SerializesModels;
 use App\Modules\User\Entities\User;
 
-class UserChanges
+final class UserChanges
 {
     use SerializesModels;
 
