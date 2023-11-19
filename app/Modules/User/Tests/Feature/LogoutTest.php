@@ -23,6 +23,18 @@ final class LogoutTest extends TestCase
      */
     public function testChecksLogout(): void
     {
+        $response = $this->json('DELETE', self::URL, []);
+        $response->assertStatus(200);
+    }
+
+    /**
+     * Проверяет наличие ошибки, которая возвращается при отсутствии
+     * Authorization header'а
+     *
+     * @return void
+     */
+    public function testReturnsErrorIfAuthorizationHeaderIsMissing(): void
+    {
         $response = $this->json('DELETE', self::URL);
         $response->assertStatus(200);
     }
