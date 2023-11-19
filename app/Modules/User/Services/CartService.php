@@ -50,12 +50,7 @@ final class CartService implements ICartService
 
     public function getAll(string $cartHash): array
     {
-        $cartQuery = Cart::query()->where('hash', $cartHash);
-        $currentUser = auth('sanctum')->user();
-        if (!$cartHash && $currentUser) {
-            $cartQuery->orWhere('user_id', $currentUser->user_id);
-        }
-        $cart = $cartQuery->first();
+        $cart = $this->repository->get($cartHash);
         $totalPrice = 0;
         if ($cart && $cart->details) {
             $totalPrice = $cart->details->sum('total_price');

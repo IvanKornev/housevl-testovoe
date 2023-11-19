@@ -9,8 +9,9 @@ use App\Modules\User\DTO\RemoveFromCartDTO;
 
 use App\Modules\User\Entities\CartDetail;
 use App\Modules\User\Entities\Cart;
-use Exception;
+
 use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
+use Exception;
 
 final class CartRepository implements ICartRepository
 {
@@ -31,6 +32,17 @@ final class CartRepository implements ICartRepository
             'quantity' => $data->quantity,
         ]);
         return $createdRecord;
+    }
+
+    public function get(string $cartHash): Cart | null
+    {
+        $cartQuery = Cart::query()->where('hash', $cartHash);
+        $currentUser = auth('sanctum')->user();
+        if (!$cartHash && $currentUser) {
+            $cartQuery->orWhere('user_id', $currentUser->user_id);
+        }
+        $cart = $cartQuery->first();
+        return $cart;
     }
 
     public function getDetail(CartEditDTO | RemoveFromCartDTO $data): CartDetail

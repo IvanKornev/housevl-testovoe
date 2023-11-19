@@ -17,6 +17,13 @@ interface ICartRepository
      */
     public function store(AddToCartDTO $data, Cart $cart): CartDetail;
     /**
+     * Получает корзину по её хешу (или, если его нет, по текущему
+     * пользователю)
+     *
+     * @return Cart | null
+     */
+    public function get(string $cartHash): Cart | null;
+    /**
      * Получает запись корзины после проверки хеша и ID
      * @return CartDetail
      */
