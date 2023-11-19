@@ -33,7 +33,7 @@ final class CartRepository implements ICartRepository
         return $createdRecord;
     }
 
-    public function get(CartEditDTO | RemoveFromCartDTO $data): CartDetail
+    public function getDetail(CartEditDTO | RemoveFromCartDTO $data): CartDetail
     {
         $record = CartDetail::find($data->cartDetailsId);
         if (!$record) {

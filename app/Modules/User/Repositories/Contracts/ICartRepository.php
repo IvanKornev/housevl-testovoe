@@ -20,5 +20,5 @@ interface ICartRepository
      * Получает запись корзины после проверки хеша и ID
      * @return CartDetail
      */
-    public function get(CartEditDTO | RemoveFromCartDTO $data): CartDetail;
+    public function getDetail(CartEditDTO | RemoveFromCartDTO $data): CartDetail;
 }

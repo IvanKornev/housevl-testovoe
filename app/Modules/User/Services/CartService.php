@@ -42,7 +42,7 @@ final class CartService implements ICartService
 
     public function update(CartEditDTO $operationData): CartDetail
     {
-        $record = $this->repository->get($operationData);
+        $record = $this->repository->getDetail($operationData);
         $record->quantity = $operationData->quantity;
         $record->save();
         return $record;
@@ -68,7 +68,7 @@ final class CartService implements ICartService
 
     public function remove(RemoveFromCartDTO $operationData): array
     {
-        $record = $this->repository->get($operationData);
+        $record = $this->repository->getDetail($operationData);
         $record->delete();
         $cartIsEmpty = count($record->cart->details) < 1;
         $cartWasRemoved = false;
