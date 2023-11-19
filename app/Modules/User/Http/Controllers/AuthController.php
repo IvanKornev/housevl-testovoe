@@ -48,6 +48,7 @@ final class AuthController extends Controller
         return response()->json([
             'message' => 'Вход был успешно осуществлен',
             'token' => $token->plainTextToken,
+            'cartHash' => $authorizedUser->cart->hash ?? null,
         ]);
     }
 
