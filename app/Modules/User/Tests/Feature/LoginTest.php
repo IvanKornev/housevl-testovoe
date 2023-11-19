@@ -3,12 +3,12 @@
 namespace App\Modules\User\Tests\Feature;
 
 use Illuminate\Foundation\Testing\RefreshDatabase;
-use App\Modules\User\Entities\User;
+use App\Modules\User\Tests\Feature\Traits\HasLoginData;
 use Tests\TestCase;
 
 final class LoginTest extends TestCase
 {
-    use RefreshDatabase;
+    use RefreshDatabase, HasLoginData;
 
     /**
      * URL вызываемого эндпоинта
@@ -68,20 +68,5 @@ final class LoginTest extends TestCase
         $loginForm['password'] = fake()->password();
         $response = $this->json('POST', self::URL, $loginForm);
         $response->assertStatus(500);
-    }
-
-    /**
-     * Создает пользователя, данные которого будут
-     * использоваться для заполнения формы авторизации
-     *
-     * @return User
-     */
-    private function getLoginData(string $password = '123'): array
-    {
-        $user = User::factory()
-            ->state(fn ($state) => [...$state, 'password' => $password])
-            ->create();
-        $results = ['email' => $user->email, 'password' => $password];
-        return $results;
     }
 }
