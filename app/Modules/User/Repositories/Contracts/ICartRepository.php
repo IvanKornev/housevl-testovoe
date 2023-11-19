@@ -24,6 +24,13 @@ interface ICartRepository
      */
     public function get(string $cartHash): Cart | null;
     /**
+     * Находит корзину по userId и хешу (а если нет - создан
+     * взамен её новую)
+     *
+     * @return Cart | null
+     */
+    public function findOrCreate(AddToCartDTO $operationData): Cart | null;
+    /**
      * Получает запись корзины после проверки хеша и ID
      * @return CartDetail
      */

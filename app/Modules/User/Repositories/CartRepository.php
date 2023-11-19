@@ -34,6 +34,20 @@ final class CartRepository implements ICartRepository
         return $createdRecord;
     }
 
+    public function findOrCreate(AddToCartDTO $operationData): Cart | null
+    {
+        $createdCart = null;
+        if ($operationData->cartHash === null) {
+            $createdCart = Cart::create(['user_id' => $operationData->userId]);
+            $operationData->cartHash = $createdCart->hash;
+        }
+        $searchQuery = Cart::query()
+            ->where('hash', $operationData->cartHash)
+            ->where('user_id', $operationData->userId);
+        $foundCart = $createdCart ?? $searchQuery->first();
+        return $foundCart;
+    }
+
     public function get(string $cartHash): Cart | null
     {
         $cartQuery = Cart::query()->where('hash', $cartHash);

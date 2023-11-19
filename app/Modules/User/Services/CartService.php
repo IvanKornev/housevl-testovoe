@@ -9,7 +9,6 @@ use App\Modules\User\DTO\CartEditDTO;
 use App\Modules\User\DTO\AddToCartDTO;
 use App\Modules\User\DTO\RemoveFromCartDTO;
 
-use App\Modules\User\Entities\Cart;
 use App\Modules\User\Entities\CartDetail;
 use Exception;
 
@@ -24,15 +23,7 @@ final class CartService implements ICartService
 
     public function store(AddToCartDTO $operationData): CartDetail
     {
-        $createdCart = null;
-        if ($operationData->cartHash === null) {
-            $createdCart = Cart::create(['user_id' => $operationData->userId]);
-            $operationData->cartHash = $createdCart->hash;
-        }
-        $searchQuery = Cart::query()
-            ->where('hash', $operationData->cartHash)
-            ->where('user_id', $operationData->userId);
-        $foundCart = $createdCart ?? $searchQuery->first();
+        $foundCart = $this->repository->findOrCreate($operationData);
         if (!$foundCart) {
             throw new Exception('Запрошенной корзины не существует');
         }
