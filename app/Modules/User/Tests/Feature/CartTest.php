@@ -4,13 +4,13 @@ namespace App\Modules\User\Tests\Feature;
 
 use Illuminate\Foundation\Testing\RefreshDatabase;
 use App\Modules\User\Entities\Product;
-use App\Modules\User\Entities\CartDetail;
 use App\Modules\User\Entities\Cart;
+use App\Modules\User\Tests\Feature\Traits\HasAnonymousCart;
 use Tests\TestCase;
 
 final class CartTest extends TestCase
 {
-    use RefreshDatabase;
+    use RefreshDatabase, HasAnonymousCart;
 
     /**
      * Базовый URL вызываемого эндпоинта
@@ -95,11 +95,11 @@ final class CartTest extends TestCase
      */
     public function testEditsProductQuantityInTheCart(): void
     {
-        $details = CartDetail::inRandomOrder()->limit(1)->with('cart')->first();
-        $url = self::BASE_URL . "/{$details->id}";
+        $detail = $this->getDetailFromAnonymousCart();
+        $url = self::BASE_URL . "/{$detail->id}";
         $quantity = fake()->randomNumber(1, 10);
         $data = ['quantity' => $quantity];
-        $headers = ['Cart-Hash' => $details->cart->hash];
+        $headers = ['Cart-Hash' => $detail->cart->hash];
         $response = $this->json('PATCH', $url, $data, $headers);
         $response->assertStatus(200);
         $content = json_decode($response->getContent(), true);
@@ -140,9 +140,9 @@ final class CartTest extends TestCase
      */
     public function testRemovesProductFromCart(): void
     {
-        $details = CartDetail::inRandomOrder()->limit(1)->with('cart')->first();
-        $headers = ['Cart-Hash' => $details->cart->hash];
-        $url = self::BASE_URL . "/{$details->id}";
+        $detail = $this->getDetailFromAnonymousCart();
+        $headers = ['Cart-Hash' => $detail->cart->hash];
+        $url = self::BASE_URL . "/{$detail->id}";
         $response = $this->json('DELETE', $url, [], $headers);
         $response->assertStatus(200);
         $content = json_decode($response->getContent(), true);
