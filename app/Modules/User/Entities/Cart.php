@@ -11,7 +11,7 @@ use Illuminate\Support\Str;
 use App\Modules\User\Database\Factories\CartFactory;
 use App\Modules\User\Events\CartCreating;
 
-class Cart extends Model
+final class Cart extends Model
 {
     use HasFactory;
 
