@@ -4,7 +4,7 @@ namespace App\Modules\User\Tests\Feature;
 
 use Illuminate\Foundation\Testing\RefreshDatabase;
 use App\Modules\User\Tests\Feature\Traits\HasLoginData;
-use Tests\TestCase;
+use App\Shared\Tests\TestCase;
 
 final class LoginTest extends TestCase
 {

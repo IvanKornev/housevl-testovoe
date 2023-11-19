@@ -6,7 +6,7 @@ use Illuminate\Foundation\Testing\RefreshDatabase;
 use App\Modules\User\Entities\Product;
 use App\Modules\User\Entities\Cart;
 use App\Modules\User\Tests\Feature\Traits\HasAnonymousCart;
-use Tests\TestCase;
+use App\Shared\Tests\TestCase;
 
 final class CartTest extends TestCase
 {

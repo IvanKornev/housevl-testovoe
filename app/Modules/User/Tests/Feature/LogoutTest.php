@@ -3,7 +3,7 @@
 namespace App\Modules\User\Tests\Feature;
 
 use Illuminate\Foundation\Testing\RefreshDatabase;
-use Tests\TestCase;
+use App\Shared\Tests\TestCase;
 
 use App\Modules\User\Tests\Feature\Traits\HasLoginData;
 
