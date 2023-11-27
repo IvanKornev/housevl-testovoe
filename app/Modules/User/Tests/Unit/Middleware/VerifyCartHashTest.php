@@ -10,6 +10,30 @@ use App\Modules\User\Http\Middleware\VerifyCartHash;
 
 final class VerifyCartHashTest extends TestCase
 {
+    private VerifyCartHash $middleware;
+    private Request $request;
+
+    /**
+     * Сообщение об обязательном хеше корзины
+     *
+     * @var string
+     */
+    private const REQUIRED_MESSAGE = 'Для данной операции '
+        . 'хеш корзины обязателен';
+
+    /**
+     * Запускает тесты, а также инжектирует
+     * инстансы промежуточного ПО и класса запроса
+     *
+     * @return void
+     */
+    public function setUp(): void
+    {
+        parent::setUp();
+        $this->middleware = new VerifyCartHash;
+        $this->request = new Request;
+    }
+
     /**
      * Проверяет возврат ошибки о том,
      * что хеш корзины обязателен
@@ -18,13 +42,10 @@ final class VerifyCartHashTest extends TestCase
      */
     public function testReturnsAnErrorThatCartHashIsRequired(): void
     {
-        $request = new Request;
-        $middleware = new VerifyCartHash;
         $nextCallback = function ($req) {};
-        $response = $middleware->handle($request, $nextCallback);
+        $response = $this->middleware->handle($this->request, $nextCallback);
         $this->assertEquals(500, $response->getStatusCode());
-        $expectedMessage = 'Для данной операции хеш корзины обязателен';
         $content = json_decode($response->getContent(), true);
-        $this->assertEquals($expectedMessage, $content['message']);
+        $this->assertEquals(self::REQUIRED_MESSAGE, $content['message']);
     }
 }
