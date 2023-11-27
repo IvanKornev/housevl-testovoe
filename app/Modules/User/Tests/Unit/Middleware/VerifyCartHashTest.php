@@ -7,12 +7,13 @@ namespace App\Modules\User\Tests\Unit\Middleware;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 use Illuminate\Http\Request;
 
+use App\Modules\User\Tests\Unit\Middleware\Traits\HandleCartHash;
 use App\Modules\User\Http\Middleware\VerifyCartHash;
 use App\Shared\Tests\TestCase;
 
 final class VerifyCartHashTest extends TestCase
 {
-    use RefreshDatabase;
+    use RefreshDatabase, HandleCartHash;
 
     private VerifyCartHash $middleware;
     private Request $request;
@@ -54,10 +55,7 @@ final class VerifyCartHashTest extends TestCase
      */
     public function testReturnsAnErrorThatCartHashIsRequired(): void
     {
-        $response = $this->middleware->handle($this->request, function () {});
-        $this->assertEquals(500, $response->getStatusCode());
-        $content = json_decode($response->getContent(), true);
-        $this->assertEquals(self::REQUIRED_MESSAGE, $content['message']);
+        $this->handleWithError(self::REQUIRED_MESSAGE);
     }
 
     /**
@@ -69,9 +67,6 @@ final class VerifyCartHashTest extends TestCase
     public function testReturnsAnErrorThatCartHashIsInvalid(): void
     {
         $this->request->headers->set('Cart-Hash', 'incorrect-hash');
-        $response = $this->middleware->handle($this->request, function () {});
-        $this->assertEquals(500, $response->getStatusCode());
-        $content = json_decode($response->getContent(), true);
-        $this->assertEquals(self::INVALID_HASH_MESSAGE, $content['message']);
+        $this->handleWithError(self::INVALID_HASH_MESSAGE);
     }
 }
