@@ -6,9 +6,11 @@ namespace App\Modules\User\Tests\Unit\Middleware;
 
 use Illuminate\Foundation\Testing\RefreshDatabase;
 use Illuminate\Http\Request;
+use TypeError;
 
 use App\Modules\User\Tests\Unit\Middleware\Traits\HandleCartHash;
 use App\Modules\User\Http\Middleware\VerifyCartHash;
+use App\Modules\User\Entities\Cart;
 use App\Shared\Tests\TestCase;
 
 final class VerifyCartHashTest extends TestCase
@@ -68,5 +70,19 @@ final class VerifyCartHashTest extends TestCase
     {
         $this->request->headers->set('Cart-Hash', 'incorrect-hash');
         $this->handleWithError(self::INVALID_HASH_MESSAGE);
+    }
+
+    /**
+     * Проверяет корректность хеша и передачу запроса дальше
+     *
+     * @return void
+     */
+    public function testChecksTheCorrectnessOfTheHash(): void
+    {
+        $createdCart = Cart::create();
+        $this->request->headers->set('Cart-Hash', $createdCart->hash);
+        $this->expectException(TypeError::class);
+        $response = $this->middleware->handle($this->request, function () {});
+        $this->assertNull($response);
     }
 }
