@@ -8,6 +8,7 @@ use Illuminate\Foundation\Testing\RefreshDatabase;
 use Illuminate\Http\Request;
 
 use App\Modules\User\Http\Middleware\ResponseWithCart;
+use App\Modules\User\Entities\Cart;
 use App\Shared\Tests\TestCase;
 
 final class ResponseWithCartTest extends TestCase
@@ -28,6 +29,7 @@ final class ResponseWithCartTest extends TestCase
         parent::setUp();
         $this->middleware = app(ResponseWithCart::class);
         $this->request = new Request;
+        $this->artisan('db:seed --class=TestDatabaseSeeder');
     }
 
     /**
@@ -45,5 +47,24 @@ final class ResponseWithCartTest extends TestCase
         $this->assertIsArray($cart['items']);
         $this->assertCount(0, $cart['items']);
         $this->assertEquals(0, $cart['totalPrice']);
+    }
+
+    /**
+     * Проверяет возврат объекта корзины
+     * для хеша из хедера запроса
+     *
+     * @return void
+     */
+    public function testReturnsCartForHashFromHeader(): void
+    {
+        $cart = Cart::inRandomOrder()->limit(1)->first();
+        $this->request->headers->set('Cart-Hash', $cart->hash);
+        $res = $this->middleware->handle($this->request, function () {
+            return response()->json(['message' => 'is ok']);
+        });
+        $cart = json_decode($res->getContent(), true)['meta']['cart'];
+        $this->assertCount(1, $cart['items']);
+        $cartItem = $cart['items'][0];
+        $this->assertEquals($cart['totalPrice'], $cartItem['totalPrice']);
     }
 }
