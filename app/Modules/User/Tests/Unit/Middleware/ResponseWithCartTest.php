@@ -12,13 +12,6 @@ use App\Modules\User\Http\Middleware\ResponseWithCart;
 use App\Modules\User\Entities\Cart;
 use App\Shared\Tests\TestCase;
 
-/*
-  Список необходимых тестов:
-  1) Можем получить корзину на основе хеша из хедера;
-  2) Можем получить корзину на основе хеша из тела ответа;
-  3) Содержит как items, так и totalPrice.
-*/
-
 final class ResponseWithCartTest extends TestCase
 {
     use RefreshDatabase, HandleCartHash;
@@ -63,9 +56,24 @@ final class ResponseWithCartTest extends TestCase
     public function testReturnsCartForHashFromHeader(): void
     {
         $foundCart = Cart::inRandomOrder()->limit(1)->first();
-        $returnedCart = $this->handleResponseWithCart($foundCart->hash);
+        $this->request->headers->set('Cart-Hash', $foundCart->hash);
+        $returnedCart = $this->handleResponseWithCart();
         $this->assertCount(1, $returnedCart['items']);
         $cartItem = $returnedCart['items'][0];
         $this->assertEquals($returnedCart['totalPrice'], $cartItem['totalPrice']);
+    }
+
+    /**
+     * Проверяет возврат объекта корзины
+     * для хеша из тела ответа
+     *
+     * @return void
+     */
+    public function testReturnsCartForHashFromResponseBody(): void
+    {
+        $foundCart = Cart::inRandomOrder()->limit(1)->first();
+        $responseFields = ['cartHash' => $foundCart->hash];
+        $returnedCart = $this->handleResponseWithCart($responseFields);
+        $this->assertCount(1, $returnedCart['items']);
     }
 }

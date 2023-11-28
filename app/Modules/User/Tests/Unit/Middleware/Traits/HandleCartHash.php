@@ -26,16 +26,13 @@ trait HandleCartHash
      * Обрабатывает и дополняет JSON-ответ
      * ассоц.массивом корзины
      *
-     * @param string $hash
+     * @param array $responseFields
      * @return array (ассоц. массив корзины)
      */
-    private function handleResponseWithCart(string $hash = ''): array
+    private function handleResponseWithCart(array $responseFields = []): array
     {
-        if ($hash) {
-            $this->request->headers->set('Cart-Hash', $hash);
-        }
         $nextCallback = fn (): JsonResponse => response()->json([
-            'message' => 'is ok',
+            ...$responseFields,
         ]);
         $res = $this->middleware->handle($this->request, $nextCallback);
         $cart = json_decode($res->getContent(), true)['meta']['cart'];
