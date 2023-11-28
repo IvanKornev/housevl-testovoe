@@ -7,13 +7,21 @@ namespace App\Modules\User\Tests\Unit\Middleware;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 use Illuminate\Http\Request;
 
+use App\Modules\User\Tests\Unit\Middleware\Traits\HandleCartHash;
 use App\Modules\User\Http\Middleware\ResponseWithCart;
 use App\Modules\User\Entities\Cart;
 use App\Shared\Tests\TestCase;
 
+/*
+  Список необходимых тестов:
+  1) Можем получить корзину на основе хеша из хедера;
+  2) Можем получить корзину на основе хеша из тела ответа;
+  3) Содержит как items, так и totalPrice.
+*/
+
 final class ResponseWithCartTest extends TestCase
 {
-    use RefreshDatabase;
+    use RefreshDatabase, HandleCartHash;
 
     private ResponseWithCart $middleware;
     private Request $request;
@@ -40,13 +48,10 @@ final class ResponseWithCartTest extends TestCase
      */
     public function testReturnsEmptyCartForUndefinedHash(): void
     {
-        $res = $this->middleware->handle($this->request, function () {
-            return response()->json(['message' => 'is ok']);
-        });
-        $cart = json_decode($res->getContent(), true)['meta']['cart'];
-        $this->assertIsArray($cart['items']);
-        $this->assertCount(0, $cart['items']);
-        $this->assertEquals(0, $cart['totalPrice']);
+        $returnedCart = $this->handleResponseWithCart();
+        $this->assertIsArray($returnedCart['items']);
+        $this->assertCount(0, $returnedCart['items']);
+        $this->assertEquals(0, $returnedCart['totalPrice']);
     }
 
     /**
@@ -57,14 +62,10 @@ final class ResponseWithCartTest extends TestCase
      */
     public function testReturnsCartForHashFromHeader(): void
     {
-        $cart = Cart::inRandomOrder()->limit(1)->first();
-        $this->request->headers->set('Cart-Hash', $cart->hash);
-        $res = $this->middleware->handle($this->request, function () {
-            return response()->json(['message' => 'is ok']);
-        });
-        $cart = json_decode($res->getContent(), true)['meta']['cart'];
-        $this->assertCount(1, $cart['items']);
-        $cartItem = $cart['items'][0];
-        $this->assertEquals($cart['totalPrice'], $cartItem['totalPrice']);
+        $foundCart = Cart::inRandomOrder()->limit(1)->first();
+        $returnedCart = $this->handleResponseWithCart($foundCart->hash);
+        $this->assertCount(1, $returnedCart['items']);
+        $cartItem = $returnedCart['items'][0];
+        $this->assertEquals($returnedCart['totalPrice'], $cartItem['totalPrice']);
     }
 }

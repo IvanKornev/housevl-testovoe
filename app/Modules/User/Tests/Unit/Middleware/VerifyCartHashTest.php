@@ -57,7 +57,7 @@ final class VerifyCartHashTest extends TestCase
      */
     public function testReturnsAnErrorThatCartHashIsRequired(): void
     {
-        $this->handleWithError(self::REQUIRED_MESSAGE);
+        $this->handleRequestWithError(self::REQUIRED_MESSAGE);
     }
 
     /**
@@ -69,7 +69,7 @@ final class VerifyCartHashTest extends TestCase
     public function testReturnsAnErrorThatCartHashIsInvalid(): void
     {
         $this->request->headers->set('Cart-Hash', 'incorrect-hash');
-        $this->handleWithError(self::INVALID_HASH_MESSAGE);
+        $this->handleRequestWithError(self::INVALID_HASH_MESSAGE);
     }
 
     /**
