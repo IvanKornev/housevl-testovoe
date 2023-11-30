@@ -9,6 +9,11 @@ use App\Modules\Order\Http\Requests\OrderConfirmationRequest;
 
 class OrderController extends Controller
 {
+    public function __construct()
+    {
+        $this->middleware('cart.hash');
+    }
+
     /**
      * Подтверждает заказ и возвращает URL
      * для его оплаты
