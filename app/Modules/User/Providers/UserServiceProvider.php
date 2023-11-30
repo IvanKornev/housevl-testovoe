@@ -14,6 +14,9 @@ use App\Modules\User\Repositories\Contracts\ICartRepository;
 use App\Modules\User\Repositories\CartRepository;
 use App\Modules\User\Entities\PersonalAccessToken;
 
+use App\Modules\User\Api\Contracts\ICartApi;
+use App\Modules\User\Api\CartApi;
+
 class UserServiceProvider extends ServiceProvider
 {
     /**
@@ -50,6 +53,7 @@ class UserServiceProvider extends ServiceProvider
         $this->app->bind(ICartService::class, CartService::class);
         $this->app->bind(ICartRepository::class, CartRepository::class);
         $this->app->bind(IAuthService::class, AuthService::class);
+        $this->app->bind(ICartApi::class, CartApi::class);
     }
 
     /**

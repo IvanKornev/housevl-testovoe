@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-namespace App\Modules\Cart\Api\Contracts;
+namespace App\Modules\User\Api\Contracts;
 
 interface ICartApi
 {
