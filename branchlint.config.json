@@ -5,7 +5,8 @@
             "refactor",
             "feature",
             "hotfix",
-            "release"
+            "release",
+            "test"
         ],
         "suggestions": {
             "features": "feature",

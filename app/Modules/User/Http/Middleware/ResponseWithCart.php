@@ -25,7 +25,7 @@ final class ResponseWithCart
     {
         $response = $next($request);
         $isJsonResponse = $response instanceof JsonResponse;
-        if(!$isJsonResponse){
+        if (!$isJsonResponse) {
             return $response;
         }
         $currentData = json_decode(json_encode($response->getData()), true);
