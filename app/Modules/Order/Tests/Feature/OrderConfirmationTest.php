@@ -49,7 +49,7 @@ final class OrderConfirmationTest extends TestCase
     {
         $data = [
             'user' => [
-                'fullname' => $this->faker->word(),
+                'fullName' => $this->faker->word(),
                 'email' => $this->faker->email(),
                 'phone' => $this->faker->e164PhoneNumber(),
             ],
