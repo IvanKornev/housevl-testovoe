@@ -16,6 +16,6 @@ class OrderController extends Controller
      */
     public function store(Request $request): JsonResponse
     {
-        return response()->json();
+        return response()->json(['message' => 'it\'s ok'], 200);
     }
 }
