@@ -41,4 +41,16 @@ final class OrderConfirmationTest extends TestCase
         $response = $this->json('POST', self::URL);
         $response->assertStatus(422);
     }
+
+    /**
+     * Проверяет возврат ошибки при отсутствии
+     * хеша корзины
+     *
+     * @return void
+     */
+    public function testFailsWithoutCartHash(): void
+    {
+        $response = $this->json('POST', self::URL);
+        $response->assertStatus(500);
+    }
 }
