@@ -13,6 +13,7 @@ final class OrderConfirmationTest extends TestCase
     use RefreshDatabase;
 
     private CartAdapter $adapter;
+    private array $headers;
 
     /**
      * URL вызываемого эндпоинта
@@ -32,6 +33,8 @@ final class OrderConfirmationTest extends TestCase
         parent::setUp();
         $this->artisan('db:seed --class=TestDatabaseSeeder');
         $this->adapter = app(CartAdapter::class);
+        $gotCart = $this->adapter->get(1);
+        $this->headers = ['Cart-Hash' => $gotCart['hash']];
     }
 
     /**
@@ -42,7 +45,7 @@ final class OrderConfirmationTest extends TestCase
      */
     public function testConfirmsOrderForUnauthorizedUser(): void
     {
-        $response = $this->json('POST', self::URL);
+        $response = $this->json('POST', self::URL, [], $this->headers);
         $response->assertStatus(200);
     }
 
@@ -54,9 +57,7 @@ final class OrderConfirmationTest extends TestCase
      */
     public function testFailsUnauthorizedUserValidation(): void
     {
-        $gotCart = $this->adapter->get(1);
-        $headers = ['Cart-Hash' => $gotCart['hash']];
-        $response = $this->json('POST', self::URL, [], $headers);
+        $response = $this->json('POST', self::URL, [], $this->headers);
         $response->assertStatus(422);
     }
 
