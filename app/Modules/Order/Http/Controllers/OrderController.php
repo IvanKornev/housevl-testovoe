@@ -15,7 +15,7 @@ class OrderController extends Controller
     }
 
     /**
-     * Подтверждает заказ и возвращает URL
+     * Создает заказ и возвращает URL
      * для его оплаты
      * @param OrderConfirmationRequest $request
      * @return JsonResponse

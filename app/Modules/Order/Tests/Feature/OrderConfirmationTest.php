@@ -40,7 +40,7 @@ final class OrderConfirmationTest extends TestCase
     }
 
     /**
-     * Тест, успешно оформляющий заказ для
+     * Тест, успешно создающий заказ для
      * неавторизованного пользователя
      *
      * @return void
