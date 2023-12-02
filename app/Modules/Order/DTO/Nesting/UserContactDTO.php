@@ -15,20 +15,4 @@ final class UserContactDTO extends Data
         public string $email,
         public string $phone,
     ) {}
-
-    /**
-      * Возвращает инстанс DTO из массива пользователя
-      * провалидированного запроса
-      * @return self
-     */
-    public static function fromArray(array $user): self
-    {
-        return new self(
-            $user['name'],
-            $user['surname'],
-            $user['patronymic'],
-            $user['email'],
-            $user['phone'],
-        );
-    }
 }

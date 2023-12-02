@@ -13,18 +13,4 @@ final class CartDTO extends Data
         public int $id,
         public array $details = [],
     ) {}
-
-    /**
-      * Возвращает инстанс DTO из массива корзины,
-      * получаемого через БД
-      * @return self
-     */
-    public static function fromArray(array $cart): self
-    {
-        return new self(
-            $cart['hash'],
-            $cart['id'],
-            $cart['details'],
-        );
-    }
 }
