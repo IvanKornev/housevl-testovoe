@@ -24,14 +24,18 @@ class OrderController extends Controller
     /**
      * Создает заказ и возвращает URL
      * для его оплаты
+     *
      * @param OrderConfirmationRequest $request
      * @return JsonResponse
      */
     public function store(OrderConfirmationRequest $request): JsonResponse
     {
         $creatingOrder = CreateOrderDTO::fromRequest($request);
-        $this->service->create($creatingOrder);
-        $body = ['message' => 'Заказ был успешно создан'];
+        $paymentUrl = $this->service->create($creatingOrder);
+        $body = [
+            'message' => 'Заказ был успешно создан',
+            'paymentUrl' => $paymentUrl,
+        ];
         return response()->json($body, 200);
     }
 }
