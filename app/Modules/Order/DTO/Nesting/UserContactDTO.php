@@ -9,7 +9,9 @@ use Spatie\LaravelData\Data;
 final class UserContactDTO extends Data
 {
     public function __construct(
-        public string $fullName,
+        public string $name,
+        public string $surname,
+        public string $patronymic,
         public string $email,
         public string $phone,
     ) {}
@@ -22,7 +24,9 @@ final class UserContactDTO extends Data
     public static function fromArray(array $user): self
     {
         return new self(
-            $user['fullName'],
+            $user['name'],
+            $user['surname'],
+            $user['patronymic'],
             $user['email'],
             $user['phone'],
         );

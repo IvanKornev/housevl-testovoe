@@ -18,7 +18,9 @@ class OrderConfirmationRequest extends FormRequest
     public function rules(): array
     {
         return [
-            'user.fullName' => 'required',
+            'user.name' => 'required',
+            'user.surname' => 'required',
+            'user.patronymic' => 'required',
             'user.email' => 'required|email',
             'user.phone' => 'required|phone',
         ];
