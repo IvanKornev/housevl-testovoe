@@ -17,14 +17,4 @@ class $CLASS$ extends FormRequest
             //
         ];
     }
-
-    /**
-     * Имеет ли авториз. пользователь право сделать этот запрос
-     *
-     * @return bool
-     */
-    public function authorize(): bool
-    {
-        return true;
-    }
 }

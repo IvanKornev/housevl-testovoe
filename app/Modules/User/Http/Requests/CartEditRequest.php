@@ -18,13 +18,4 @@ final class CartEditRequest extends FormRequest
     {
         return ['quantity' => 'required|numeric|integer|gte:0'];
     }
-
-    /**
-     *
-     * @return bool
-     */
-    public function authorize(): bool
-    {
-        return true;
-    }
 }

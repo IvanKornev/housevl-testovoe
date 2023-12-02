@@ -23,14 +23,4 @@ class OrderConfirmationRequest extends FormRequest
             'user.phone' => 'required|phone',
         ];
     }
-
-    /**
-     * Имеет ли авториз. пользователь право сделать этот запрос
-     *
-     * @return bool
-     */
-    public function authorize(): bool
-    {
-        return true;
-    }
 }
