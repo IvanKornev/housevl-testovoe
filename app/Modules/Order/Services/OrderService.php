@@ -4,11 +4,13 @@ declare(strict_types=1);
 
 namespace App\Modules\Order\Services;
 
+use Illuminate\Support\Facades\DB;
+use Exception;
+
 use App\Modules\Order\Services\Contracts\IOrderService;
 use App\Modules\Order\Integrations\Contracts\IOrderPaymentRequest;
 use App\Modules\Order\Adapters\CartAdapter;
 use App\Modules\Order\DTO\CreateOrderDTO;
-use Exception;
 
 final class OrderService implements IOrderService
 {
@@ -39,8 +41,12 @@ final class OrderService implements IOrderService
             throw new Exception(static::EMPTY_CART_MESSAGE);
         }
         $data->setCartItems($foundCart['details']);
-        $paymentUrl = $this->paymentRequest->query($data);
-        $this->cartAdapter->delete($foundCart['id']);
+        $createCallback = function () use ($data, $foundCart) {
+            $paymentUrl = $this->paymentRequest->query($data);
+            $this->cartAdapter->delete($foundCart['id']);
+            return $paymentUrl;
+        };
+        $paymentUrl = DB::transaction($createCallback);
         return $paymentUrl;
     }
 }
