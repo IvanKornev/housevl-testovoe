@@ -9,10 +9,10 @@ use App\Modules\Order\DTO\CreateOrderDTO;
 interface IOrderPaymentRequest
 {
     /**
-     * Возвращает URL для оплаты заказа
+     * Возвращает данные для оплаты созданного заказа
      *
      * @param CreateOrderDTO;
-     * @return string (URL для оплаты заказа)
+     * @return array (данные для оплаты заказа)
     */
-    public function query(CreateOrderDTO $data): string;
+    public function query(CreateOrderDTO $data): array;
 }

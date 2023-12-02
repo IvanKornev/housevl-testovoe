@@ -10,6 +10,7 @@ use Exception;
 use App\Modules\Order\Services\Contracts\IOrderService;
 use App\Modules\Order\Integrations\Contracts\IOrderPaymentRequest;
 use App\Modules\Order\Adapters\CartAdapter;
+use App\Modules\Order\Entities\Order;
 use App\Modules\Order\DTO\CreateOrderDTO;
 
 final class OrderService implements IOrderService
@@ -42,11 +43,12 @@ final class OrderService implements IOrderService
         }
         $data->setCartItems($foundCart['details']);
         $createCallback = function () use ($data, $foundCart) {
-            $paymentUrl = $this->paymentRequest->query($data);
+            $paymentValues = $this->paymentRequest->query($data);
+            $createdOrder = Order::create($paymentValues);
             $this->cartAdapter->delete($foundCart['id']);
-            return $paymentUrl;
+            return $createdOrder;
         };
-        $paymentUrl = DB::transaction($createCallback);
-        return $paymentUrl;
+        $createdOrder = DB::transaction($createCallback);
+        return $createdOrder->payment_url;
     }
 }

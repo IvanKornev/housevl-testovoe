@@ -19,9 +19,15 @@ final class MockedOrderPaymentRequest implements IOrderPaymentRequest
         $this->faker = FakerFactory::create();
     }
 
-    public function query(CreateOrderDTO $data): string
+    public function query(CreateOrderDTO $data): array
     {
-        $paymentUrl = $this->faker->url();
-        return $paymentUrl;
+        $results = [
+            'payment_id' => 'id-' . $this->faker->word(),
+            'sum' => $this->faker->randomFloat(2, 100),
+            'payment_url' => $this->faker->url(),
+            'status' => 'pending',
+            'currency' => 'RUB',
+        ];
+        return $results;
     }
 }
