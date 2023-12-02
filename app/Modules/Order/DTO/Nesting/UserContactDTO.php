@@ -19,7 +19,7 @@ final class UserContactDTO extends Data
       * провалидированного запроса
       * @return self
      */
-    public static function fromInput(array $user): self
+    public static function fromArray(array $user): self
     {
         return new self(
             $user['fullName'],

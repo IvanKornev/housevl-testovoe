@@ -36,16 +36,14 @@ final class OrderService implements IOrderService
 
     public function create(CreateOrderDTO $data): string
     {
-        $foundCart = $this->cartAdapter->getByHash($data->cartHash);
-        $withItemsInside = count($foundCart['details']) > 0;
+        $withItemsInside = count($data->cart->details) > 0;
         if (!$withItemsInside) {
             throw new Exception(static::EMPTY_CART_MESSAGE);
         }
-        $data->setCartItems($foundCart['details']);
-        $createCallback = function () use ($data, $foundCart) {
+        $createCallback = function () use ($data) {
             $paymentValues = $this->paymentRequest->query($data);
             $createdOrder = Order::create($paymentValues);
-            $this->cartAdapter->delete($foundCart['id']);
+            $this->cartAdapter->delete($data->cart->id);
             return $createdOrder;
         };
         $createdOrder = DB::transaction($createCallback);

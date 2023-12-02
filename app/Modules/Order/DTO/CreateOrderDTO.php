@@ -8,13 +8,14 @@ use Spatie\LaravelData\Data;
 use Illuminate\Http\Request;
 
 use App\Modules\Order\DTO\Nesting\UserContactDTO;
+use App\Modules\Order\DTO\Nesting\CartDTO;
+use App\Modules\Order\Adapters\CartAdapter;
 
 final class CreateOrderDTO extends Data
 {
     public function __construct(
         public UserContactDTO $user,
-        public string $cartHash,
-        public array $cartItems = [],
+        public CartDTO $cart,
     ) {}
 
     /**
@@ -26,19 +27,10 @@ final class CreateOrderDTO extends Data
     public static function fromRequest(Request $request): self
     {
         $body = $request->validated();
-        $user = UserContactDTO::fromInput($body['user']);
-        $cartHash = $request->header('Cart-Hash');
-        return new self($user, $cartHash);
-    }
-
-    /**
-      * Устанавливает значения товаров, хранящихся в корзине
-      *
-      * @param array $values
-      * @return void
-     */
-    public function setCartItems(array $values = []): void
-    {
-        $this->cartItems = $values;
+        $user = UserContactDTO::fromArray($body['user']);
+        $cartAdapter = app(CartAdapter::class);
+        $hash = $request->header('Cart-Hash');
+        $cart = CartDTO::fromArray($cartAdapter->getByHash($hash));
+        return new self($user, $cart);
     }
 }
