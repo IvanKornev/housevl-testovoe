@@ -29,7 +29,7 @@ return new class extends Migration
             $table->id();
             $table->string('payment_id');
             $table->enum('status', self::STATUSES)->default('pending');
-            $table->boolean('paid')->default('false');
+            $table->boolean('paid')->default(false);
             $table->float('sum');
             $table->string('currency')->default('RUB');
             $table->string('payment_url');
