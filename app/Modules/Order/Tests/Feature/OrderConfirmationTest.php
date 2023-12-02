@@ -69,6 +69,7 @@ final class OrderConfirmationTest extends TestCase
         $response = $this->json('POST', self::URL, $this->body, $this->headers);
         $response->assertStatus(200);
         $content = json_decode($response->getContent(), true);
+        $this->assertIsString($content['paymentUrl']);
         $cleanedCartCount = 0;
         $this->assertCount($cleanedCartCount, $content['meta']['cart']['items']);
     }

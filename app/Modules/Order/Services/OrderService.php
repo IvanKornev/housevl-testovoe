@@ -29,8 +29,8 @@ final class OrderService implements IOrderService
     public function create(CreateOrderDTO $data): string
     {
         $foundCart = $this->adapter->getByHash($data->cartHash);
-        $hasItemsInside = count($foundCart['details']) > 0;
-        if (!$hasItemsInside) {
+        $withItemsInside = count($foundCart['details']) > 0;
+        if (!$withItemsInside) {
             throw new Exception(static::EMPTY_CART_MESSAGE);
         }
         $this->adapter->delete($foundCart['id']);
