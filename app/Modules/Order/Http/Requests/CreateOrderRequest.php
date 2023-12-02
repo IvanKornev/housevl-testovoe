@@ -5,7 +5,7 @@ namespace App\Modules\Order\Http\Requests;
 use Illuminate\Foundation\Http\FormRequest;
 use App\Shared\Http\Traits\HasJsonRequestError;
 
-class OrderConfirmationRequest extends FormRequest
+class CreateOrderRequest extends FormRequest
 {
     use HasJsonRequestError;
 

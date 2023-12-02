@@ -7,7 +7,7 @@ namespace App\Modules\Order\Http\Controllers;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Routing\Controller;
 
-use App\Modules\Order\Http\Requests\OrderConfirmationRequest;
+use App\Modules\Order\Http\Requests\CreateOrderRequest;
 use App\Modules\Order\Services\Contracts\IOrderService;
 use App\Modules\Order\DTO\CreateOrderDTO;
 
@@ -25,10 +25,10 @@ class OrderController extends Controller
      * Создает заказ и возвращает URL
      * для его оплаты
      *
-     * @param OrderConfirmationRequest $request
+     * @param CreateOrderRequest $request
      * @return JsonResponse
      */
-    public function store(OrderConfirmationRequest $request): JsonResponse
+    public function store(CreateOrderRequest $request): JsonResponse
     {
         $creatingOrder = CreateOrderDTO::fromRequest($request);
         $paymentUrl = $this->service->create($creatingOrder);
