@@ -20,4 +20,10 @@ final class CartAdapter
         $results = $this->api->get($id);
         return $results;
     }
+
+    public function delete(string $hash): int
+    {
+        $results = $this->api->delete($hash);
+        return $results;
+    }
 }

@@ -13,4 +13,9 @@ final class CartApi implements ICartApi
     {
         return Cart::findOrFail($id)->toArray();
     }
+
+    public function delete(string $hash): int
+    {
+        return Cart::where('hash', $hash)->delete();
+    }
 }
