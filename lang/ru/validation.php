@@ -12,6 +12,9 @@ return [
         'numeric' => 'Значение поля ":attribute" должно быть больше или равно :value',
     ],
     'attributes' => [
+        'user.fullName' => 'ФИО пользователя',
+        'user.email' => 'Почта пользователя',
+        'user.phone' => 'Телефон пользователя',
         'weight.min' => 'мин.вес',
         'weight.max' => 'макс.вес',
         'length.min' => 'мин.длина',

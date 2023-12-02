@@ -25,13 +25,4 @@ final class RegistrationRequest extends FormRequest
             'phone' => 'required|phone',
         ];
     }
-
-    /**
-     *
-     * @return bool
-     */
-    public function authorize(): bool
-    {
-        return true;
-    }
 }

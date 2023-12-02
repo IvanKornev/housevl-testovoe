@@ -1,17 +1,22 @@
 version: '3.9'
 
 services:
-    cache:
-        container_name: shop-cache
-        image: "redis:7.2.1-alpine"
+    api:
+        build:
+            context: ./
+            dockerfile: ./docker/php/Dockerfile
+        container_name: shop-api
         restart: unless-stopped
-        command: redis-server
-        ports:
-            - "6379:6379"
-        environment:
-            - "REDIS_PASSWORD"
+        user: ${UID}:${GID}
+        working_dir: /var/www
+        volumes:
+            - ./:/var/www
+            - ./docker/php/custom.ini:/usr/local/etc/php/conf.d/custom.ini
+        depends_on:
+            - database
         networks:
-            - shop-api-network
+           - shop-http-server-network
+           - shop-api-network
 
     database:
         container_name: shop-main-database
@@ -27,23 +32,6 @@ services:
             shop-api-network:
                 aliases:
                     - main-database-host
-
-    api:
-        build:
-            context: ./
-            dockerfile: ./docker/php/Dockerfile
-        container_name: shop-api
-        restart: unless-stopped
-        user: ${UID}:${GID}
-        working_dir: /var/www
-        volumes:
-            - ./:/var/www
-        depends_on:
-            - cache
-            - database
-        networks:
-           - shop-http-server-network
-           - shop-api-network
 
     nginx:
         image: nginx:1.25.2-alpine

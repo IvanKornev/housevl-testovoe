@@ -1,24 +1,26 @@
 <?php
 
-namespace App\Modules\User\Http\Requests;
+namespace App\Modules\Order\Http\Requests;
 
 use Illuminate\Foundation\Http\FormRequest;
 use App\Shared\Http\Traits\HasJsonRequestError;
 
-final class AddToCartRequest extends FormRequest
+class OrderConfirmationRequest extends FormRequest
 {
     use HasJsonRequestError;
 
     /**
      * Валидационые правила по отношению к запросу
+     * на подтверждение заказа
      *
      * @return array
      */
     public function rules(): array
     {
         return [
-            'quantity' => 'numeric|integer|gte:0',
-            'productId' => 'required|numeric|integer|gte:0',
+            'user.fullName' => 'required',
+            'user.email' => 'required|email',
+            'user.phone' => 'required|phone',
         ];
     }
 }

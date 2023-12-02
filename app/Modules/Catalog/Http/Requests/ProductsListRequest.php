@@ -34,13 +34,4 @@ final class ProductsListRequest extends FormRequest
         }
         return $rules;
     }
-
-    /**
-     *
-     * @return bool
-     */
-    public function authorize(): bool
-    {
-        return true;
-    }
 }

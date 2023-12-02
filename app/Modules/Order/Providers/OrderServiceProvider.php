@@ -1,33 +1,26 @@
 <?php
 
-namespace App\Modules\User\Providers;
+namespace App\Modules\Order\Providers;
 
 use Illuminate\Support\ServiceProvider;
-use Laravel\Sanctum\Sanctum;
 
-use App\Modules\User\Services\Contracts\ICartService;
-use App\Modules\User\Services\CartService;
-use App\Modules\User\Services\Contracts\IAuthService;
-use App\Modules\User\Services\AuthService;
+use App\Modules\Order\Services\Contracts\IOrderService;
+use App\Modules\Order\Services\OrderService;
 
-use App\Modules\User\Repositories\Contracts\ICartRepository;
-use App\Modules\User\Repositories\CartRepository;
-use App\Modules\User\Entities\PersonalAccessToken;
+use App\Modules\Order\Integrations\Contracts\IOrderPaymentRequest;
+use App\Modules\Order\Integrations\MockedOrderPaymentRequest;
 
-use App\Modules\User\Api\Contracts\ICartApi;
-use App\Modules\User\Api\CartApi;
-
-class UserServiceProvider extends ServiceProvider
+class OrderServiceProvider extends ServiceProvider
 {
     /**
      * @var string $moduleName
      */
-    protected $moduleName = 'User';
+    protected $moduleName = 'Order';
 
     /**
      * @var string $moduleNameLower
      */
-    protected $moduleNameLower = 'user';
+    protected $moduleNameLower = 'order';
 
     /**
      * Загружает события приложения
@@ -39,7 +32,6 @@ class UserServiceProvider extends ServiceProvider
         $this->registerTranslations();
         $this->registerConfig();
         $this->loadMigrationsFrom(module_path($this->moduleName, 'Database/Migrations'));
-        Sanctum::usePersonalAccessTokenModel(PersonalAccessToken::class);
     }
 
     /**
@@ -50,10 +42,8 @@ class UserServiceProvider extends ServiceProvider
     public function register(): void
     {
         $this->app->register(RouteServiceProvider::class);
-        $this->app->bind(ICartService::class, CartService::class);
-        $this->app->bind(ICartRepository::class, CartRepository::class);
-        $this->app->bind(IAuthService::class, AuthService::class);
-        $this->app->bind(ICartApi::class, CartApi::class);
+        $this->app->bind(IOrderService::class, OrderService::class);
+        $this->app->bind(IOrderPaymentRequest::class, MockedOrderPaymentRequest::class);
     }
 
     /**

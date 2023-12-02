@@ -21,13 +21,4 @@ final class LoginRequest extends FormRequest
             'password' => 'required|string|max:300',
         ];
     }
-
-    /**
-     *
-     * @return bool
-     */
-    public function authorize(): bool
-    {
-        return true;
-    }
 }
