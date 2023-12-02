@@ -8,6 +8,7 @@ use Illuminate\Foundation\Testing\RefreshDatabase;
 use Illuminate\Foundation\Testing\WithFaker;
 
 use App\Modules\Order\Adapters\CartAdapter;
+use App\Modules\Order\Adapters\UserAdapter;
 use App\Modules\Order\Entities\Order;
 use App\Shared\Tests\TestCase;
 
@@ -15,7 +16,9 @@ final class OrderConfirmationTest extends TestCase
 {
     use RefreshDatabase, WithFaker;
 
-    private CartAdapter $adapter;
+    private CartAdapter $cartAdapter;
+    private UserAdapter $userAdapter;
+
     private array $headers;
     private array $body;
 
@@ -36,29 +39,13 @@ final class OrderConfirmationTest extends TestCase
     {
         parent::setUp();
         $this->artisan('db:seed --class=TestDatabaseSeeder');
-        $this->setBody();
-        $this->adapter = app(CartAdapter::class);
-        $gotCart = $this->adapter->get(1);
+
+        $this->cartAdapter = app(CartAdapter::class);
+        $gotCart = $this->cartAdapter->get(1);
         $this->headers = ['Cart-Hash' => $gotCart['hash']];
-    }
 
-
-    /**
-     * Устанавливает body для каждого из запросов
-     *
-     * @return void
-     */
-    private function setBody(): void
-    {
-        $this->body = [
-            'user' => [
-                'name' => $this->faker->word(),
-                'surname' => $this->faker->word(),
-                'patronymic' => $this->faker->word(),
-                'email' => $this->faker->email(),
-                'phone' => $this->faker->e164PhoneNumber(),
-            ],
-        ];
+        $this->userAdapter = app(UserAdapter::class);
+        $this->body = ['user' => $this->userAdapter->get(1)];
     }
 
     /**
@@ -110,7 +97,7 @@ final class OrderConfirmationTest extends TestCase
      */
     public function testReturnsErrorIfCartIsAlreadyEmpty(): void
     {
-        $addedCart = $this->adapter->add();
+        $addedCart = $this->cartAdapter->add();
         $response = $this->json('POST', self::URL, $this->body, [
             'Cart-Hash' => $addedCart['hash'],
         ]);
