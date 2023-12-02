@@ -8,6 +8,7 @@ use Illuminate\Foundation\Testing\RefreshDatabase;
 use Illuminate\Foundation\Testing\WithFaker;
 
 use App\Modules\Order\Adapters\CartAdapter;
+use App\Modules\Order\Entities\Order;
 use App\Shared\Tests\TestCase;
 
 final class OrderConfirmationTest extends TestCase
@@ -71,8 +72,9 @@ final class OrderConfirmationTest extends TestCase
         $content = json_decode($response->getContent(), true);
         $validPaymentUrl = filter_var($content['paymentUrl'], FILTER_VALIDATE_URL);
         $this->assertIsString($validPaymentUrl);
-        $cleanedCartCount = 0;
-        $this->assertCount($cleanedCartCount, $content['meta']['cart']['items']);
+        $this->assertCount(0, $content['meta']['cart']['items']);
+        $createdOrder = Order::where('payment_url', $validPaymentUrl)->first();
+        $this->assertIsObject($createdOrder);
     }
 
     /**
