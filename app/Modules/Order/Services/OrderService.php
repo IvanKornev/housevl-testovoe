@@ -7,10 +7,19 @@ namespace App\Modules\Order\Services;
 use App\Modules\Order\Services\Contracts\IOrderService;
 use App\Modules\Order\Adapters\CartAdapter;
 use App\Modules\Order\DTO\CreateOrderDTO;
+use Exception;
 
 final class OrderService implements IOrderService
 {
     private CartAdapter $adapter;
+
+    /**
+     * Ошибка пустой внутри корзины
+     *
+     * @var string
+     */
+    private const EMPTY_CART_MESSAGE = 'Заказ не может '
+        . 'быть создан для пустой корзины';
 
     public function __construct(CartAdapter $adapter)
     {
@@ -19,7 +28,12 @@ final class OrderService implements IOrderService
 
     public function create(CreateOrderDTO $data): string
     {
-        $this->adapter->delete($data->cartHash);
+        $foundCart = $this->adapter->getByHash($data->cartHash);
+        $hasItemsInside = count($foundCart['details']) > 0;
+        if (!$hasItemsInside) {
+            throw new Exception(static::EMPTY_CART_MESSAGE);
+        }
+        $this->adapter->delete($foundCart['id']);
         return 'some-url.com';
     }
 }

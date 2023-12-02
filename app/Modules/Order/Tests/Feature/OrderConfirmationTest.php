@@ -16,6 +16,7 @@ final class OrderConfirmationTest extends TestCase
 
     private CartAdapter $adapter;
     private array $headers;
+    private array $body;
 
     /**
      * URL вызываемого эндпоинта
@@ -34,9 +35,27 @@ final class OrderConfirmationTest extends TestCase
     {
         parent::setUp();
         $this->artisan('db:seed --class=TestDatabaseSeeder');
+        $this->setBody();
         $this->adapter = app(CartAdapter::class);
         $gotCart = $this->adapter->get(1);
         $this->headers = ['Cart-Hash' => $gotCart['hash']];
+    }
+
+
+    /**
+     * Устанавливает body для каждого из запросов
+     *
+     * @return void
+     */
+    private function setBody(): void
+    {
+        $this->body = [
+            'user' => [
+                'fullName' => $this->faker->word(),
+                'email' => $this->faker->email(),
+                'phone' => $this->faker->e164PhoneNumber(),
+            ],
+        ];
     }
 
     /**
@@ -47,14 +66,7 @@ final class OrderConfirmationTest extends TestCase
      */
     public function testConfirmsOrderForUnauthorizedUser(): void
     {
-        $data = [
-            'user' => [
-                'fullName' => $this->faker->word(),
-                'email' => $this->faker->email(),
-                'phone' => $this->faker->e164PhoneNumber(),
-            ],
-        ];
-        $response = $this->json('POST', self::URL, $data, $this->headers);
+        $response = $this->json('POST', self::URL, $this->body, $this->headers);
         $response->assertStatus(200);
         $content = json_decode($response->getContent(), true);
         $cleanedCartCount = 0;
@@ -86,14 +98,16 @@ final class OrderConfirmationTest extends TestCase
     }
 
     /**
-     * Проверяет возврат ошибки при уже
-     * опустошенной корзине
+     * Проверяет возврат ошибки при пустой корзине
      *
      * @return void
      */
     public function testReturnsErrorIfCartIsAlreadyEmpty(): void
     {
-        $response = $this->json('POST', self::URL);
+        $addedCart = $this->adapter->add();
+        $response = $this->json('POST', self::URL, $this->body, [
+            'Cart-Hash' => $addedCart['hash'],
+        ]);
         $content = json_decode($response->getContent(), true);
         $expectedMessage = 'Заказ не может быть создан для пустой корзины';
         $this->assertEquals($expectedMessage, $content['message']);

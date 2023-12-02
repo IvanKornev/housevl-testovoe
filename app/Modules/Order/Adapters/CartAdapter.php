@@ -21,9 +21,21 @@ final class CartAdapter
         return $results;
     }
 
-    public function delete(string $hash): int
+    public function getByHash(string $hash): array
     {
-        $results = $this->api->delete($hash);
+        $results = $this->api->getByHash($hash);
+        return $results;
+    }
+
+    public function delete(int $id): int
+    {
+        $results = $this->api->delete($id);
+        return $results;
+    }
+
+    public function add(): array
+    {
+        $results = $this->api->add();
         return $results;
     }
 }

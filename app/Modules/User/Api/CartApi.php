@@ -6,6 +6,7 @@ namespace App\Modules\User\Api;
 
 use App\Modules\User\Api\Contracts\ICartApi;
 use App\Modules\User\Entities\Cart;
+use Exception;
 
 final class CartApi implements ICartApi
 {
@@ -14,8 +15,25 @@ final class CartApi implements ICartApi
         return Cart::findOrFail($id)->toArray();
     }
 
-    public function delete(string $hash): int
+    public function getByHash(string $hash): array
     {
-        return Cart::where('hash', $hash)->delete();
+        return Cart::where('hash', $hash)
+            ->with('details')
+            ->first()
+            ->toArray();
+    }
+
+    public function delete(int $id): int
+    {
+        $foundCart = Cart::where('id', $id);
+        if (!$foundCart) {
+            throw new Exception('Корзины не существует');
+        }
+        return $foundCart->delete();
+    }
+
+    public function add(): array
+    {
+        return Cart::create()->toArray();
     }
 }

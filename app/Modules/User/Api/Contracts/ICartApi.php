@@ -14,11 +14,24 @@ interface ICartApi
      * @return array
     */
     public function get(int $id): array;
-     /**
-     * Удаляет корзину по её уникальному хешу
+    /**
+     * Находит корзину по её уникальному хешу
      *
      * @param string $hash
+     * @return array
+    */
+    public function getByHash(string $hash): array;
+    /**
+     * Удаляет корзину по её ID
+     *
+     * @param int $id
      * @return int
     */
-    public function delete(string $hash): int;
+    public function delete(int $id): int;
+    /**
+     * Добавляет анонимную корзину
+     *
+     * @return array
+    */
+    public function add(): array;
 }
