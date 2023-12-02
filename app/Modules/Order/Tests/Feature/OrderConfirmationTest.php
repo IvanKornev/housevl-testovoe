@@ -84,4 +84,18 @@ final class OrderConfirmationTest extends TestCase
         $response = $this->json('POST', self::URL);
         $response->assertStatus(500);
     }
+
+    /**
+     * Проверяет возврат ошибки при уже
+     * опустошенной корзине
+     *
+     * @return void
+     */
+    public function testReturnsErrorIfCartIsAlreadyEmpty(): void
+    {
+        $response = $this->json('POST', self::URL);
+        $content = json_decode($response->getContent(), true);
+        $expectedMessage = 'Заказ не может быть создан для пустой корзины';
+        $this->assertEquals($expectedMessage, $content['message']);
+    }
 }
