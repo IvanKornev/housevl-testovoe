@@ -20,4 +20,10 @@ final class UserAdapter
         $results = $this->api->get($id);
         return $results;
     }
+
+    public function createWithToken(): array
+    {
+        $results = $this->api->createWithToken();
+        return $results;
+    }
 }

@@ -13,4 +13,9 @@ interface IUserApi
      * @return array
     */
     public function get(int $id = 1): array;
+    /**
+     * Создает пользователя вместе с токеном доступа
+     * @return array
+    */
+    public function createWithToken(): array;
 }

@@ -13,4 +13,12 @@ final class UserApi implements IUserApi
     {
         return User::findOrFail($id)->toArray();
     }
+
+    public function createWithToken(): array
+    {
+        $createdUser = User::factory()->create();
+        $token = $createdUser->createToken('api')->plainTextToken;
+        $results = ['user' => $createdUser, 'token' => $token];
+        return $results;
+    }
 }

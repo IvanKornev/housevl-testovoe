@@ -67,6 +67,22 @@ final class OrderConfirmationTest extends TestCase
     }
 
     /**
+     * Тест, успешно создающий заказ для
+     * авторизованного пользователя
+     *
+     * @return void
+     */
+    public function testConfirmsOrderForAuthorizedUser(): void
+    {
+        ['token' => $token] = $this->userAdapter->createWithToken();
+        $response = $this->json('POST', self::URL, [], [
+            'Authorization' => "Bearer $token",
+            ...$this->headers,
+        ]);
+        $response->assertStatus(200);
+    }
+
+    /**
      * Проверяет возврат ошибки при провале валидации
      * запроса от неавторизованного пользователя
      *
