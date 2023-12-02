@@ -34,7 +34,7 @@ return new class extends Migration
             $table->string('currency')->default('RUB');
             $table->string('payment_url');
             $table->string('description')->nullable();
-            $table->timestamp('paid_at');
+            $table->timestamp('paid_at')->nullable();
             $table->timestamps();
         });
     }
