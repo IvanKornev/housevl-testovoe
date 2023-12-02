@@ -27,12 +27,12 @@ return new class extends Migration
     {
         Schema::create('orders', function (Blueprint $table) {
             $table->id();
-            $table->string('payment_id');
+            $table->string('payment_id')->unique();
             $table->enum('status', self::STATUSES)->default('pending');
             $table->boolean('paid')->default(false);
             $table->float('sum');
             $table->string('currency')->default('RUB');
-            $table->string('payment_url');
+            $table->string('payment_url')->unique();
             $table->string('description')->nullable();
             $table->timestamp('paid_at')->nullable();
             $table->timestamps();
