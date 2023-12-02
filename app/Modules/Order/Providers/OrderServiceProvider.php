@@ -7,6 +7,9 @@ use Illuminate\Support\ServiceProvider;
 use App\Modules\Order\Services\Contracts\IOrderService;
 use App\Modules\Order\Services\OrderService;
 
+use App\Modules\Order\Integrations\Contracts\IOrderPaymentRequest;
+use App\Modules\Order\Integrations\MockedOrderPaymentRequest;
+
 class OrderServiceProvider extends ServiceProvider
 {
     /**
@@ -40,6 +43,7 @@ class OrderServiceProvider extends ServiceProvider
     {
         $this->app->register(RouteServiceProvider::class);
         $this->app->bind(IOrderService::class, OrderService::class);
+        $this->app->bind(IOrderPaymentRequest::class, MockedOrderPaymentRequest::class);
     }
 
     /**

@@ -2,11 +2,11 @@
 
 declare(strict_types=1);
 
-namespace App\Modules\Order\Services\Contracts;
+namespace App\Modules\Order\Integrations\Contracts;
 
 use App\Modules\Order\DTO\CreateOrderDTO;
 
-interface IOrderService
+interface IOrderPaymentRequest
 {
     /**
      * Возвращает URL для оплаты заказа
@@ -14,5 +14,5 @@ interface IOrderService
      * @param CreateOrderDTO;
      * @return string (URL для оплаты заказа)
     */
-    public function create(CreateOrderDTO $data): string;
+    public function query(CreateOrderDTO $data): string;
 }
