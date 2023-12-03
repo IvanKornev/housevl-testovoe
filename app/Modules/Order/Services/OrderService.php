@@ -46,9 +46,9 @@ final class OrderService implements IOrderService
             throw new Exception(static::EMPTY_CART_MESSAGE);
         }
         $createCallback = function () use ($data) {
-            $this->authAdapter->registerIfThisIsGuest($data->user);
-            $paymentValues = $this->paymentRequest->query($data);
-            $createdOrder = Order::create($paymentValues);
+            $user = $this->authAdapter->registerIfThisIsGuest($data->user);
+            $payment = $this->paymentRequest->query($data);
+            $createdOrder = Order::create([...$payment, 'user_id' => $user['id']]);
             $this->cartAdapter->delete($data->cart->id);
             return $createdOrder;
         };

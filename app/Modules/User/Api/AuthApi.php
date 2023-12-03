@@ -17,7 +17,7 @@ final class AuthApi implements IAuthApi
         $this->service = $service;
     }
 
-    public function register(object $data): array
+    public function register(array $data): array
     {
         $receivingData = RegistrationDTO::from($data);
         $createdUser = $this->service->register($receivingData);

@@ -17,13 +17,15 @@ final class AuthAdapter
         $this->api = $api;
     }
 
-    public function registerIfThisIsGuest(UserContactDTO $data): ?array
+    public function registerIfThisIsGuest(UserContactDTO $data): array
     {
-        if (auth('sanctum')->hasUser()) {
-            return null;
+        $alreadyRegisteredUser = auth('sanctum')->user();
+        if ($alreadyRegisteredUser) {
+            return $alreadyRegisteredUser->toArray();
         }
-        $data->password = Str::password(20);
-        $results = $this->api->register($data);
+        $receivingData = $data->toArray();
+        $receivingData['password'] = Str::password(20);
+        $results = $this->api->register($receivingData);
         return $results;
     }
 }

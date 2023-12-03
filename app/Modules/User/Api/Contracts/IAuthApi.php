@@ -9,8 +9,8 @@ interface IAuthApi
     /**
      * Регистрирует нового пользователя в системе
      *
-     * @param object $data
+     * @param array $data
      * @return array
     */
-    public function register(object $data): array;
+    public function register(array $data): array;
 }
