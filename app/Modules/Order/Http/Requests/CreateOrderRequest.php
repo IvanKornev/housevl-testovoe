@@ -1,13 +1,29 @@
 <?php
 
+declare(strict_types=1);
+
 namespace App\Modules\Order\Http\Requests;
 
 use Illuminate\Foundation\Http\FormRequest;
 use App\Shared\Http\Traits\HasJsonRequestError;
 
-class CreateOrderRequest extends FormRequest
+final class CreateOrderRequest extends FormRequest
 {
     use HasJsonRequestError;
+
+    /**
+     * Правила валидации для
+     * неавторизованного пользователя
+     *
+     * @var array
+     */
+    private const GUEST_RULES = [
+        'user.name' => 'required',
+        'user.surname' => 'required',
+        'user.patronymic' => 'required',
+        'user.email' => 'required|email',
+        'user.phone' => 'required|phone',
+    ];
 
     /**
      * Валидационые правила по отношению к запросу
@@ -17,12 +33,11 @@ class CreateOrderRequest extends FormRequest
      */
     public function rules(): array
     {
-        return [
-            'user.name' => 'required',
-            'user.surname' => 'required',
-            'user.patronymic' => 'required',
-            'user.email' => 'required|email',
-            'user.phone' => 'required|phone',
-        ];
+        $results = [];
+        $currentUser = auth('sanctum')->user();
+        if (!$currentUser) {
+            $results = static::GUEST_RULES;
+        }
+        return $results;
     }
 }
