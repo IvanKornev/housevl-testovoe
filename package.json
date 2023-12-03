@@ -1,17 +1,10 @@
 {
     "private": true,
     "type": "module",
-    "scripts": {
-        "dev": "vite",
-        "build": "vite build"
-    },
     "devDependencies": {
         "@commitlint/cli": "^17.7.1",
         "@commitlint/config-conventional": "^17.7.0",
-        "axios": "^1.1.2",
         "branch-name-lint": "^2.1.1",
-        "husky": "^8.0.3",
-        "laravel-vite-plugin": "^0.8.0",
-        "vite": "^4.0.0"
+        "husky": "^8.0.3"
     }
 }
