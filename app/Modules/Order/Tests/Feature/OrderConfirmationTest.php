@@ -4,17 +4,15 @@ declare(strict_types=1);
 
 namespace App\Modules\Order\Tests\Feature;
 
-use Illuminate\Testing\TestResponse;
 use Illuminate\Foundation\Testing\RefreshDatabase;
-
+use App\Modules\Order\Tests\Feature\Traits\WithConfirmationResponse;
 use App\Modules\Order\Adapters\CartAdapter;
 use App\Modules\Order\Adapters\UserAdapter;
-use App\Modules\Order\Entities\Order;
 use App\Shared\Tests\TestCase;
 
 final class OrderConfirmationTest extends TestCase
 {
-    use RefreshDatabase;
+    use RefreshDatabase, WithConfirmationResponse;
 
     private CartAdapter $cartAdapter;
     private UserAdapter $userAdapter;
@@ -75,17 +73,6 @@ final class OrderConfirmationTest extends TestCase
             ...$this->headers,
         ]);
         $this->checkCreatedOrderResponse($response);
-    }
-
-    private function checkCreatedOrderResponse(TestResponse $response): void
-    {
-        $response->assertStatus(200);
-        $content = json_decode($response->getContent(), true);
-        $validPaymentUrl = filter_var($content['paymentUrl'], FILTER_VALIDATE_URL);
-        $this->assertIsString($validPaymentUrl);
-        $this->assertCount(0, $content['meta']['cart']['items']);
-        $createdOrder = Order::where('payment_url', $validPaymentUrl)->first();
-        $this->assertIsObject($createdOrder);
     }
 
     /**
