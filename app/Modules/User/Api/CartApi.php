@@ -10,7 +10,7 @@ use Exception;
 
 final class CartApi implements ICartApi
 {
-    public function get(int $id): array
+    public function get(int $id = 1): array
     {
         return Cart::findOrFail($id)->toArray();
     }

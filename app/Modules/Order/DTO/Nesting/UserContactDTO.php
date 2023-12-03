@@ -9,22 +9,10 @@ use Spatie\LaravelData\Data;
 final class UserContactDTO extends Data
 {
     public function __construct(
-        public string $fullName,
+        public string $name,
+        public string $surname,
+        public string $patronymic,
         public string $email,
         public string $phone,
     ) {}
-
-    /**
-      * Возвращает инстанс DTO из массива пользователя
-      * провалидированного запроса
-      * @return self
-     */
-    public static function fromArray(array $user): self
-    {
-        return new self(
-            $user['fullName'],
-            $user['email'],
-            $user['phone'],
-        );
-    }
 }

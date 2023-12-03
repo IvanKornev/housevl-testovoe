@@ -5,17 +5,18 @@ declare(strict_types=1);
 namespace App\Modules\Order\Tests\Feature;
 
 use Illuminate\Foundation\Testing\RefreshDatabase;
-use Illuminate\Foundation\Testing\WithFaker;
-
+use App\Modules\Order\Tests\Feature\Traits\WithConfirmationResponse;
 use App\Modules\Order\Adapters\CartAdapter;
-use App\Modules\Order\Entities\Order;
+use App\Modules\Order\Adapters\UserAdapter;
 use App\Shared\Tests\TestCase;
 
 final class OrderConfirmationTest extends TestCase
 {
-    use RefreshDatabase, WithFaker;
+    use RefreshDatabase, WithConfirmationResponse;
 
-    private CartAdapter $adapter;
+    private CartAdapter $cartAdapter;
+    private UserAdapter $userAdapter;
+
     private array $headers;
     private array $body;
 
@@ -36,27 +37,13 @@ final class OrderConfirmationTest extends TestCase
     {
         parent::setUp();
         $this->artisan('db:seed --class=TestDatabaseSeeder');
-        $this->setBody();
-        $this->adapter = app(CartAdapter::class);
-        $gotCart = $this->adapter->get(1);
+
+        $this->cartAdapter = app(CartAdapter::class);
+        $gotCart = $this->cartAdapter->get(1);
         $this->headers = ['Cart-Hash' => $gotCart['hash']];
-    }
 
-
-    /**
-     * Устанавливает body для каждого из запросов
-     *
-     * @return void
-     */
-    private function setBody(): void
-    {
-        $this->body = [
-            'user' => [
-                'fullName' => $this->faker->word(),
-                'email' => $this->faker->email(),
-                'phone' => $this->faker->e164PhoneNumber(),
-            ],
-        ];
+        $this->userAdapter = app(UserAdapter::class);
+        $this->body = ['user' => $this->userAdapter->get(1)];
     }
 
     /**
@@ -67,14 +54,25 @@ final class OrderConfirmationTest extends TestCase
      */
     public function testConfirmsOrderForUnauthorizedUser(): void
     {
+        $this->body['user']['email'] = 'guest@mail.ru';
         $response = $this->json('POST', self::URL, $this->body, $this->headers);
-        $response->assertStatus(200);
-        $content = json_decode($response->getContent(), true);
-        $validPaymentUrl = filter_var($content['paymentUrl'], FILTER_VALIDATE_URL);
-        $this->assertIsString($validPaymentUrl);
-        $this->assertCount(0, $content['meta']['cart']['items']);
-        $createdOrder = Order::where('payment_url', $validPaymentUrl)->first();
-        $this->assertIsObject($createdOrder);
+        $this->checkCreatedOrderResponse($response);
+    }
+
+    /**
+     * Тест, успешно создающий заказ для
+     * авторизованного пользователя
+     *
+     * @return void
+     */
+    public function testConfirmsOrderForAuthorizedUser(): void
+    {
+        ['token' => $token] = $this->userAdapter->createWithToken();
+        $response = $this->json('POST', self::URL, [], [
+            'Authorization' => "Bearer $token",
+            ...$this->headers,
+        ]);
+        $this->checkCreatedOrderResponse($response);
     }
 
     /**
@@ -108,7 +106,7 @@ final class OrderConfirmationTest extends TestCase
      */
     public function testReturnsErrorIfCartIsAlreadyEmpty(): void
     {
-        $addedCart = $this->adapter->add();
+        $addedCart = $this->cartAdapter->add();
         $response = $this->json('POST', self::URL, $this->body, [
             'Cart-Hash' => $addedCart['hash'],
         ]);

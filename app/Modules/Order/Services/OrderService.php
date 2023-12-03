@@ -9,14 +9,17 @@ use Exception;
 
 use App\Modules\Order\Services\Contracts\IOrderService;
 use App\Modules\Order\Integrations\Contracts\IOrderPaymentRequest;
-use App\Modules\Order\Adapters\CartAdapter;
 use App\Modules\Order\Entities\Order;
 use App\Modules\Order\DTO\CreateOrderDTO;
+
+use App\Modules\Order\Adapters\CartAdapter;
+use App\Modules\Order\Adapters\AuthAdapter;
 
 final class OrderService implements IOrderService
 {
     private IOrderPaymentRequest $paymentRequest;
     private CartAdapter $cartAdapter;
+    private AuthAdapter $authAdapter;
 
     /**
      * Ошибка пустой внутри корзины
@@ -29,9 +32,11 @@ final class OrderService implements IOrderService
     public function __construct(
         IOrderPaymentRequest $paymentRequest,
         CartAdapter $cartAdapter,
+        AuthAdapter $authAdapter,
     ) {
         $this->paymentRequest = $paymentRequest;
         $this->cartAdapter = $cartAdapter;
+        $this->authAdapter = $authAdapter;
     }
 
     public function create(CreateOrderDTO $data): string
@@ -41,8 +46,9 @@ final class OrderService implements IOrderService
             throw new Exception(static::EMPTY_CART_MESSAGE);
         }
         $createCallback = function () use ($data) {
-            $paymentValues = $this->paymentRequest->query($data);
-            $createdOrder = Order::create($paymentValues);
+            $user = $this->authAdapter->registerIfThisIsGuest($data->user);
+            $payment = $this->paymentRequest->query($data);
+            $createdOrder = Order::create([...$payment, 'user_id' => $user['id']]);
             $this->cartAdapter->delete($data->cart->id);
             return $createdOrder;
         };

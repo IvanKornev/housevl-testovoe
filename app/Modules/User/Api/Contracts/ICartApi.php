@@ -13,7 +13,7 @@ interface ICartApi
      * @param int $id
      * @return array
     */
-    public function get(int $id): array;
+    public function get(int $id = 1): array;
     /**
      * Находит корзину по её уникальному хешу
      *
