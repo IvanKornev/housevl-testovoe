@@ -5,7 +5,6 @@ declare(strict_types=1);
 namespace App\Modules\Order\Tests\Feature;
 
 use Illuminate\Foundation\Testing\RefreshDatabase;
-use Illuminate\Foundation\Testing\WithFaker;
 
 use App\Modules\Order\Adapters\CartAdapter;
 use App\Modules\Order\Adapters\UserAdapter;
@@ -14,7 +13,7 @@ use App\Shared\Tests\TestCase;
 
 final class OrderConfirmationTest extends TestCase
 {
-    use RefreshDatabase, WithFaker;
+    use RefreshDatabase;
 
     private CartAdapter $cartAdapter;
     private UserAdapter $userAdapter;
@@ -56,6 +55,7 @@ final class OrderConfirmationTest extends TestCase
      */
     public function testConfirmsOrderForUnauthorizedUser(): void
     {
+        $this->body['user']['email'] = 'guest@mail.ru';
         $response = $this->json('POST', self::URL, $this->body, $this->headers);
         $response->assertStatus(200);
         $content = json_decode($response->getContent(), true);
