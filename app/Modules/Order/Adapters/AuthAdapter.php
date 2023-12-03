@@ -17,6 +17,13 @@ final class AuthAdapter
         $this->api = $api;
     }
 
+    /**
+     * Либо возвращает данные уже существующего пользователя,
+     * либо регистрирует его в приложении
+     *
+     * @param UserContactDTO $data
+     * @return array
+     */
     public function registerIfThisIsGuest(UserContactDTO $data): array
     {
         $alreadyRegisteredUser = auth('sanctum')->user();

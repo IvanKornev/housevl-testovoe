@@ -15,12 +15,23 @@ final class UserAdapter
         $this->api = $api;
     }
 
+    /**
+     * Получает пользователя по его ID
+     *
+     * @param int $id
+     * @return array
+     */
     public function get(int $id): array
     {
         $results = $this->api->get($id);
         return $results;
     }
 
+    /**
+     * Создает пользователя вместе с токеном
+     *
+     * @return array
+     */
     public function createWithToken(): array
     {
         $results = $this->api->createWithToken();

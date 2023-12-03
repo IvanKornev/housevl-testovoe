@@ -9,6 +9,14 @@ use App\Modules\Order\Entities\Order;
 
 trait WithConfirmationResponse
 {
+
+    /**
+     * Проверяет ответ с созданным заказом
+     * на корректность
+     *
+     * @param TestResponse $response
+     * @return void
+     */
     private function checkCreatedOrderResponse(TestResponse $response): void
     {
         $response->assertStatus(200);
