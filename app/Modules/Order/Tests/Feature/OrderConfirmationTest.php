@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace App\Modules\Order\Tests\Feature;
 
+use Illuminate\Testing\TestResponse;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 
 use App\Modules\Order\Adapters\CartAdapter;
@@ -57,13 +58,7 @@ final class OrderConfirmationTest extends TestCase
     {
         $this->body['user']['email'] = 'guest@mail.ru';
         $response = $this->json('POST', self::URL, $this->body, $this->headers);
-        $response->assertStatus(200);
-        $content = json_decode($response->getContent(), true);
-        $validPaymentUrl = filter_var($content['paymentUrl'], FILTER_VALIDATE_URL);
-        $this->assertIsString($validPaymentUrl);
-        $this->assertCount(0, $content['meta']['cart']['items']);
-        $createdOrder = Order::where('payment_url', $validPaymentUrl)->first();
-        $this->assertIsObject($createdOrder);
+        $this->checkCreatedOrderResponse($response);
     }
 
     /**
@@ -79,7 +74,18 @@ final class OrderConfirmationTest extends TestCase
             'Authorization' => "Bearer $token",
             ...$this->headers,
         ]);
+        $this->checkCreatedOrderResponse($response);
+    }
+
+    private function checkCreatedOrderResponse(TestResponse $response): void
+    {
         $response->assertStatus(200);
+        $content = json_decode($response->getContent(), true);
+        $validPaymentUrl = filter_var($content['paymentUrl'], FILTER_VALIDATE_URL);
+        $this->assertIsString($validPaymentUrl);
+        $this->assertCount(0, $content['meta']['cart']['items']);
+        $createdOrder = Order::where('payment_url', $validPaymentUrl)->first();
+        $this->assertIsObject($createdOrder);
     }
 
     /**
