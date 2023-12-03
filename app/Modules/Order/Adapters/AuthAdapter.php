@@ -4,15 +4,26 @@ declare(strict_types=1);
 
 namespace App\Modules\Order\Adapters;
 
-use App\Modules\User\Api\Contracts\IUserApi;
-use App\Modules\Order\DTO\CreateOrderDTO;
+use Illuminate\Support\Str;
+use App\Modules\Order\DTO\Nesting\UserContactDTO;
+use App\Modules\User\Api\Contracts\IAuthApi;
 
 final class AuthAdapter
 {
-    private readonly IUserApi $api;
+    private readonly IAuthApi $api;
 
-    public function __construct(IUserApi $api)
+    public function __construct(IAuthApi $api)
     {
         $this->api = $api;
+    }
+
+    public function registerIfThisIsGuest(UserContactDTO $data): ?array
+    {
+        if (auth('sanctum')->hasUser()) {
+            return null;
+        }
+        $data->password = Str::password(20);
+        $results = $this->api->register($data);
+        return $results;
     }
 }

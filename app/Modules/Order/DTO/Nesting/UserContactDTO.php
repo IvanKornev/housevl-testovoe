@@ -14,5 +14,6 @@ final class UserContactDTO extends Data
         public string $patronymic,
         public string $email,
         public string $phone,
+        public ?string $password,
     ) {}
 }
