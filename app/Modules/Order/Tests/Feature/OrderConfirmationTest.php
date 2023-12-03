@@ -62,6 +62,7 @@ final class OrderConfirmationTest extends TestCase
         $validPaymentUrl = filter_var($content['paymentUrl'], FILTER_VALIDATE_URL);
         $this->assertIsString($validPaymentUrl);
         $this->assertCount(0, $content['meta']['cart']['items']);
+        $this->assertIsString($content['token']);
         $createdOrder = Order::where('payment_url', $validPaymentUrl)->first();
         $this->assertIsObject($createdOrder);
     }
