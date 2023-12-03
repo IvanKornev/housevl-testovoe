@@ -29,9 +29,6 @@ final class CreateOrderDTO extends Data
         $body = $request->validated();
         $userDataSource = auth('sanctum')->user() ?? $body['user'];
         $user = UserContactDTO::from($userDataSource);
-        $fromSanctum = !!auth('sanctum')->user();
-        print($fromSanctum);
-        print_r($user->toArray());
         $cartAdapter = app(CartAdapter::class);
         $hash = $request->header('Cart-Hash');
         $cart = CartDTO::from($cartAdapter->getByHash($hash));
