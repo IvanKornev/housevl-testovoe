@@ -11,60 +11,25 @@ return [
     'referrer-policy' => 'no-referrer',
     'cross-origin-embedder-policy' => 'require-corp',
     'cross-origin-opener-policy' => 'same-origin',
-    'cross-origin-resource-policy' => 'same-site',
-
-    /*
-     * Clear-Site-Data
-     *
-     * Reference: https://developer.mozilla.org/en-US/docs/Web/HTTP/Headers/Clear-Site-Data
-     */
-
+    'cross-origin-resource-policy' => 'same-origin',
     'clear-site-data' => [
         'enable' => false,
-
         'all' => false,
-
-        'cache' => true,
-
-        'cookies' => true,
-
-        'storage' => true,
-
-        'executionContexts' => true,
+        'cache' => false,
+        'cookies' => false,
+        'storage' => false,
+        'executionContexts' => false,
     ],
-
-    /*
-     * HTTP Strict Transport Security
-     *
-     * Reference: https://developer.mozilla.org/en-US/docs/Web/Security/HTTP_strict_transport_security
-     *
-     * Please ensure your website had set up ssl/tls before enable hsts.
-     */
-
     'hsts' => [
         'enable' => false,
-
         'max-age' => 31536000,
-
         'include-sub-domains' => false,
-
         'preload' => false,
     ],
-
-    /*
-     * Expect-CT
-     *
-     * Reference: https://developer.mozilla.org/en-US/docs/Web/HTTP/Headers/Expect-CT
-     */
-
     'expect-ct' => [
         'enable' => false,
-
         'max-age' => 2147483648,
-
         'enforce' => false,
-
-        // report uri must be absolute-URI
         'report-uri' => null,
     ],
 
