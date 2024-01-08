@@ -27,6 +27,7 @@
 2. Laravel Sanctum (для token-based авторизации);
 3. Laravel Data (для имплементации DTO);
 4. Eloquent Filter (для создания фильтров каталога);
+5. Secure Headers;
 
 ### Зависимости разработки
 
