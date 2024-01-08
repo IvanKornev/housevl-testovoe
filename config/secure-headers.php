@@ -21,7 +21,7 @@ return [
         'executionContexts' => false,
     ],
     'hsts' => [
-        'enable' => false,
+        'enable' => true,
         'max-age' => 31536000,
         'include-sub-domains' => false,
         'preload' => false,
