@@ -1,6 +1,6 @@
 {
 	"info": {
-		"_postman_id": "5055b3c9-451e-41a7-9c23-2849b334fd8b",
+		"_postman_id": "0c734c21-b96c-4344-a5a5-b8aa5df7e005",
 		"name": "housevl-shop-api",
 		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
 	},
@@ -63,6 +63,39 @@
 								{
 									"key": "slug"
 								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "api/products/characteristics/{id}",
+					"request": {
+						"method": "PATCH",
+						"header": [
+							{
+								"key": "Accept",
+								"value": "application/json"
+							},
+							{
+								"key": "Content-Type",
+								"value": "application/json"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"weight\": \"30\",\n    \"weight_unit\": \"кг.\",\n    \"length\": \"18\",\n    \"length_unit\": \"см.\",\n    \"width\": \"72\",\n    \"width_unit\": \"см.\",\n    \"height\": \"29\",\n    \"height_unit\": \"см.\"\n}"
+						},
+						"url": {
+							"raw": "{{base_url}}/api/products/characteristics/1",
+							"host": [
+								"{{base_url}}"
+							],
+							"path": [
+								"api",
+								"products",
+								"characteristics",
+								"1"
 							]
 						}
 					},
@@ -467,44 +500,6 @@
 									"key": "cartDetailsId",
 									"value": ""
 								}
-							]
-						}
-					},
-					"response": []
-				}
-			]
-		},
-		{
-			"name": "products",
-			"item": [
-				{
-					"name": "api/products/characteristics/{id}",
-					"request": {
-						"method": "PATCH",
-						"header": [
-							{
-								"key": "Accept",
-								"value": "application/json"
-							},
-							{
-								"key": "Content-Type",
-								"value": "application/json"
-							}
-						],
-						"body": {
-							"mode": "raw",
-							"raw": "{\n    \"weight\": \"30\",\n    \"weight_unit\": \"кг.\",\n    \"length\": \"18\",\n    \"length_unit\": \"см.\",\n    \"width\": \"72\",\n    \"width_unit\": \"см.\",\n    \"height\": \"29\",\n    \"height_unit\": \"см.\"\n}"
-						},
-						"url": {
-							"raw": "{{base_url}}/api/products/characteristics/1",
-							"host": [
-								"{{base_url}}"
-							],
-							"path": [
-								"api",
-								"products",
-								"characteristics",
-								"1"
 							]
 						}
 					},

@@ -18,6 +18,7 @@ return [
         'driver' => 'file',
     ],
     'providers' => ServiceProvider::defaultProviders()->merge([
+        Bepsvpt\SecureHeaders\SecureHeadersServiceProvider::class,
         App\Shared\Providers\RouteServiceProvider::class,
     ])->toArray(),
     'aliases' => Facade::defaultAliases()->toArray(),
