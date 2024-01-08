@@ -37,31 +37,31 @@ return [
         'accelerometer' => [
             'none' => false,
             '*' => false,
-            'self' => true,
+            'self' => false,
             'origins' => [],
         ],
         'ambient-light-sensor' => [
             'none' => false,
             '*' => false,
-            'self' => true,
+            'self' => false,
             'origins' => [],
         ],
         'autoplay' => [
             'none' => false,
             '*' => false,
-            'self' => true,
+            'self' => false,
             'origins' => [],
         ],
         'battery' => [
             'none' => false,
             '*' => false,
-            'self' => true,
+            'self' => false,
             'origins' => [],
         ],
         'camera' => [
             'none' => false,
             '*' => false,
-            'self' => true,
+            'self' => false,
             'origins' => [],
         ],
         'cross-origin-isolated' => [
@@ -73,7 +73,7 @@ return [
         'display-capture' => [
             'none' => false,
             '*' => false,
-            'self' => true,
+            'self' => false,
             'origins' => [],
         ],
         'document-domain' => [
@@ -85,7 +85,7 @@ return [
         'encrypted-media' => [
             'none' => false,
             '*' => false,
-            'self' => true,
+            'self' => false,
             'origins' => [],
         ],
         'execution-while-not-rendered' => [
@@ -103,49 +103,49 @@ return [
         'fullscreen' => [
             'none' => false,
             '*' => false,
-            'self' => true,
+            'self' => false,
             'origins' => [],
         ],
         'geolocation' => [
             'none' => false,
             '*' => false,
-            'self' => true,
+            'self' => false,
             'origins' => [],
         ],
         'gyroscope' => [
             'none' => false,
             '*' => false,
-            'self' => true,
+            'self' => false,
             'origins' => [],
         ],
         'magnetometer' => [
             'none' => false,
             '*' => false,
-            'self' => true,
+            'self' => false,
             'origins' => [],
         ],
         'microphone' => [
             'none' => false,
             '*' => false,
-            'self' => true,
+            'self' => false,
             'origins' => [],
         ],
         'midi' => [
             'none' => false,
             '*' => false,
-            'self' => true,
+            'self' => false,
             'origins' => [],
         ],
         'navigation-override' => [
             'none' => false,
             '*' => false,
-            'self' => true,
+            'self' => false,
             'origins' => [],
         ],
         'payment' => [
             'none' => false,
             '*' => false,
-            'self' => true,
+            'self' => false,
             'origins' => [],
         ],
         'picture-in-picture' => [
@@ -157,13 +157,13 @@ return [
         'publickey-credentials-get' => [
             'none' => false,
             '*' => false,
-            'self' => true,
+            'self' => false,
             'origins' => [],
         ],
         'screen-wake-lock' => [
             'none' => false,
             '*' => false,
-            'self' => true,
+            'self' => false,
             'origins' => [],
         ],
         'sync-xhr' => [
@@ -175,19 +175,19 @@ return [
         'usb' => [
             'none' => false,
             '*' => false,
-            'self' => true,
+            'self' => false,
             'origins' => [],
         ],
         'web-share' => [
             'none' => false,
             '*' => false,
-            'self' => true,
+            'self' => false,
             'origins' => [],
         ],
         'xr-spatial-tracking' => [
             'none' => false,
             '*' => false,
-            'self' => true,
+            'self' => false,
             'origins' => [],
         ],
     ],
